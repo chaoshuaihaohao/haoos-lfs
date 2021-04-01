@@ -11,7 +11,7 @@ echo $LFS
 #拷贝必要的脚本文件
 mkdir -vp $LFS/haoos/scripts
 cp Makefile $LFS/haoos/
-cp scripts/chroot_do.sh $LFS/haoos/scripts/
+cp scripts/* $LFS/haoos/scripts/
 
 
 

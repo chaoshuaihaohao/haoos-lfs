@@ -13,9 +13,7 @@ for tar_file in `ls $LFS/sources`
 do
 	echo $tar_file
 	if [ "$tar_file" != "tzdata2021a.tar.gz" ] && \
-		[ "$tar_file" != "mpfr-4.1.0.tar.xz" ] && \
-		[ "$tar_file" != "gmp-6.2.1.tar.xz" ] && \
-		[ "$tar_file" != "mpc-1.2.1.tar.gz" ]
+		[ "$tar_file" != "tcl8.6.11-html.tar.gz" ]
 	then
 		#tar xvf $LFS/sources/$tar_file && rm $LFS/sources/$tar_file
 		tar xvf $LFS/sources/$tar_file
