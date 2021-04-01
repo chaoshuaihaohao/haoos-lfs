@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 #初始化日志文件并为其赋予适当的权限
 touch /var/log/{btmp,lastlog,faillog,wtmp}
 chgrp -v utmp /var/log/lastlog
@@ -11,7 +12,7 @@ pushd /lfs
 
 #7.7. Libstdc++ from GCC-10.2.0, Pass 2
 pushd gcc-10.2.0
-ln -s gthr-posix.h libgcc/gthr-default.h
+ln -svf gthr-posix.h libgcc/gthr-default.h
 rm build -rf
 mkdir -v build
 pushd build
