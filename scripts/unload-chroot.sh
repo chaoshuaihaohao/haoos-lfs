@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 if [ `id -u` != 0 ];then
         echo Permision deley, Please run as root!
         exit

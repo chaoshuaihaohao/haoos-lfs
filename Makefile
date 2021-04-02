@@ -35,3 +35,5 @@ unload-chroot:
 clean:
 	rm sources lfs lfs-sources.tar.gz -rf
 	rm /mnt/lfs/* -rf
+	@-umount /dev/sdb
+	@-umount /dev/sdc

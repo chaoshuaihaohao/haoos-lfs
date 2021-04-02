@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 if [ `id -u` != 0 ];then
         echo Permision deley, Please run as root!
         exit
@@ -14,7 +15,9 @@ esac
 
 mkdir -pv $LFS/tools
 
+set +e
 userdel lfs
+set -e
 rm /home/lfs -rf
 groupadd lfs
 useradd -s /bin/bash -g lfs -m -k /dev/null lfs
