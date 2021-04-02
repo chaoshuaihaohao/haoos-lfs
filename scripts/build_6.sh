@@ -41,14 +41,17 @@ popd
 
 
 #6.3. Ncurses-6.2
+rm ncurses-6.2 -rf
+tar xvf $LFS/sources/ncurses-6.2.tar.gz
 pushd ncurses-6.2
 sed -i s/mawk// configure
+rm build -rf
 mkdir build
 pushd build
   ../configure
-  make -C include
-  make -C progs tic
-popd
+popd #build
+make -C build/include
+make -C build/progs tic
 ./configure --prefix=/usr                \
             --host=$LFS_TGT              \
             --build=$(./config.guess)    \
@@ -59,7 +62,6 @@ popd
             --without-ada                \
             --without-normal             \
             --enable-widec
-
 make
 make DESTDIR=$LFS TIC_PATH=$(pwd)/build/progs/tic install
 echo "INPUT(-lncursesw)" > $LFS/usr/lib/libncurses.so
@@ -77,12 +79,14 @@ pushd bash-5.1
 make
 make DESTDIR=$LFS install
 mv $LFS/usr/bin/bash $LFS/bin/bash
-ln -sv bash $LFS/bin/sh
+ln -sfv bash $LFS/bin/sh
 popd
 
 
 
 #6.5. Coreutils-8.32
+rm coreutils-8.32 -rf
+tar xvf $LFS/sources/coreutils-8.32.tar.xz
 pushd coreutils-8.32
 patch -Np1 -i $LFS/sources/coreutils-8.32-i18n-1.patch
 ./configure --prefix=/usr                     \
@@ -112,6 +116,8 @@ popd
 
 
 #6.7. File-5.39
+rm file-5.39 -rf
+tar xvf $LFS/sources/file-5.39.tar.gz
 pushd file-5.39
 rm build -rf
 mkdir build
@@ -187,6 +193,8 @@ popd
 
 
 #6.13. Patch-2.7.6
+rm patch-2.7.6 -rf
+tar xvf $LFS/sources/patch-2.7.6.tar.xz
 pushd patch-2.7.6
 patch -Np1 -i $LFS/sources/patch-2.7.6-util.patch
 ./configure --prefix=/usr   \
@@ -240,14 +248,9 @@ popd
 
 #6.17. Binutils-2.36.1 - Pass 2
 pushd binutils-2.36.1
-#if [ -d build ];then
-#	pushd build
-#	make distclean
-#else
-	rm build -rf
-	mkdir -v build
-	pushd build
-#fi
+rm build -rf
+mkdir -v build
+pushd build
 ../configure                   \
     --prefix=/usr              \
     --build=$(../config.guess) \
@@ -281,17 +284,12 @@ case $(uname -m) in
   ;;
 esac
 
-#if [ -d build ];then
-#	pushd build
-#	make distclean
-#else
-	rm build -rf
-	mkdir -v build
-	pushd build
-#fi
+rm build -rf
+mkdir -v build
+pushd build
 #Create a symlink that allows libgcc to be built with posix threads support:
 mkdir -pv $LFS_TGT/libgcc
-ln -s ../../../libgcc/gthr-posix.h $LFS_TGT/libgcc/gthr-default.h
+ln -svf ../../../libgcc/gthr-posix.h $LFS_TGT/libgcc/gthr-default.h
 ../configure                                       \
     --build=$(../config.guess)                     \
     --host=$LFS_TGT                                \

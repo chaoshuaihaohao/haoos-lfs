@@ -17,6 +17,8 @@ popd
 
 #8.5. Glibc-2.33
 #8.5.1. Installation of Glibc
+rm glibc-2.33 -rf
+tar xvf /sources/glibc-2.33.tar.xz
 pushd glibc-2.33
 patch -Np1 -i /sources/glibc-2.33-fhs-1.patch
 sed -e '402a\      *result = local->data.services[database_index];' \
@@ -135,6 +137,8 @@ rm -fv /usr/lib/libz.a
 popd
 
 #8.7. Bzip2-1.0.8
+rm bzip2-1.0.8 -rf
+tar xvf /sources/bzip2-1.0.8.tar.gz
 pushd bzip2-1.0.8
 patch -Np1 -i /sources/bzip2-1.0.8-install_docs-1.patch
 sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile
@@ -179,6 +183,8 @@ popd
 
 
 #8.10. File-5.39
+rm file-5.39 -rf
+tar xvf /sources/file-5.39.tar.gz
 pushd file-5.39
 ./configure --prefix=/usr
 make
@@ -508,6 +514,8 @@ popd
 
 
 #8.28. Ncurses-6.2
+rm ncurses-6.2 -rf
+tar xvf /sources/ncurses-6.2.tar.gz
 pushd ncurses-6.2
 ./configure --prefix=/usr           \
             --mandir=/usr/share/man \
@@ -864,6 +872,8 @@ popd
 
 
 #8.52. Coreutils-8.32
+rm coreutils-8.32 -rf
+tar xvf /sources/coreutils-8.32.tar.xz
 pushd 
 patch -Np1 -i /sources/coreutils-8.32-i18n-1.patch
 sed -i '/test.lock/s/^/#/' gnulib-tests/gnulib.mk
@@ -993,6 +1003,8 @@ popd
 
 
 #8.62. Kbd-2.4.0
+rm kbd-2.4.0 -rf
+tar xvf /sources/kbd-2.4.0.tar.xz
 pushd kbd-2.4.0
 patch -Np1 -i /sources/kbd-2.4.0-backspace-1.patch
 sed -i '/RESIZECONS_PROGS=/s/yes/no/' configure
@@ -1122,6 +1134,8 @@ popd
 
 
 #8.70. Systemd-247
+rm systemd-247 -rf
+tar xvf /sources/systemd-247.tar.gz
 pushd systemd-247
 patch -Np1 -i /sources/systemd-247-upstream_fixes-1.patch
 ln -sf /bin/true /usr/bin/xsltproc
