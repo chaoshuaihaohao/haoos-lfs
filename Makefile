@@ -2,9 +2,10 @@ all:
 
 check:
 	./scripts/version-check.sh
-
-lfs-env-build:
+dep-install:
+	#安装依赖软件包
 	./scripts/dep_install.sh
+lfs-env-build:
 	#挂载lfs分区和swap分区
 	./scripts/mount_lfs_swap.sh
 	#解压缩获取源代码
