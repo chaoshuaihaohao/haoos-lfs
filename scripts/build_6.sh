@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 cat > ~/.bash_profile << "EOF"
 exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash
 EOF
@@ -26,6 +27,7 @@ pushd $LFS/lfs
 
 #Chapter 6. Cross Compiling Temporary Tools
 
+#6.2. M4-1.4.18
 pushd m4-1.4.18
 sed -i 's/IO_ftrylockfile/IO_EOF_SEEN/' lib/*.c
 echo "#define _IO_IN_BACKUP 0x100" >> lib/stdio-impl.h
@@ -38,6 +40,7 @@ popd
 
 
 
+#6.3. Ncurses-6.2
 pushd ncurses-6.2
 sed -i s/mawk// configure
 mkdir build

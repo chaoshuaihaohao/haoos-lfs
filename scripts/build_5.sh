@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 cat > ~/.bash_profile << "EOF"
 exec env -i HOME=$HOME TERM=$TERM PS1='\u:\w\$ ' /bin/bash
 EOF
@@ -27,9 +28,9 @@ pushd $LFS/lfs
 #Chapter 5. Compiling a Cross-Toolchain
 ###安装编译工具gcc\ld等
 ##交叉编译工具安装到$LFS/tools目录下
-#binutils pass1
+#5.2. Binutils-2.36.1 - Pass 1
 pushd binutils-2.36.1
-echo bin path is `pwd`
+rm build -rf
 mkdir -v build
 pushd build
 
@@ -38,14 +39,12 @@ pushd build
              --target=$LFS_TGT          \
              --disable-nls              \
              --disable-werror
-
-
 make
 make install
 popd #build
 popd #binutils-2.36.1
 
-#gcc pass1
+#5.3. GCC-10.2.0 - Pass 1
 pushd gcc-10.2.0
 rm mpfr gmp mpc -rf
 tar -xf $LFS/sources/mpfr-4.1.0.tar.xz
@@ -96,7 +95,7 @@ popd #build
 popd #gcc
 
 
-#Linux-5.10.17 API Headers
+#5.4. Linux-5.10.17 API Headers
 pushd linux-5.10.17
 make mrproper
 make headers
@@ -107,6 +106,7 @@ popd
 
 
 
+#5.5. Glibc-2.33
 pushd glibc-2.33
 case $(uname -m) in
     i?86)   ln -sfv ld-linux.so.2 $LFS/lib/ld-lsb.so.3
@@ -116,8 +116,9 @@ case $(uname -m) in
     ;;
 esac
 patch -Np1 -i $LFS/sources/glibc-2.33-fhs-1.patch
+rm build -rf
 mkdir -v build
-popd build
+pushd build
 
 ../configure                             \
       --prefix=/usr                      \
@@ -141,7 +142,8 @@ popd #build
 popd #glibc
 
 
-#Libstdc++ from GCC-10.2.0, Pass 1
+
+#5.6. Libstdc++ from GCC-10.2.0, Pass 1
 pushd gcc-10.2.0
 rm build -rf
 mkdir -v build
