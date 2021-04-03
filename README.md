@@ -2,6 +2,12 @@
 
 # 构建步骤
 
+## 安装虚拟机
+
+虚拟机需要有三个磁盘分区，/dev/sdb 20G作为lfs构建分区，/dev/sdc 2G作为交换分区。
+
+开设两个shell终端。
+
 ## 虚拟机宿主机环境
 
 ```
@@ -39,10 +45,31 @@ make build
 
 ## chroot到/mnt/lfs环境
 
+这里切换到另一个终端。
+
 #chroot到/mnt/lfs
 
 ```
 make chroot
+#执行完后是：(lfs chroot) I have no name!:/#
+#切换到haoos项目目录
+cd haoos
+make chroot1
+#执行完后是：bash-5.1#
+```
+
+## build lfs系统
+
+```
+bash-5.1#make build-lfs
+```
+
+进入新的bash环境后
+
+```
+cd /haoos
+
+make build-lfs1
 ```
 
 
@@ -82,4 +109,14 @@ popd
 make -C build/include
 make -C build/progs tic
 ```
+
+
+
+
+
+1.安装命令里的相对路径../也需要注意修改：
+
+
+
+2.不同构建步骤中都有编译的软件包，第二次编译的时候，需要重新移除，并获取干净的软件包再进行编译。还要注意解压后的文件权限问题，owner是lfs还是root。
 
