@@ -27,6 +27,8 @@ chroot-do:
 	./scripts/chroot_do.sh
 build-lfs:
 	./scripts/build_lfs_system.sh
+build-lfs1:
+	./scripts/build_lfs_system1.sh
 
 
 unload-chroot:

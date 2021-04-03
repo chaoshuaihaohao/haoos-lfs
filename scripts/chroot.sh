@@ -1,4 +1,5 @@
 #!/bin/bash
+#Chapter 7. Entering Chroot and Building Additional Temporary Tools
 set -e
 if [ `id -u` != 0 ];then
         echo Permision deley, Please run as root!
@@ -14,9 +15,7 @@ mkdir -vp $LFS/haoos/scripts
 cp Makefile $LFS/haoos/
 cp scripts/* $LFS/haoos/scripts/
 
-
-
-#Chapter 7. Entering Chroot and Building Additional Temporary Tools
+#7.2. Changing Ownership
 chown -R root:root $LFS/{usr,lib,var,etc,bin,sbin,tools}
 case $(uname -m) in
   x86_64) chown -R root:root $LFS/lib64 ;;
