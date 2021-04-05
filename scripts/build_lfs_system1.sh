@@ -730,3 +730,4 @@ find /{bin,sbin} /usr/{bin,sbin,libexec} -type f \
 
 #8.77. 清理系统
 rm -rf /tmp/*
+echo finished

@@ -1,0 +1,22 @@
+#Chapter 4. Security
+make-ca-1.7
+Download (HTTP): https://github.com/djlucas/make-ca/releases/download/v1.7/make-ca-1.7.tar.xz
+
+Download MD5 Sum: e0356f5ae5623f227a3f69b5e8848ec6
+
+CrackLib-2.9.7
+Download (HTTP): https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-2.9.7.tar.bz2
+
+Download MD5 sum: 0d68de25332cee5660850528a385427f
+
+cryptsetup-2.3.4
+Download (HTTP): https://www.kernel.org/pub/linux/utils/cryptsetup/v2.3/cryptsetup-2.3.4.tar.xz
+
+Download MD5 sum: 911272e73181fdc850bb4d25103a9f83
+
+Cyrus SASL-2.1.27
+Download (HTTP): https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.27/cyrus-sasl-2.1.27.tar.gz
+
+Download MD5 sum: a33820c66e0622222c5aefafa1581083
+
+Required patch: http://www.linuxfromscratch.org/patches/blfs/10.1/cyrus-sasl-2.1.27-doc_fixes-1.patch
