@@ -20,3 +20,262 @@ Download (HTTP): https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus
 Download MD5 sum: a33820c66e0622222c5aefafa1581083
 
 Required patch: http://www.linuxfromscratch.org/patches/blfs/10.1/cyrus-sasl-2.1.27-doc_fixes-1.patch
+
+GnuPG-2.2.27
+Download (HTTP): https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.2.27.tar.bz2
+
+Download (FTP): ftp://ftp.gnupg.org/gcrypt/gnupg/gnupg-2.2.27.tar.bz2
+
+Download MD5 sum: a9c002b5356103c97412955a1956ae0c
+
+GnuTLS-3.7.0
+Download (HTTP): https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.0.tar.xz
+
+Download (FTP): ftp://ftp.gnupg.org/gcrypt/gnutls/v3.7/gnutls-3.7.0.tar.xz
+
+Download MD5 sum: 1123a7bcc2fafd703e5a811bc1beb179
+
+GPGME-1.15.1
+Download (HTTP): https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.15.1.tar.bz2
+
+Download (FTP): ftp://ftp.gnupg.org/gcrypt/gpgme/gpgme-1.15.1.tar.bz2
+
+Download MD5 sum: e086c4575fe4d7840864fb7dfe97f692
+
+Haveged-1.9.14
+Download (HTTP): https://github.com/jirka-h/haveged/archive/v1.9.14/haveged-1.9.14.tar.gz
+
+Download MD5 sum: f756474201bec9a46b41e8712f79468a
+
+iptables-1.8.7
+Download (HTTP): http://www.netfilter.org/projects/iptables/files/iptables-1.8.7.tar.bz2
+
+Download (FTP): ftp://ftp.netfilter.org/pub/iptables/iptables-1.8.7.tar.bz2
+
+Download MD5 sum: 602ba7e937c72fbb7b1c2b71c3b0004b
+
+libcap-2.48 with PAM
+Download (HTTP): https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.48.tar.xz
+
+Download MD5 sum: ca71693a9abe4e0ad9cc33a755ee47e0
+
+Linux-PAM-1.5.1
+Download (HTTP): https://github.com/linux-pam/linux-pam/releases/download/v1.5.1/Linux-PAM-1.5.1.tar.xz
+
+Download MD5 sum: 155f2a31d07077b2c63a1f135876c31b
+Optional Documentation
+
+Download (HTTP): https://github.com/linux-pam/linux-pam/releases/download/v1.5.1/Linux-PAM-1.5.1-docs.tar.xz
+
+Download MD5 sum: eb03b8191fc886780411054115866ee2
+
+liboauth-1.0.3
+Download (HTTP): https://downloads.sourceforge.net/liboauth/liboauth-1.0.3.tar.gz
+
+Download MD5 sum: 689b46c2b3ab1a39735ac33f714c4f7f
+
+libpwquality-1.4.4
+Download (HTTP): https://github.com/libpwquality/libpwquality/releases/download/libpwquality-1.4.4/libpwquality-1.4.4.tar.bz2
+
+Download MD5 sum: 1fe43f6641dbf1e1766e2a02cf68a9c3
+
+MIT Kerberos V5-1.19.1
+Download (HTTP): https://kerberos.org/dist/krb5/1.19/krb5-1.19.1.tar.gz
+
+Download MD5 sum: 81257292f8243f735654d4fd5d1fef6a
+
+Nettle-3.7.1
+Download (HTTP): https://ftp.gnu.org/gnu/nettle/nettle-3.7.1.tar.gz
+
+Download (FTP): ftp://ftp.gnu.org/gnu/nettle/nettle-3.7.1.tar.gz
+
+Download MD5 sum: 4d23a99df650ee88511653fb9acea3f0
+
+NSS-3.61
+Download (HTTP): https://archive.mozilla.org/pub/security/nss/releases/NSS_3_61_RTM/src/nss-3.61.tar.gz
+
+Download MD5 sum: e07573e1c0e1e5bef7c05075f8dfa46d
+
+OpenSSH-8.4p1
+Download (HTTP): http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.4p1.tar.gz
+
+Download MD5 sum: 8f897870404c088e4aa7d1c1c58b526b
+
+p11-kit-0.23.22
+Download (HTTP): https://github.com/p11-glue/p11-kit/releases/download/0.23.22/p11-kit-0.23.22.tar.xz
+
+Download MD5 sum: 03f93a4eb62127b5d40e345c624a0665
+
+Polkit-0.118
+Download (HTTP): https://www.freedesktop.org/software/polkit/releases/polkit-0.118.tar.gz
+
+Download MD5 sum: ae3f2a742740069922589ad20ffd54d2
+
+polkit-gnome-0.105
+Download (HTTP): https://download.gnome.org/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz
+
+Download (FTP): ftp://ftp.acc.umu.se/pub/gnome/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz
+
+Download MD5 sum: 50ecad37c8342fb4a52f590db7530621
+
+Shadow-4.8.1
+Download (HTTP): https://github.com/shadow-maint/shadow/releases/download/4.8.1/shadow-4.8.1.tar.xz
+
+Download MD5 sum: 4b05eff8a427cf50e615bda324b5bc45
+
+ssh-askpass-8.4p1
+Download (HTTP): http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.4p1.tar.gz
+
+Download (FTP): ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.4p1.tar.gz
+
+Download MD5 sum: 8f897870404c088e4aa7d1c1c58b526b
+
+stunnel-5.58
+Download (FTP): ftp://ftp.stunnel.org/stunnel/archive/5.x/stunnel-5.58.tar.gz
+
+Download MD5 sum: aed41cff61d622ff6c8706e9d75c53b7
+
+Sudo-1.9.5p2
+Download (HTTP): http://www.sudo.ws/dist/sudo-1.9.5p2.tar.gz
+
+Download (FTP): ftp://ftp.sudo.ws/pub/sudo/sudo-1.9.5p2.tar.gz
+
+Download MD5 sum: e6bc4c18c06346e6b3431637a2b5f3d5
+
+Tripwire-2.4.3.7
+Download (HTTP): https://github.com/Tripwire/tripwire-open-source/releases/download/2.4.3.7/tripwire-open-source-2.4.3.7.tar.gz
+
+Download MD5 sum: a5cf1bc2f235f5d8ca458f00548db6ee
+
+volume_key-0.3.12
+Download (HTTP): https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
+
+Download MD5 sum: d1c76f24e08ddd8c1787687d0af5a814
+
+#File Systems and Disk Management
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

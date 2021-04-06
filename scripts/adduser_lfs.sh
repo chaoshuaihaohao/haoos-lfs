@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 if [ `id -u` != 0 ];then
-        echo Permision deley, Please run as root!
+        echo Permission delay, Please run as root!
         exit
 fi
 
@@ -26,10 +26,14 @@ passwd lfs
 
 #chown -v -R lfs $LFS/{usr,lib,var,etc,bin,sbin,tools}
 #chgrp -v -R lfs $LFS/{usr,lib,var,etc,bin,sbin,tools}
+chown -R lfs $LFS/{bin,etc,lfs,lfs-sources.tar.gz,lib,lib64,sbin,sources,tools,usr,var}
+chgrp -R lfs $LFS/{bin,etc,lfs,lfs-sources.tar.gz,lib,lib64,sbin,sources,tools,usr,var}
+chown -v lfs $LFS/boot
+chgrp -v lfs $LFS/boot
 #chown -v -R lfs $LFS
 #chgrp -v -R lfs $LFS
-chown -R lfs $LFS
-chgrp -R lfs $LFS
+#chown -R lfs $LFS
+#chgrp -R lfs $LFS
 case $(uname -m) in
   x86_64) chown -v lfs $LFS/lib64 ;;
 esac
