@@ -4,14 +4,12 @@
 
 ## 安装虚拟机
 
-虚拟机需要有三个磁盘分区，/dev/sdb 20G作为lfs构建分区，/dev/sdc 2G作为交换分区。
+虚拟机需要有三个磁盘分区，/dev/sdb 20G ，grub 300M, efi 300M, 交换分区2G, 其余的作为lfs构建分区。
 
-
-
-虚拟机中查看是否有sdb和sdc设备：
+虚拟机中查看是否有sdb设备：
 
 ```
-ls /dev/
+ls /dev/sdb
 ```
 
 **开设两个shell终端**。
@@ -72,7 +70,7 @@ make chroot1
 bash-5.1#make build-lfs
 ```
 
-进入新的bash环境后
+进入新的bash环境后，安装各种系统应用软件
 
 ```
 cd /haoos
@@ -162,89 +160,7 @@ fdisk /dev/sdb
 ```
 
 ```
-pushd libuv-v1.41.0
-sh autogen.sh                              &&
-./configure --prefix=/usr --disable-static &&
-make
-make install
-popd
 
-pushd curl-7.75.0
-grep -rl '#!.*python$' | xargs sed -i '1s/python/&3/'
-./configure --prefix=/usr                           \
-            --disable-static                        \
-            --enable-threaded-resolver              \
-            --with-ca-path=/etc/ssl/certs &&
-make
-make install &&
-rm -rf docs/examples/.deps &&
-find docs \( -name Makefile\* -o -name \*.1 -o -name \*.3 \) -exec rm {} \; &&
-install -v -d -m755 /usr/share/doc/curl-7.75.0 &&
-cp -v -R docs/*     /usr/share/doc/curl-7.75.0
-popd
-
-pushd libarchive-3.5.1
-./configure --prefix=/usr --disable-static &&
-make
-make install
-popd
-
-pushd cmake-3.19.5
-sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake &&
-./bootstrap --prefix=/usr        \
-            --system-libs        \
-            --mandir=/share/man  \
-            --no-system-jsoncpp  \
-            --no-system-librhash \
-            --docdir=/share/doc/cmake-3.19.5 &&
-make
-make install
-popd
-
-pushd doxygen-1.9.1
-rm -rf build
-mkdir -v build &&
-pushd       build &&
-cmake -G "Unix Makefiles"         \
-      -DCMAKE_BUILD_TYPE=Release  \
-      -DCMAKE_INSTALL_PREFIX=/usr \
-      -Wno-dev .. &&
-make
-cmake -DDOC_INSTALL_DIR=share/doc/doxygen-1.9.1 -Dbuild_doc=ON .. &&
-make docs
-make install &&
-install -vm644 ../doc/*.1 /usr/share/man/man1
-popd #build
-popd
-
-pushd libburn-1.5.4
-./configure --prefix=/usr --disable-static &&
-make
-doxygen doc/doxygen.conf
-make install
-install -v -dm755 /usr/share/doc/libburn-1.5.4 &&
-install -v -m644 doc/html/* /usr/share/doc/libburn-1.5.4
-popd
-
-pushd libisofs-1.5.4
-./configure --prefix=/usr --disable-static &&
-make
-doxygen doc/doxygen.conf
-make install
-install -v -dm755 /usr/share/doc/libisofs-1.5.4 &&
-install -v -m644 doc/html/* /usr/share/doc/libisofs-1.5.4
-popd
-
-pushd libisoburn-1.5.4
-./configure --prefix=/usr              \
-            --disable-static           \
-            --enable-pkg-check-modules &&
-make
-doxygen doc/doxygen.conf
-make install
-install -v -dm755 /usr/share/doc/libisoburn-1.5.4 &&
-install -v -m644 doc/html/* /usr/share/doc/libisoburn-1.5.4
-popd
 
 
 #10.2. Creating the /etc/fstab File

@@ -2,7 +2,7 @@
 set -e
 #Chapter 8
 if [ `id -u` != 0 ];then
-        echo Permision deley, Please run as root!
+        echo Permission delay, Please run as root!
         exit
 fi
 

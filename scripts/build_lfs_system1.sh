@@ -686,6 +686,91 @@ install-info --dir-file=/usr/share/info/dir /usr/share/info/com_err.info
 popd #build
 popd
 
+#BLFS iso command
+pushd libuv-v1.41.0
+sh autogen.sh                              &&
+./configure --prefix=/usr --disable-static &&
+make
+make install
+popd
+
+pushd curl-7.75.0
+grep -rl '#!.*python$' | xargs sed -i '1s/python/&3/'
+./configure --prefix=/usr                           \
+            --disable-static                        \
+            --enable-threaded-resolver              \
+            --with-ca-path=/etc/ssl/certs &&
+make
+make install &&
+rm -rf docs/examples/.deps &&
+find docs \( -name Makefile\* -o -name \*.1 -o -name \*.3 \) -exec rm {} \; &&
+install -v -d -m755 /usr/share/doc/curl-7.75.0 &&
+cp -v -R docs/*     /usr/share/doc/curl-7.75.0
+popd
+
+pushd libarchive-3.5.1
+./configure --prefix=/usr --disable-static &&
+make
+make install
+popd
+
+pushd cmake-3.19.5
+sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake &&
+./bootstrap --prefix=/usr        \
+            --system-libs        \
+            --mandir=/share/man  \
+            --no-system-jsoncpp  \
+            --no-system-librhash \
+            --docdir=/share/doc/cmake-3.19.5 &&
+make
+make install
+popd
+
+pushd doxygen-1.9.1
+rm -rf build
+mkdir -v build &&
+pushd       build &&
+cmake -G "Unix Makefiles"         \
+      -DCMAKE_BUILD_TYPE=Release  \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -Wno-dev .. &&
+make
+cmake -DDOC_INSTALL_DIR=share/doc/doxygen-1.9.1 -Dbuild_doc=ON .. &&
+make docs
+make install &&
+install -vm644 ../doc/*.1 /usr/share/man/man1
+popd #build
+popd
+
+pushd libburn-1.5.4
+./configure --prefix=/usr --disable-static &&
+make
+doxygen doc/doxygen.conf
+make install
+install -v -dm755 /usr/share/doc/libburn-1.5.4 &&
+install -v -m644 doc/html/* /usr/share/doc/libburn-1.5.4
+popd
+
+pushd libisofs-1.5.4
+./configure --prefix=/usr --disable-static &&
+make
+doxygen doc/doxygen.conf
+make install
+install -v -dm755 /usr/share/doc/libisofs-1.5.4 &&
+install -v -m644 doc/html/* /usr/share/doc/libisofs-1.5.4
+popd
+
+pushd libisoburn-1.5.4
+./configure --prefix=/usr              \
+            --disable-static           \
+            --enable-pkg-check-modules &&
+make
+doxygen doc/doxygen.conf
+make install
+install -v -dm755 /usr/share/doc/libisoburn-1.5.4 &&
+install -v -m644 doc/html/* /usr/share/doc/libisoburn-1.5.4
+popd
+
 
 
 popd #/lfs

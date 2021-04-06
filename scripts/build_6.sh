@@ -247,6 +247,8 @@ popd
 
 
 #6.17. Binutils-2.36.1 - Pass 2
+rm -rf binutils-2.36.1
+tar xvf $LFS/sources/binutils-2.36.1.tar.xz
 pushd binutils-2.36.1
 rm build -rf
 mkdir -v build
@@ -269,6 +271,8 @@ popd #binutils-2.36.1
 
 
 #6.18. GCC-10.2.0 - Pass 2
+rm -rf gcc-10.2.0
+tar xvf $LFS/sources/gcc-10.2.0.tar.xz
 pushd gcc-10.2.0
 rm mpfr gmp mpc -rf
 tar -xf $LFS/sources/mpfr-4.1.0.tar.xz

@@ -29,6 +29,8 @@ pushd $LFS/lfs
 ###安装编译工具gcc\ld等
 ##交叉编译工具安装到$LFS/tools目录下
 #5.2. Binutils-2.36.1 - Pass 1
+rm -rf binutils-2.36.1
+tar xvf $LFS/sources/binutils-2.36.1.tar.xz
 pushd binutils-2.36.1
 rm build -rf
 mkdir -v build
@@ -45,8 +47,9 @@ popd #build
 popd #binutils-2.36.1
 
 #5.3. GCC-10.2.0 - Pass 1
+rm -rf gcc-10.2.0
+tar xvf $LFS/sources/gcc-10.2.0.tar.xz
 pushd gcc-10.2.0
-rm mpfr gmp mpc -rf
 tar -xf $LFS/sources/mpfr-4.1.0.tar.xz
 mv -v mpfr-4.1.0 mpfr
 tar -xf $LFS/sources/gmp-6.2.1.tar.xz
@@ -96,17 +99,21 @@ popd #gcc
 
 
 #5.4. Linux-5.10.17 API Headers
+rm -rf linux-5.10.17
+tar xvf $LFS/sources/linux-5.10.17.tar.xz
 pushd linux-5.10.17
-make mrproper
+#make mrproper
 make headers
 find usr/include -name '.*' -delete
-rm usr/include/Makefile
+rm -rf usr/include/Makefile
 cp -rv usr/include $LFS/usr
 popd
 
 
 
 #5.5. Glibc-2.33
+rm -rf glibc-2.33
+tar xvf $LFS/sources/glibc-2.33.tar.xz
 pushd glibc-2.33
 case $(uname -m) in
     i?86)   ln -sfv ld-linux.so.2 $LFS/lib/ld-lsb.so.3
@@ -127,7 +134,7 @@ pushd build
       --enable-kernel=3.2                \
       --with-headers=$LFS/usr/include    \
       libc_cv_slibdir=/lib
-make
+make -j1
 make DESTDIR=$LFS install
 
 #检查glic
@@ -144,6 +151,8 @@ popd #glibc
 
 
 #5.6. Libstdc++ from GCC-10.2.0, Pass 1
+rm -rf gcc-10.2.0
+tar xvf $LFS/sources/gcc-10.2.0.tar.xz
 pushd gcc-10.2.0
 rm build -rf
 mkdir -v build
