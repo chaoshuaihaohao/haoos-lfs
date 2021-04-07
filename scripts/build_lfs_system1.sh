@@ -726,38 +726,38 @@ make
 make install
 popd
 
-pushd doxygen-1.9.1
-rm -rf build
-mkdir -v build &&
-pushd       build &&
-cmake -G "Unix Makefiles"         \
-      -DCMAKE_BUILD_TYPE=Release  \
-      -DCMAKE_INSTALL_PREFIX=/usr \
-      -Wno-dev .. &&
-make
-cmake -DDOC_INSTALL_DIR=share/doc/doxygen-1.9.1 -Dbuild_doc=ON .. &&
-make docs
-make install &&
-install -vm644 ../doc/*.1 /usr/share/man/man1
-popd #build
-popd
+#pushd doxygen-1.9.1
+#rm -rf build
+#mkdir -v build &&
+#pushd       build &&
+#cmake -G "Unix Makefiles"         \
+#      -DCMAKE_BUILD_TYPE=Release  \
+#      -DCMAKE_INSTALL_PREFIX=/usr \
+#      -Wno-dev .. &&
+#make
+#cmake -DDOC_INSTALL_DIR=share/doc/doxygen-1.9.1 -Dbuild_doc=ON .. &&
+#make docs
+#make install &&
+#install -vm644 ../doc/*.1 /usr/share/man/man1
+#popd #build
+#popd
 
 pushd libburn-1.5.4
 ./configure --prefix=/usr --disable-static &&
 make
-doxygen doc/doxygen.conf
+#doxygen doc/doxygen.conf
 make install
 install -v -dm755 /usr/share/doc/libburn-1.5.4 &&
-install -v -m644 doc/html/* /usr/share/doc/libburn-1.5.4
+#install -v -m644 doc/html/* /usr/share/doc/libburn-1.5.4
 popd
 
 pushd libisofs-1.5.4
 ./configure --prefix=/usr --disable-static &&
 make
-doxygen doc/doxygen.conf
+#doxygen doc/doxygen.conf
 make install
 install -v -dm755 /usr/share/doc/libisofs-1.5.4 &&
-install -v -m644 doc/html/* /usr/share/doc/libisofs-1.5.4
+#install -v -m644 doc/html/* /usr/share/doc/libisofs-1.5.4
 popd
 
 pushd libisoburn-1.5.4
@@ -765,10 +765,10 @@ pushd libisoburn-1.5.4
             --disable-static           \
             --enable-pkg-check-modules &&
 make
-doxygen doc/doxygen.conf
+#doxygen doc/doxygen.conf
 make install
 install -v -dm755 /usr/share/doc/libisoburn-1.5.4 &&
-install -v -m644 doc/html/* /usr/share/doc/libisoburn-1.5.4
+#install -v -m644 doc/html/* /usr/share/doc/libisoburn-1.5.4
 popd
 
 
@@ -815,4 +815,4 @@ find /{bin,sbin} /usr/{bin,sbin,libexec} -type f \
 
 #8.77. 清理系统
 rm -rf /tmp/*
-echo finished
+echo finished. Please 'logout' to virt host console and 'make chroot-again'

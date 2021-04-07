@@ -32,7 +32,6 @@ pushd $LFS/lfs
 rm -rf binutils-2.36.1
 tar xvf $LFS/sources/binutils-2.36.1.tar.xz
 pushd binutils-2.36.1
-rm build -rf
 mkdir -v build
 pushd build
 
@@ -64,7 +63,6 @@ case $(uname -m) in
  ;;
 esac
 
-rm build -rf
 mkdir -v build
 pushd build
 
@@ -123,7 +121,6 @@ case $(uname -m) in
     ;;
 esac
 patch -Np1 -i $LFS/sources/glibc-2.33-fhs-1.patch
-rm build -rf
 mkdir -v build
 pushd build
 
@@ -154,7 +151,6 @@ popd #glibc
 rm -rf gcc-10.2.0
 tar xvf $LFS/sources/gcc-10.2.0.tar.xz
 pushd gcc-10.2.0
-rm build -rf
 mkdir -v build
 pushd build
 
