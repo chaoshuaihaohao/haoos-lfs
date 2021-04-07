@@ -38,14 +38,11 @@ make
 make DESTDIR=$LFS install
 popd
 
-
-
 #6.3. Ncurses-6.2
 rm ncurses-6.2 -rf
 tar xvf $LFS/sources/ncurses-6.2.tar.gz
 pushd ncurses-6.2
 sed -i s/mawk// configure
-rm build -rf
 mkdir build
 pushd build
   ../configure
@@ -69,7 +66,6 @@ mv -v $LFS/usr/lib/libncursesw.so.6* $LFS/lib
 ln -sfv ../../lib/$(readlink $LFS/usr/lib/libncursesw.so) $LFS/usr/lib/libncursesw.so
 popd
 
-
 #6.4. Bash-5.1
 pushd bash-5.1
 ./configure --prefix=/usr                   \
@@ -81,8 +77,6 @@ make DESTDIR=$LFS install
 mv $LFS/usr/bin/bash $LFS/bin/bash
 ln -sfv bash $LFS/bin/sh
 popd
-
-
 
 #6.5. Coreutils-8.32
 rm coreutils-8.32 -rf
@@ -106,7 +100,6 @@ mv -v $LFS/usr/share/man/man1/chroot.1                        $LFS/usr/share/man
 sed -i 's/"1"/"8"/'                                           $LFS/usr/share/man/man8/chroot.8
 popd
 
-
 #6.6. Diffutils-3.7
 pushd diffutils-3.7
 ./configure --prefix=/usr --host=$LFS_TGT
@@ -114,12 +107,10 @@ make
 make DESTDIR=$LFS install
 popd
 
-
 #6.7. File-5.39
 rm file-5.39 -rf
 tar xvf $LFS/sources/file-5.39.tar.gz
 pushd file-5.39
-rm build -rf
 mkdir build
 pushd build
   ../configure --disable-bzlib      \
@@ -133,7 +124,6 @@ make FILE_COMPILE=$(pwd)/build/src/file
 make DESTDIR=$LFS install
 popd
 
-
 #6.8. Findutils-4.8.0
 pushd findutils-4.8.0
 ./configure --prefix=/usr   \
@@ -145,7 +135,6 @@ mv -v $LFS/usr/bin/find $LFS/bin
 sed -i 's|find:=${BINDIR}|find:=/bin|' $LFS/usr/bin/updatedb
 popd
 
-
 #6.9. Gawk-5.1.0
 pushd gawk-5.1.0
 sed -i 's/extras//' Makefile.in
@@ -156,8 +145,6 @@ make
 make DESTDIR=$LFS install
 popd
 
-
-
 #6.10. Grep-3.6
 pushd grep-3.6
 ./configure --prefix=/usr   \
@@ -166,8 +153,6 @@ pushd grep-3.6
 make
 make DESTDIR=$LFS install
 popd
-
-
 
 #6.11. Gzip-1.10
 pushd gzip-1.10
@@ -178,8 +163,6 @@ make DESTDIR=$LFS install
 mv -v $LFS/usr/bin/gzip $LFS/bin
 popd
 
-
-
 #6.12. Make-4.3
 pushd make-4.3
 ./configure --prefix=/usr   \
@@ -189,8 +172,6 @@ pushd make-4.3
 make
 make DESTDIR=$LFS install
 popd
-
-
 
 #6.13. Patch-2.7.6
 rm patch-2.7.6 -rf
@@ -204,8 +185,6 @@ make
 make DESTDIR=$LFS install
 popd
 
-
-
 #6.14. Sed-4.8
 pushd sed-4.8
 ./configure --prefix=/usr   \
@@ -214,8 +193,6 @@ pushd sed-4.8
 make
 make DESTDIR=$LFS install
 popd
-
-
 
 #6.15. Tar-1.34
 pushd tar-1.34
@@ -226,8 +203,6 @@ pushd tar-1.34
 make
 make DESTDIR=$LFS install
 popd
-
-
 
 #6.16. Xz-5.2.5
 pushd xz-5.2.5
@@ -244,13 +219,10 @@ mv -v $LFS/usr/lib/liblzma.so.*                       $LFS/lib
 ln -svf ../../lib/$(readlink $LFS/usr/lib/liblzma.so) $LFS/usr/lib/liblzma.so
 popd
 
-
-
 #6.17. Binutils-2.36.1 - Pass 2
 rm -rf binutils-2.36.1
 tar xvf $LFS/sources/binutils-2.36.1.tar.xz
 pushd binutils-2.36.1
-rm build -rf
 mkdir -v build
 pushd build
 ../configure                   \
@@ -268,13 +240,10 @@ install -vm755 libctf/.libs/libctf.so.0.0.0 $LFS/usr/lib
 popd #build
 popd #binutils-2.36.1
 
-
-
 #6.18. GCC-10.2.0 - Pass 2
 rm -rf gcc-10.2.0
 tar xvf $LFS/sources/gcc-10.2.0.tar.xz
 pushd gcc-10.2.0
-rm mpfr gmp mpc -rf
 tar -xf $LFS/sources/mpfr-4.1.0.tar.xz
 mv -v mpfr-4.1.0 mpfr
 tar -xf $LFS/sources/gmp-6.2.1.tar.xz
@@ -288,7 +257,6 @@ case $(uname -m) in
   ;;
 esac
 
-rm build -rf
 mkdir -v build
 pushd build
 #Create a symlink that allows libgcc to be built with posix threads support:
@@ -317,6 +285,9 @@ make DESTDIR=$LFS install
 ln -svf gcc $LFS/usr/bin/cc
 popd #build
 popd #gcc-10.2.0
+
+
+
 
 
 popd #$LFS/lfs

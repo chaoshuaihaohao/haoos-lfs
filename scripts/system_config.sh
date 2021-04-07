@@ -1,7 +1,7 @@
 #!/bin/bash
-set -e
 #Chapter 9. System Configuration
 
+:<<!
 #9.2. General Network Configuration
 #9.2.1.1. Network Device Naming
 ln -s /dev/null /etc/systemd/network/99-default.link
@@ -25,6 +25,7 @@ Gateway=192.168.0.1
 DNS=192.168.0.1
 Domains=<Your Domain Name>
 EOF
+
 #9.2.1.3. DHCP Configuration
 cat > /etc/systemd/network/10-eth-dhcp.network << "EOF"
 [Match]
@@ -36,6 +37,8 @@ DHCP=ipv4
 [DHCP]
 UseDomains=true
 EOF
+!
+
 #9.2.2. Creating the /etc/resolv.conf File
 #9.2.2.1. systemd-resolved Configuration
 ln -sfv /run/systemd/resolve/resolv.conf /etc/resolv.conf
@@ -43,28 +46,40 @@ ln -sfv /run/systemd/resolve/resolv.conf /etc/resolv.conf
 cat > /etc/resolv.conf << "EOF"
 # Begin /etc/resolv.conf
 
-domain <Your Domain Name>
-nameserver <IP address of your primary nameserver>
-nameserver <IP address of your secondary nameserver>
+#domain <Your Domain Name>
+#nameserver <IP address of your primary nameserver>
+#nameserver <IP address of your secondary nameserver>
+nameserver 10.20.0.10
+nameserver 10.20.0.52
 
 # End /etc/resolv.conf
 EOF
+
 #9.2.3. Configuring the system hostname
-echo "<lfs>" > /etc/hostname
+echo "haoos" > /etc/hostname
+
 #9.2.4. Customizing the /etc/hosts File
 cat > /etc/hosts << "EOF"
 # Begin /etc/hosts
 
-127.0.0.1 localhost.localdomain localhost
-127.0.1.1 <FQDN> <HOSTNAME>
-<192.168.0.2> <FQDN> <HOSTNAME> [alias1] [alias2] ...
-::1       localhost ip6-localhost ip6-loopback
-ff02::1   ip6-allnodes
-ff02::2   ip6-allrouters
+#127.0.0.1 localhost.localdomain localhost
+127.0.0.1       localhost
+#127.0.1.1 <FQDN> <HOSTNAME>
+127.0.1.1 haoos
+#<192.168.0.2> <FQDN> <HOSTNAME> [alias1] [alias2] ...
+#::1       localhost ip6-localhost ip6-loopback
+#ff02::1   ip6-allnodes
+#ff02::2   ip6-allrouters
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
 
 # End /etc/hosts
 EOF
-
 
 #9.8. Creating the /etc/inputrc File
 cat > /etc/inputrc << "EOF"
@@ -121,14 +136,14 @@ cat > /etc/shells << "EOF"
 # End /etc/shells
 EOF
 
-
 #9.10.2. Disabling Screen Clearing at Boot Time
 mkdir -pv /etc/systemd/system/getty@tty1.service.d
-
 cat > /etc/systemd/system/getty@tty1.service.d/noclear.conf << EOF
 [Service]
 TTYVTDisallocate=no
 EOF
+
 #9.10.3. Disabling tmpfs for /tmp
 ln -sfv /dev/null /etc/systemd/system/tmp.mount
+
 

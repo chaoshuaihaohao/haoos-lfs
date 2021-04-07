@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+
 #7.5. Creating Directories
 mkdir -pv /{boot,home,mnt,opt,srv}
 mkdir -pv /etc/{opt,sysconfig}
