@@ -32,10 +32,14 @@ build-lfs1:
 chroot-again:
 	./scripts/chroot_again.sh
 
+system-conf:
+	./scripts/system_conf.sh
+bootable:
+	./scripts/bootable.sh
+
 
 unload-chroot:
 	./scripts/unload-chroot.sh
-
 
 clean:
 	rm sources lfs lfs-sources.tar.gz -rf
