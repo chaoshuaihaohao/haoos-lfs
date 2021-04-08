@@ -40,7 +40,7 @@ popd
 
 #6.3. Ncurses-6.2
 rm ncurses-6.2 -rf
-tar xvf $LFS/sources/ncurses-6.2.tar.gz
+tar xf $LFS/sources/ncurses-6.2.tar.gz
 pushd ncurses-6.2
 sed -i s/mawk// configure
 mkdir build
@@ -80,7 +80,7 @@ popd
 
 #6.5. Coreutils-8.32
 rm coreutils-8.32 -rf
-tar xvf $LFS/sources/coreutils-8.32.tar.xz
+tar xf $LFS/sources/coreutils-8.32.tar.xz
 pushd coreutils-8.32
 patch -Np1 -i $LFS/sources/coreutils-8.32-i18n-1.patch
 ./configure --prefix=/usr                     \
@@ -109,7 +109,7 @@ popd
 
 #6.7. File-5.39
 rm file-5.39 -rf
-tar xvf $LFS/sources/file-5.39.tar.gz
+tar xf $LFS/sources/file-5.39.tar.gz
 pushd file-5.39
 mkdir build
 pushd build
@@ -175,7 +175,7 @@ popd
 
 #6.13. Patch-2.7.6
 rm patch-2.7.6 -rf
-tar xvf $LFS/sources/patch-2.7.6.tar.xz
+tar xf $LFS/sources/patch-2.7.6.tar.xz
 pushd patch-2.7.6
 patch -Np1 -i $LFS/sources/patch-2.7.6-util.patch
 ./configure --prefix=/usr   \
@@ -221,7 +221,7 @@ popd
 
 #6.17. Binutils-2.36.1 - Pass 2
 rm -rf binutils-2.36.1
-tar xvf $LFS/sources/binutils-2.36.1.tar.xz
+tar xf $LFS/sources/binutils-2.36.1.tar.xz
 pushd binutils-2.36.1
 mkdir -v build
 pushd build
@@ -235,14 +235,14 @@ pushd build
     --enable-64-bit-bfd
 
 make
-make DESTDIR=$LFS install
+make DESTDIR=$LFS install -j1
 install -vm755 libctf/.libs/libctf.so.0.0.0 $LFS/usr/lib
 popd #build
 popd #binutils-2.36.1
 
 #6.18. GCC-10.2.0 - Pass 2
 rm -rf gcc-10.2.0
-tar xvf $LFS/sources/gcc-10.2.0.tar.xz
+tar xf $LFS/sources/gcc-10.2.0.tar.xz
 pushd gcc-10.2.0
 tar -xf $LFS/sources/mpfr-4.1.0.tar.xz
 mv -v mpfr-4.1.0 mpfr
