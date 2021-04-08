@@ -30,7 +30,7 @@ pushd $LFS/lfs
 ##交叉编译工具安装到$LFS/tools目录下
 #5.2. Binutils-2.36.1 - Pass 1
 rm -rf binutils-2.36.1
-tar xvf $LFS/sources/binutils-2.36.1.tar.xz
+tar xf $LFS/sources/binutils-2.36.1.tar.xz
 pushd binutils-2.36.1
 mkdir -v build
 pushd build
@@ -41,13 +41,13 @@ pushd build
              --disable-nls              \
              --disable-werror
 make
-make install
+make install -j1
 popd #build
 popd #binutils-2.36.1
 
 #5.3. GCC-10.2.0 - Pass 1
 rm -rf gcc-10.2.0
-tar xvf $LFS/sources/gcc-10.2.0.tar.xz
+tar xf $LFS/sources/gcc-10.2.0.tar.xz
 pushd gcc-10.2.0
 tar -xf $LFS/sources/mpfr-4.1.0.tar.xz
 mv -v mpfr-4.1.0 mpfr
@@ -98,7 +98,7 @@ popd #gcc
 
 #5.4. Linux-5.10.17 API Headers
 rm -rf linux-5.10.17
-tar xvf $LFS/sources/linux-5.10.17.tar.xz
+tar xf $LFS/sources/linux-5.10.17.tar.xz
 pushd linux-5.10.17
 #make mrproper
 make headers
@@ -107,11 +107,16 @@ rm -rf usr/include/Makefile
 cp -rv usr/include $LFS/usr
 popd
 
-
+if [ ! -a /mnt/lfs/tools/lib/gcc/x86_64-lfs-linux-gnu/10.2.0/libgcc_s.so ];then
+	cp /usr/lib/gcc/x86_64-linux-gnu/10/libgcc_s.so /mnt/lfs/tools/lib/gcc/x86_64-lfs-linux-gnu/10.2.0/
+fi
+if [ ! -a /mnt/lfs/tools/lib/gcc/x86_64-lfs-linux-gnu/10.2.0/libgcc_s.so.1 ];then
+	cp /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 /mnt/lfs/tools/lib/gcc/x86_64-lfs-linux-gnu/10.2.0/
+fi
 
 #5.5. Glibc-2.33
 rm -rf glibc-2.33
-tar xvf $LFS/sources/glibc-2.33.tar.xz
+tar xf $LFS/sources/glibc-2.33.tar.xz
 pushd glibc-2.33
 case $(uname -m) in
     i?86)   ln -sfv ld-linux.so.2 $LFS/lib/ld-lsb.so.3
@@ -131,7 +136,7 @@ pushd build
       --enable-kernel=3.2                \
       --with-headers=$LFS/usr/include    \
       libc_cv_slibdir=/lib
-make -j1
+make
 make DESTDIR=$LFS install
 
 #检查glic
@@ -149,7 +154,7 @@ popd #glibc
 
 #5.6. Libstdc++ from GCC-10.2.0, Pass 1
 rm -rf gcc-10.2.0
-tar xvf $LFS/sources/gcc-10.2.0.tar.xz
+tar xf $LFS/sources/gcc-10.2.0.tar.xz
 pushd gcc-10.2.0
 mkdir -v build
 pushd build
