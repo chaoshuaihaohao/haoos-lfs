@@ -43,4 +43,12 @@ install -d /usr/share/doc/linux-5.10.17
 cp -r Documentation/* /usr/share/doc/linux-5.10.17
 popd #linux-5.10.17
 
+#10.4. 使用 GRUB 设定引导过程
+pushd /tmp
+grub-mkrescue --output=grub-img.iso
+#xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso
+grub-install --grub-setup=/bin/true /dev/vdb -v
+grub-mkconfig -o /boot/grub/grub.cfg
+popd
+
 popd #/lfs
