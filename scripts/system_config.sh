@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 #Chapter 9. System Configuration
 
 :<<!

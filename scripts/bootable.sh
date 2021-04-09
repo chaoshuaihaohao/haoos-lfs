@@ -24,7 +24,7 @@ EOF
 mount -a
 
 pushd /lfs
-#10.3. Linux-5.11.10
+#10.3. Linux-5.10.17
 pushd linux-5.10.17
 #make mrproper
 #need to copy a .config file from other place.
@@ -36,11 +36,11 @@ make x86_desktop_defconfig
 make
 make modules_install
 
-cp -iv arch/x86/boot/bzImage /boot/vmlinuz-5.11.10-lfs-20210326-systemd
-cp -iv System.map /boot/System.map-5.11.10
-cp -iv .config /boot/config-5.11.10
-install -d /usr/share/doc/linux-5.11.10
-cp -r Documentation/* /usr/share/doc/linux-5.11.10
+cp -iv arch/x86/boot/bzImage /boot/vmlinuz-5.10.17-lfs-20210326-systemd
+cp -iv System.map /boot/System.map-5.10.17
+cp -iv .config /boot/config-5.10.17
+install -d /usr/share/doc/linux-5.10.17
+cp -r Documentation/* /usr/share/doc/linux-5.10.17
 popd #linux-5.10.17
 
 popd #/lfs
