@@ -36,6 +36,10 @@ system-conf:
 	./scripts/system_config.sh
 bootable:
 	./scripts/bootable.sh
+end:
+	./scripts/end.sh
+end1:
+	./scripts/end1.sh
 
 
 unload-chroot:
