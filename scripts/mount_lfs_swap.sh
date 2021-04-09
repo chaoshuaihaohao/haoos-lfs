@@ -50,15 +50,25 @@ if [ ! "`grep "${lfs_dev}1  $LFS/boot ext4   defaults      1     1" /etc/fstab |
         echo "${lfs_dev}1  $LFS/boot ext4   defaults      1     1" >> /etc/fstab
 fi
 
-#挂载swap分区
+#挂载efi分区
 set +e
 #umount ${lfs_dev}2
-mkswap ${lfs_dev}2
-/sbin/swapon -v ${lfs_dev}2
+mkdir -pv $LFS/boot/efi
+mkfs.fat -v ${lfs_dev}2
 set -e
-if [ ! "`grep "${lfs_dev}2  swap swap   defaults      0     0" /etc/fstab | head -1`" ];then
-	echo "${lfs_dev}2  swap swap   defaults      0     0" >> /etc/fstab
+if [ ! "`grep "${lfs_dev}2  /boot/efi  vfat      umask=0077     0     1" /etc/fstab | head -1`" ];then
+	echo "${lfs_dev}2  /boot/efi  vfat      umask=0077     0     1" >> /etc/fstab
 fi
+
+#挂载swap分区
+#set +e
+#umount ${lfs_dev}2
+#mkswap ${lfs_dev}2
+#/sbin/swapon -v ${lfs_dev}2
+#set -e
+#if [ ! "`grep "${lfs_dev}2  swap swap   defaults      0     0" /etc/fstab | head -1`" ];then
+#	echo "${lfs_dev}2  swap swap   defaults      0     0" >> /etc/fstab
+#fi
 
 #挂载lfs分区
 #mkdir -pv $LFS
