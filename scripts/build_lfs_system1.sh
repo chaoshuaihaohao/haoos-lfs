@@ -794,7 +794,15 @@ install -v -dm755 /usr/share/doc/libisoburn-1.5.4 &&
 #install -v -m644 doc/html/* /usr/share/doc/libisoburn-1.5.4
 popd
 
-
+#BLFS mkfs.fat command
+pushd dosfstools-4.2
+./configure --prefix=/               \
+            --enable-compat-symlinks \
+            --mandir=/usr/share/man  \
+            --docdir=/usr/share/doc/dosfstools-4.2 &&
+make
+make install
+popd
 
 popd #/lfs
 

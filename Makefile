@@ -33,7 +33,7 @@ chroot-again:
 	./scripts/chroot_again.sh
 
 system-conf:
-	./scripts/system_conf.sh
+	./scripts/system_config.sh
 bootable:
 	./scripts/bootable.sh
 
