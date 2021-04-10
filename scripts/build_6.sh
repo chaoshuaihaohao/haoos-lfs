@@ -43,7 +43,7 @@ rm ncurses-6.2 -rf
 tar xf $LFS/sources/ncurses-6.2.tar.gz
 pushd ncurses-6.2
 sed -i s/mawk// configure
-mkdir build
+mkdir -v build
 pushd build
   ../configure
 popd #build
@@ -111,7 +111,7 @@ popd
 rm file-5.39 -rf
 tar xf $LFS/sources/file-5.39.tar.gz
 pushd file-5.39
-mkdir build
+mkdir -v build
 pushd build
   ../configure --disable-bzlib      \
                --disable-libseccomp \
