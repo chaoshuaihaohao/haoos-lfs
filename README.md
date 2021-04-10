@@ -8,21 +8,21 @@
 
 https://ubuntu.com/download/desktop/thank-you/?version=20.10&architecture=amd64
 
-虚拟机需要新增一块磁盘/dev/sdb，建议大小为30G+，linux内核编译比较耗费空间 。
+虚拟机需要新增一块磁盘/dev/vdb，建议**大小为40G+**（越大越好），linux内核编译比较耗费空间(20多G) 。
 
 磁盘分区规划为grub分区 300M, 交换分区2G, 其余的作为lfs构建分区。
 
-虚拟机中查看是否有sdb设备：
+虚拟机中查看是否有vdb设备：
 
 ```
-ls /dev/sdb
+ls /dev/vdb
 ```
 
 注：ubuntu20.10中的新增磁盘设备名不是/dev/sdb，是/dev/vdb。
 
 **开设两个shell终端**。
 
-## 虚拟机宿主机环境
+## 2. 准备虚拟机宿主环境
 
 ```
 #make distclean
@@ -41,8 +41,48 @@ make check
 make dep-install
 ```
 
-#挂载lfs分区和swap分区
-#解压缩获取源代码
+## LFS磁盘分区
+
+注意：通过fdisk -l查看，宿主虚拟机的分区如下--》
+
+```vb
+Disk /dev/vda：15 GiB，16106127360 字节，31457280 个扇区
+单元：扇区 / 1 * 512 = 512 字节
+扇区大小(逻辑/物理)：512 字节 / 512 字节
+I/O 大小(最小/最佳)：512 字节 / 512 字节
+磁盘标签类型：gpt
+磁盘标识符：D6D29393-0ABB-4E45-8EC3-32021B8980BA
+
+设备          起点     末尾     扇区  大小 类型
+/dev/vda1     2048     4095     2048    1M BIOS 启动
+/dev/vda2     4096  1054719  1050624  513M EFI 系统
+/dev/vda3  1054720 31455231 30400512 14.5G Linux 文件系统
+```
+
+在virt-manager启动ubuntu的系统中，通过findmnt命令发现，宿主机创建了三个分区，但只用到了两个分区，
+
+```vb
+root@virt-PC:/boot/efi# findmnt | grep vda
+/                                     /dev/vda3  ext4            rw,relatime,errors=remount-ro
+└─/boot/efi                           /dev/vda2  vfat            rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro
+```
+
+分别是vda3作为根文件系统分区， vda2作为EFI系统分区。
+
+**宿主机GRUB是安装在根文件系统下的，不是安装在单独的分区中**。不需要为/boot目录单独创建一个分区进行挂载。
+
+参照宿主虚拟机的分区方式进行分区。vdb1 1M, vdb2 512M,其余的作为根文件系统分区。
+
+注：
+
+​	本人的物理机上，/boot目录是单独作为一个分区的，grub安装在其中。
+
+### 创建lfs账户
+
+#解压缩获取lfs应用程序源代码
+
+#修改/mnt/lfs和/home/lfs下的文件owner和group为lfs
+
 #lfs账户配置，这一步会进入新创建的lfs账户目录。
 
 ```
@@ -53,21 +93,22 @@ make lfs-env-build
 
 #在lfs账户目录下执行，源码包安装
 
-#### 5. 编译交叉工具链 && 6. 交叉编译临时工具
+## 5. 编译交叉工具链 && 6. 交叉编译临时工具
 
 ```
-make build
+lfs@virt-PC:~$make build
 ```
 
-## chroot到/mnt/lfs环境
+## 构建 LFS 系统
 
-### 7. 进入 Chroot
+### 7. 1进入 Chroot，chroot到/mnt/lfs环境
 
-**这里切换到另一个终端。**
+**这里切换到另一个终端。**      **或`logout`切换到/home/virt目录。**
 
 #chroot到/mnt/lfs
 
 ```
+#cd 到<haoos-lfs git仓库>
 make chroot
 ```
 
@@ -75,30 +116,26 @@ make chroot
 #切换到haoos项目目录
 
 ```
-cd haoos
-make chroot1
+(lfs chroot) I have no name!:/#cd haoos
+(lfs chroot) I have no name!:/#make chroot1
 ```
 
 #执行完后是：bash-5.1#
 
-## build lfs系统
-
-### 7. 构建其他临时工具
+### 7. 2构建其他临时工具
 
 ```
-bash-5.1#make chroot_do
+bash-5.1#make chroot-do
 ```
 
-## 构建 LFS 系统
-
-### 8. 安装基本系统软件
+## 8. 安装基本系统软件
 
 ```
 bash-5.1#cd /haoos
 bash-5.1#make build-lfs
 ```
 
-以上命令后，会进入新的bash环境，目录是/lfs/bash-5.1，之后安装各种系统应用软件
+以上命令后，**会进入新的bash环境**，目录是/lfs/bash-5.1，之后安装各种系统应用软件
 
 ```
 cd /haoos
@@ -117,14 +154,44 @@ exit
 进入chroot环境
 
 ```
-make chroot-again
+virt@virt-PC:~/haoos-lfs$ sudo make chroot-again
 ```
 
-### 9.系统配置
+## 9.系统配置
 
 ```
-cd /haoos
-make system-conf
+(lfs chroot) root:/#cd /haoos
+(lfs chroot) root:/haoos#make system-conf
+```
+
+## 10. 使 LFS 系统可引导
+
+创建 `/etc/fstab` 文件，
+
+为新的 LFS 系统构建内核，
+
+以及安装 GRUB 引导加载器，
+
+使得系统引导时可以选择进入 LFS 系统。
+
+```
+(lfs chroot) root:/haoos#make bootable
+```
+
+## 11. 尾声
+
+创建一个 `/etc/lfs-release` 文件。
+
+创建一个文件/etc/lsb-release，根据 Linux Standards Base (LSB) 的规则显示系统状态。
+
+创建一个文件/etc/os-release，systemd 和一些图形桌面环境会使用它。
+
+```
+make end
+```
+
+```
+make end1
 ```
 
 
@@ -143,13 +210,13 @@ https://bf.mengyan1223.wang/lfs/zh_CN/systemd/index.html
 
 http://www.linuxfromscratch.org/blfs/view/stable-systemd/
 
-
+[手把手教你构建自己的操作系统-孙海勇]
 
 # 文献错误勘误
 
-1:Patch编译报错，需要打一个补丁
+## 1:Patch编译报错，需要打一个补丁
 
-2:6.3.1. Installation of Ncurses
+## 2:6.3.1. Installation of Ncurses
 
 ```
 mkdir build
@@ -171,53 +238,41 @@ make -C build/include
 make -C build/progs tic
 ```
 
+## 5.5. Glibc-2.33
 
+编译glibc时ld会报找不到-lgcc_s库文件，是因为gcc编译没有生成libgcc_s.so库文件，原因未知。需要自行拷贝库文件：
+
+```
+sudo cp /usr/lib/gcc/x86_64-linux-gnu/10/libgcc_s.so /mnt/lfs/tools/lib/gcc/x86_64-lfs-linux-gnu/10.2.0/
+sudo cp /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 /mnt/lfs/tools/lib/gcc/x86_64-lfs-linux-gnu/10.2.0/
+```
+
+## 10.3. Linux-5.11.10
+
+内核版本不对，源码内核版本是5.10.17
+
+## grub源码可能不完整
+
+grub安装应该是会有EFI生成的，这里安装后并没有这些文件。
 
 
 
 1.安装命令里的相对路径../也需要注意修改：
 
-
-
 2.不同构建步骤中都有编译的软件包，第二次编译的时候，需要重新移除，并获取干净的软件包再进行编译。还要注意解压后的文件权限问题，owner是lfs还是root。
-
-
 
 3./dev/sdb需要进行分区，例如grub分区 FAT文件格式，/mnt/lfs分区 EXT4文件格式。
 
-fdisk /dev/sdb
+fdisk /dev/vdb
 
 
 
 ```
-
-```
-
-```
-
-
-
-#10.2. Creating the /etc/fstab File
-
-cat > /etc/fstab << "EOF"
-# Begin /etc/fstab
-
-# file system  mount-point  type     options             dump  fsck
-#                                                              order
-
-/dev/sdb     /            ext4    defaults            1     1
-/dev/sdc     swap         swap     pri=1               0     0
-
-# End /etc/fstab
-EOF
-
-
-
 
 cd /tmp 
 grub-mkrescue --output=grub-img.iso 
 xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso
-grub-install /dev/sda
+grub-install /dev/vdb1
 
 
 #grub.cfg配置文件。config-5.10.17  grub  System.map-5.10.17  vmlinuz-5.10.17-lfs-10.1-systemd
@@ -269,135 +324,29 @@ shutdown -r now
 
 
 
+# 其他
+
+貌似内核必须支持initrd/initramfs.img。还需要生成initrd文件。
+
+pushd initramfs-tools-v0.140
 
 
 
-
-
-
-pushd libpng-1.6.37
-
-```
-gzip -cd /sources/libpng-1.6.37-apng.patch.gz | patch -p1
-```
+收集make日志可以使用如下方法（包括错误和正常打印）：
 
 ```
-./configure --prefix=/usr --disable-static &&
-make
-```
-
-```
-make install &&
-mkdir -v /usr/share/doc/libpng-1.6.37 &&
-cp -v README libpng-manual.txt /usr/share/doc/libpng-1.6.37
-```
-
-popd
-
-pushd texlive-20200406-source
-
-```
-cat >> /etc/ld.so.conf << EOF
-# Begin texlive 2020 addition
-
-/opt/texlive/2020/lib
-
-# End texlive 2020 addition
-EOF
-```
-
-```
-SYSPOP= &&
-MYPOPPLER_MAJOR=$(pkg-config --modversion poppler | cut -d '.' -f1)
-if [ "$MYPOPPLER_MAJOR" = "0" ]; then
-    # if major was >=20, minor could start with 0 and not fit in octal
-    # causing error from 'let' in bash.
-    let MYPOPPLER_MINOR=$(pkg-config --modversion poppler | cut -d '.' -f2)
-else
-    # force a value > 85
-    let MYPOPPLER_MINOR=99
-fi
-if [ "$MYPOPPLER_MINOR" -lt 85 ]; then
-    # BLFS-9.1 uses 0.85.0, ignore earlier versions in this script.
-    # If updating texlive on an older system, review the available
-    # variants for pdftoepdf and pdftosrc to use system poppler.
-    SYSPOP=
-else
-    SYSPOP="--with-system-poppler --with-system-xpdf"
-    if [ "$MYPOPPLER_MINOR" -lt 86 ]; then
-        mv -v texk/web2c/pdftexdir/pdftoepdf{-poppler0.83.0,}.cc
-    else # 0.86.0 or later, including 20.08.0.
-        mv -v texk/web2c/pdftexdir/pdftoepdf{-poppler0.86.0,}.cc
-    fi
-    # For pdftosrc BLFS-9.1 uses 0.83.0 and that is the latest variant.
-    mv -v texk/web2c/pdftexdir/pdftosrc{-poppler0.83.0,}.cc
-fi &&
-export SYSPOP &&
-unset MYPOPPLER_{MAJOR,MINOR}
-```
-
-```
-export TEXARCH=$(uname -m | sed -e 's/i.86/i386/' -e 's/$/-linux/') &&
-
-mkdir texlive-build &&
-cd texlive-build    &&
-
-../configure                                                    \
-    --prefix=/opt/texlive/2020                                  \
-    --bindir=/opt/texlive/2020/bin/$TEXARCH                     \
-    --datarootdir=/opt/texlive/2020                             \
-    --includedir=/opt/texlive/2020/include                      \
-    --infodir=/opt/texlive/2020/texmf-dist/doc/info             \
-    --libdir=/opt/texlive/2020/lib                              \
-    --mandir=/opt/texlive/2020/texmf-dist/doc/man               \
-    --disable-native-texlive-build                              \
-    --disable-static --enable-shared                            \
-    --disable-dvisvgm                                           \
-    --with-system-cairo                                         \
-    --with-system-fontconfig                                    \
-    --with-system-freetype2                                     \
-    --with-system-gmp                                           \
-    --with-system-graphite2                                     \
-    --with-system-harfbuzz                                      \
-    --with-system-icu                                           \
-    --with-system-libgs                                         \
-    --with-system-libpaper                                      \
-    --with-system-libpng                                        \
-    --with-system-mpfr                                          \
-    --with-system-pixman                                        \
-    ${SYSPOP}                                                   \
-    --with-system-zlib                                          \
-    --with-banner-add=" - BLFS" &&
-
-make &&
-unset SYSPOP
-```
-
-```
-make install-strip &&
-/sbin/ldconfig &&
-make texlinks &&
-mkdir -pv /opt/texlive/2020/tlpkg/TeXLive/ &&
-install -v -m644 ../texk/tests/TeXLive/* /opt/texlive/2020/tlpkg/TeXLive/ &&
-tar -xf ../../texlive-20200406-tlpdb-full.tar.gz -C /opt/texlive/2020/tlpkg
-```
-
-```
-tar -xf /sources/texlive-20200406-texmf.tar.xz -C /opt/texlive/2020 --strip-components=1
-```
-
-```
-mktexlsr &&
-fmtutil-sys --all &&
-mtxrun --generate
+make xxx > build_output_all.txt 2>&1
 ```
 
 
 
+scripts/mount_lfs_swap.sh中在虚拟机宿主机上挂载了/dev/vdb设备，重启电脑的话需要删除/etc/fstab中的vdb相关信息。
 
 
 
 
-```
 
-```
+#grub-install --grub-setup=/bin/true /dev/vdb -v
+
+grub-mkconfig -o /boot/grub/grub.cfg
+
