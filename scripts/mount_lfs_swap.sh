@@ -25,11 +25,11 @@ g
 n
 1
 
-+300M
++1M
 n
 2
 
-+2G
++512M
 n
 3
 
@@ -38,17 +38,16 @@ p
 w
 EOF
 
-echo start1
 #挂载boot分区，ext4文件系统格式
-mkdir -pv $LFS/boot
-set +e
-echo ${lfs_dev}1
+#mkdir -pv $LFS/boot
+#set +e
+#echo ${lfs_dev}1
 #umount ${lfs_dev}1
-mkfs -v -t ext4 ${lfs_dev}1
-set -e
-if [ ! "`grep "${lfs_dev}1  $LFS/boot ext4   defaults      1     1" /etc/fstab | head -1`" ];then
-        echo "${lfs_dev}1  $LFS/boot ext4   defaults      1     1" >> /etc/fstab
-fi
+#mkfs -v -t ext4 ${lfs_dev}1
+#set -e
+#if [ ! "`grep "${lfs_dev}1  $LFS/boot ext4   defaults      1     1" /etc/fstab | head -1`" ];then
+#        echo "${lfs_dev}1  $LFS/boot ext4   defaults      1     1" >> /etc/fstab
+#fi
 
 #挂载efi分区
 set +e

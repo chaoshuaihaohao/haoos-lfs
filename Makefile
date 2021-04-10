@@ -35,11 +35,15 @@ chroot-again:
 system-conf:
 	./scripts/system_config.sh
 bootable:
+	./scripts/linux_compile.sh
 	./scripts/bootable.sh
 end:
 	./scripts/end.sh
 end1:
 	./scripts/end1.sh
+
+ramfs:
+	./scripts/ramfsdisk.sh
 
 
 unload-chroot:
