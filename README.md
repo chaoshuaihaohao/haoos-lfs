@@ -20,8 +20,6 @@ ls /dev/vdb
 
 注：ubuntu20.10中的新增磁盘设备名不是/dev/sdb，是/dev/vdb。
 
-**开设两个shell终端**。
-
 ## 2. 准备虚拟机宿主环境
 
 ```
@@ -71,11 +69,13 @@ root@virt-PC:/boot/efi# findmnt | grep vda
 
 **宿主机GRUB是安装在根文件系统下的，不是安装在单独的分区中**。不需要为/boot目录单独创建一个分区进行挂载。
 
-参照宿主虚拟机的分区方式进行分区。vdb1 1M, vdb2 512M,其余的作为根文件系统分区。
+参照宿主虚拟机的分区方式进行分区。vdb1 1M, vdb2 512M,其余的作为根文件系统分区。fdisk /dev/vdb：
+
+![image-20210410201123933](/home/uos/.config/Typora/typora-user-images/image-20210410201123933.png)
 
 注：
 
-​	本人的物理机上，/boot目录是单独作为一个分区的，grub安装在其中。
+​	本人的物理机上，/boot目录是单独作为一个分区的，grub安装在其中。虚拟机中，chroot到/mnt/lfs后，/dev/vdb1类型为BIOS boot时，grub-install 才会成功。
 
 ### 创建lfs账户
 
@@ -103,13 +103,16 @@ lfs@virt-PC:~$make build
 
 ### 7. 1进入 Chroot，chroot到/mnt/lfs环境
 
-**这里切换到另一个终端。**      **或`logout`切换到/home/virt目录。**
+`logout`切换到root@virt-PC:/home/virt/haoos-lfs#。
+
+```
+logout
+```
 
 #chroot到/mnt/lfs
 
 ```
-#cd 到<haoos-lfs git仓库>
-make chroot
+root@virt-PC:/home/virt/haoos-lfs# make chroot
 ```
 
 #执行完后是：(lfs chroot) I have no name!:/#
@@ -131,9 +134,15 @@ bash-5.1#make chroot-do
 ## 8. 安装基本系统软件
 
 ```
-bash-5.1#cd /haoos
 bash-5.1#make build-lfs
 ```
+
+结尾输出如下：
+
+rm
+accept
+csv
+cut
 
 以上命令后，**会进入新的bash环境**，目录是/lfs/bash-5.1，之后安装各种系统应用软件
 
@@ -142,26 +151,29 @@ cd /haoos
 make build-lfs1
 ```
 
+![image-20210410164222444](/home/uos/.config/Typora/typora-user-images/image-20210410164222444.png)
+
 ## 再次chroot
 
 首先退出当前的"bash-5.1#"环境到虚拟宿主机"virt@virt-PC:~/haoos-lfs$"
 
 ```
 logout
-exit
+logout
+logout
 ```
 
 进入chroot环境
 
 ```
-virt@virt-PC:~/haoos-lfs$ sudo make chroot-again
+root@virt-PC:/home/virt/haoos-lfs#make chroot-again
 ```
 
 ## 9.系统配置
 
 ```
-(lfs chroot) root:/#cd /haoos
-(lfs chroot) root:/haoos#make system-conf
+(lfs chroot) root:/# cd haoos/
+(lfs chroot) root:/haoos# make system-conf
 ```
 
 ## 10. 使 LFS 系统可引导
@@ -170,13 +182,15 @@ virt@virt-PC:~/haoos-lfs$ sudo make chroot-again
 
 为新的 LFS 系统构建内核，
 
-以及安装 GRUB 引导加载器，
+以及安装 GRUB 引导加载器，(需要fdisk /dev/vdb1分区为)
 
 使得系统引导时可以选择进入 LFS 系统。
 
 ```
-(lfs chroot) root:/haoos#make bootable
+(lfs chroot) root:/haoos# make bootable
 ```
+
+生成initrd文件并修改grub.cfg
 
 ## 11. 尾声
 
@@ -187,11 +201,17 @@ virt@virt-PC:~/haoos-lfs$ sudo make chroot-again
 创建一个文件/etc/os-release，systemd 和一些图形桌面环境会使用它。
 
 ```
-make end
+(lfs chroot) root:/haoos# make end
 ```
 
 ```
-make end1
+logout
+```
+
+
+
+```
+root@virt-PC:/home/virt/haoos-lfs# make end1
 ```
 
 
@@ -265,7 +285,7 @@ grub安装应该是会有EFI生成的，这里安装后并没有这些文件。
 
 fdisk /dev/vdb
 
-
+![image-20210410202739487](/home/uos/.config/Typora/typora-user-images/image-20210410202739487.png)
 
 ```
 
