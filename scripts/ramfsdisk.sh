@@ -358,3 +358,6 @@ killall -w ${UDEVD##*/}
 exec switch_root /.root "$init" "$@"
 
 EOF
+
+mkinitramfs 5.10.17
+

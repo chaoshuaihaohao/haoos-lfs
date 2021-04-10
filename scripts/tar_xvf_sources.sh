@@ -16,7 +16,8 @@ do
 		[ "$tar_file" != "tcl8.6.11-html.tar.gz" ]
 	then
 		#tar xvf $LFS/sources/$tar_file && rm $LFS/sources/$tar_file
-		tar xvf $LFS/sources/$tar_file
+		echo "tar xf $LFS/sources/$tar_file ......"
+		tar xf $LFS/sources/$tar_file
 	fi
 done
 popd

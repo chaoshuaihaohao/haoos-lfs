@@ -34,6 +34,12 @@ n
 3
 
 
+t
+1
+4
+t
+2
+1
 p
 w
 EOF
@@ -56,7 +62,7 @@ mkdir -pv $LFS/boot/efi
 mkfs.fat -v ${lfs_dev}2
 set -e
 if [ ! "`grep "${lfs_dev}2  /boot/efi  vfat      umask=0077     0     1" /etc/fstab | head -1`" ];then
-	echo "${lfs_dev}2  /boot/efi  vfat      umask=0077     0     1" >> /etc/fstab
+#	echo "${lfs_dev}2  /boot/efi  vfat      umask=0077     0     1" >> /etc/fstab
 fi
 
 #挂载swap分区
@@ -76,9 +82,10 @@ set +e
 mkfs -v -t ext4 ${lfs_dev}3
 set -e
 if [ ! "`grep "${lfs_dev}3  $LFS ext4   defaults      1     1" /etc/fstab | head -1`" ];then
-	echo "${lfs_dev}3  $LFS ext4   defaults      1     1" >> /etc/fstab
+#	echo "${lfs_dev}3  $LFS ext4   defaults      1     1" >> /etc/fstab
 fi
-mount -a
+mount ${lfs_dev}3 $LFS
+#mount -a
 
 #拷贝lfs source code files.
 VMWARE_NAME=`whoami`
