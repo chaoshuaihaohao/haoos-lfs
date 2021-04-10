@@ -42,7 +42,7 @@ EOF
 
 #9.2.2. Creating the /etc/resolv.conf File
 #9.2.2.1. systemd-resolved Configuration
-ln -sfv /run/systemd/resolve/resolv.conf /etc/resolv.conf
+#ln -sfv /run/systemd/resolve/resolv.conf /etc/resolv.conf
 #9.2.2.2. Static resolv.conf Configuration
 cat > /etc/resolv.conf << "EOF"
 # Begin /etc/resolv.conf
