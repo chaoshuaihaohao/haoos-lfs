@@ -14,7 +14,7 @@ make x86_desktop_defconfig
 #make menuconfig
 
 make
-make modules_install
+make INSTALL_MOD_STRIP=1 modules_install
 
 cp -iv arch/x86/boot/bzImage /boot/vmlinuz-5.10.17-lfs-20210326-systemd
 cp -iv System.map /boot/System.map-5.10.17
