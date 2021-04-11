@@ -309,6 +309,8 @@ device=
 resume=
 noresume=false
 
+modprobe virtio_blk
+
 mount -n -t devtmpfs devtmpfs /dev
 mount -n -t proc     proc     /proc
 mount -n -t sysfs    sysfs    /sys
@@ -360,4 +362,4 @@ exec switch_root /.root "$init" "$@"
 EOF
 
 mkinitramfs 5.10.17
-
+mv -v initrd.img-5.10.17 /boot/initrd.img-5.10.17-lfs-20210326-systemd
