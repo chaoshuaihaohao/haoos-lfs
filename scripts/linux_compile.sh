@@ -23,5 +23,9 @@ install -d /usr/share/doc/linux-5.10.17
 cp -r Documentation/* /usr/share/doc/linux-5.10.17
 popd #linux-5.10.17
 
+#install linux-firmware
+pushd linux-firmware-20210315
+make install
+popd
 
 popd #/lfs
