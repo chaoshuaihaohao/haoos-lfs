@@ -543,3 +543,6 @@ Download: https://github.com/facebook/zstd/releases/download/v1.4.8/zstd-1.4.8.t
 MD5 sum: e873db7cfa5ef05832e6d55a5a572840
 
 #Total size of these packages: about 428 MB
+
+linux-firmware:
+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-20210315.tar.gz

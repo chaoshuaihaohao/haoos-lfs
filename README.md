@@ -2,6 +2,14 @@
 
 # 构建步骤
 
+## 下载lfs-sources.tar.gz源码压缩包
+
+百度网盘下载地址：
+
+链接: https://pan.baidu.com/s/1uzpjr-wnRAp4mlVUr5RuGQ  密码: v3j6
+
+下载到物理机的～目录下。
+
 ## 安装虚拟机
 
 推荐使用ubuntu作为虚拟机iso镜像。iso下载地址：
@@ -18,7 +26,7 @@ https://ubuntu.com/download/desktop/thank-you/?version=20.10&architecture=amd64
 ls /dev/vdb
 ```
 
-注：ubuntu20.10中的新增磁盘设备名不是/dev/sdb，是/dev/vdb。
+注：这里使用的磁盘总线类型都是VIRTIO，不是SATA。所以ubuntu20.10中的新增磁盘设备名不是/dev/sdb，是/dev/vdb。
 
 ## 2. 准备虚拟机宿主环境
 
@@ -144,7 +152,9 @@ accept
 csv
 cut
 
-以上命令后，**会进入新的bash环境**，目录是/lfs/bash-5.1，之后安装各种系统应用软件
+...
+
+以上输出结束后，**会进入新的bash环境**，目录是/lfs/bash-5.1，之后安装各种系统应用软件
 
 ```
 cd /haoos
@@ -190,7 +200,25 @@ root@virt-PC:/home/virt/haoos-lfs#make chroot-again
 (lfs chroot) root:/haoos# make bootable
 ```
 
-生成initrd文件并修改grub.cfg
+#生成initrd文件并修改grub.cfg
+
+当前通过拷贝/mnt/lfs/lib/modules/5.10.17到虚拟主机/lib/modules/目录下，然后
+
+```
+mkinitramfs -o /boot/initrd.img-5.10.17-lfs-20210326-systemd '5.10.17'
+```
+
+生成指定内核版本的initrd文件。
+
+grub.cfg需要添加：
+
+```
+initrd   /boot//boot/initrd.img-5.10.17-lfs-20210326-systemd
+```
+
+注：
+
+​	initrd.img-`uname -r`和linux内核匹配的时候，grub-mkconfig生成的grug.cfg文件才会添加initrd部分。并且“root=”也是使用UUID而不是/dev/vdb。
 
 ## 11. 尾声
 
@@ -208,7 +236,15 @@ root@virt-PC:/home/virt/haoos-lfs#make chroot-again
 logout
 ```
 
+在宿主机中
 
+```
+root@virt-PC:/home/virt/haoos-lfs# update-grub
+```
+
+，之后重启电脑会有lfs系统的grub选择界面。
+
+重启电脑：
 
 ```
 root@virt-PC:/home/virt/haoos-lfs# make end1
@@ -271,9 +307,17 @@ sudo cp /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 /mnt/lfs/tools/lib/gcc/x86_64-lf
 
 内核版本不对，源码内核版本是5.10.17
 
-## grub源码可能不完整
+编译出来的内核模块超大，module install后/lib/modules/5.10.17有5G左右，需要修改module install 为
 
-grub安装应该是会有EFI生成的，这里安装后并没有这些文件。
+```
+make INSTALL_MOD_STRIP=1 modules_install
+```
+
+
+
+## 缺少firmware
+
+需要自行下载linux-firmware安装
 
 
 
@@ -281,74 +325,23 @@ grub安装应该是会有EFI生成的，这里安装后并没有这些文件。
 
 2.不同构建步骤中都有编译的软件包，第二次编译的时候，需要重新移除，并获取干净的软件包再进行编译。还要注意解压后的文件权限问题，owner是lfs还是root。
 
-3./dev/sdb需要进行分区，例如grub分区 FAT文件格式，/mnt/lfs分区 EXT4文件格式。
+3./dev/sdb需要进行分区，例如efi分区 FAT文件格式，/mnt/lfs分区 EXT4文件格式。
 
-fdisk /dev/vdb
+## 找不到根文件设备/dev/vdb3
 
 ![image-20210410202739487](/home/uos/.config/Typora/typora-user-images/image-20210410202739487.png)
 
+![image-20210411103925629](/home/uos/.config/Typora/typora-user-images/image-20210411103925629.png)
+
+原因是initrd的init文件中，没有加载对应的磁盘驱动，需要在“mount -n -t devtmpfs devtmpfs /dev”之前加载磁盘驱动
+
 ```
-
-cd /tmp 
-grub-mkrescue --output=grub-img.iso 
-xorriso -as cdrecord -v dev=/dev/cdrw blank=as_needed grub-img.iso
-grub-install /dev/vdb1
-
-
-#grub.cfg配置文件。config-5.10.17  grub  System.map-5.10.17  vmlinuz-5.10.17-lfs-10.1-systemd
-cat > /boot/grub/grub.cfg << "EOF"
-# Begin /boot/grub/grub.cfg
-set default=0
-set timeout=5
-
-insmod ext2
-set root=(hd1,1)
-
-menuentry "GNU/Linux, Linux 5.10.17-lfs-20210405-systemd" {
-        linux   /boot/vmlinuz-5.10.17-lfs-10.1-systemd root=/dev/sdb ro
-}
-EOF
-
-echo 20210405-systemd > /etc/lfs-release
-
-cat > /etc/lsb-release << "EOF"
-DISTRIB_ID="Linux From Scratch"
-DISTRIB_RELEASE="20210405-systemd"
-DISTRIB_CODENAME="haoos"
-DISTRIB_DESCRIPTION="Linux From Scratch"
-EOF
-
-cat > /etc/lsb-release << "EOF"
-DISTRIB_ID="Linux From Scratch"
-DISTRIB_RELEASE="20210405-systemd"
-DISTRIB_CODENAME="haoos"
-DISTRIB_DESCRIPTION="Linux From Scratch"
-EOF
-
-cat > /etc/os-release << "EOF"
-NAME="Linux From Scratch"
-VERSION="20210405-systemd"
-ID=lfs
-PRETTY_NAME="Linux From Scratch 20210405-systemd"
-VERSION_CODENAME="haoos"
-EOF
-
-
-logout
-#关闭所有终端，重开一个
-export LFS=/mnt/lfs
-umount -Rv $LFS
-
-shutdown -r now
+modprobe virtio_blk
 ```
-
-
 
 # 其他
 
-貌似内核必须支持initrd/initramfs.img。还需要生成initrd文件。
-
-pushd initramfs-tools-v0.140
+貌似内核必须支持initrd/initramfs.img。
 
 
 
@@ -360,13 +353,11 @@ make xxx > build_output_all.txt 2>&1
 
 
 
-scripts/mount_lfs_swap.sh中在虚拟机宿主机上挂载了/dev/vdb设备，重启电脑的话需要删除/etc/fstab中的vdb相关信息。
+去掉ubuntu系统磁盘，重启电脑加载haoos：
 
+![image-20210411143614824](/home/uos/.config/Typora/typora-user-images/image-20210411143614824.png)
 
+找不到/dev/vdb3的原因是因为只剩一个磁盘，内核启动后，vdb名称变为了vda。
 
-
-
-#grub-install --grub-setup=/bin/true /dev/vdb -v
-
-grub-mkconfig -o /boot/grub/grub.cfg
+grub.cfg要修改为通过UUID加载根文件系统增加容错性。
 
