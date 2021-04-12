@@ -1127,4 +1127,12 @@ Download MD5 sum: 793c8844845351cb80730a74937e411b
 
 
 
+#other packets
+ethtool-5.10
+https://mirrors.edge.kernel.org/pub/software/network/ethtool/ethtool-5.10.tar.xz
 
+genisoimage/mkisofs
+git@github.com:Distrotech/cdrkit.git
+
+mksquashfs
+https://sourceforge.net/projects/squashfs/files/squashfs/squashfs4.4/squashfs4.4.tar.gz

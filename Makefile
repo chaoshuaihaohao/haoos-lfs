@@ -29,6 +29,8 @@ build-lfs:
 	./scripts/build_lfs_system.sh
 build-lfs1:
 	./scripts/build_lfs_system1.sh
+	./scripts/blfs_install.sh
+	./scripts/lfs_symbol_clean.sh
 chroot-again:
 	./scripts/chroot_again.sh
 
