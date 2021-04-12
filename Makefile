@@ -40,6 +40,8 @@ bootable:
 end:
 	./scripts/end.sh
 end1:
+	#移除lfs文件系统不再使用的多余文件
+	./scripts/clean_used_file.sh
 	./scripts/end1.sh
 
 ramfs:
