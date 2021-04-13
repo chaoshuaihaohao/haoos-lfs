@@ -58,3 +58,7 @@ clean:
 	rm /mnt/lfs/* -rf
 	@-umount /dev/sdb
 	@-umount /dev/sdc
+
+
+livecd:
+	./scripts/livecd.sh
