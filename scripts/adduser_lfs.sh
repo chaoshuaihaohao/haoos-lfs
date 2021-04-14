@@ -8,9 +8,16 @@ fi
 echo "export LFS=/mnt/lfs" >  ~/.bash_profile
 source ~/.bash_profile
 
-mkdir -pv $LFS/{bin,etc,lib,sbin,usr,var}
+mkdir -pv $LFS/{etc,var}
+mkdir -pv $LFS/usr/{bin,lib,lib32,libx32,sbin}
+ln -svf $LFS/usr/bin	$LFS/bin
+ln -svf $LFS/usr/lib	$LFS/lib
+ln -svf $LFS/usr/lib32	$LFS/lib32
+ln -svf $LFS/usr/libx32	$LFS/libx32
+ln -svf $LFS/usr/sbin	$LFS/sbin
+
 case $(uname -m) in
-  x86_64) mkdir -pv $LFS/lib64 ;;
+  x86_64) mkdir -pv $LFS/usr/lib64 && ln -svf lib64 $LFS/usr/lib64 ;;
 esac
 
 mkdir -pv $LFS/tools
