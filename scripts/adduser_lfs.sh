@@ -17,7 +17,7 @@ ln -svf $LFS/usr/libx32	$LFS/libx32
 ln -svf $LFS/usr/sbin	$LFS/sbin
 
 case $(uname -m) in
-  x86_64) mkdir -pv $LFS/usr/lib64 && ln -svf $LFS/usr/lib64 $LFS/lib64;;
+  x86_64) mkdir -pv $LFS/usr/lib64 && ln -svf lib64 $LFS/usr/lib64 ;;
 esac
 
 mkdir -pv $LFS/tools
@@ -31,6 +31,14 @@ useradd -s /bin/bash -g lfs -m -k /dev/null lfs
 echo "Please set the new account lfs's password:"
 passwd lfs
 
+#chown -v -R lfs $LFS/{usr,lib,var,etc,bin,sbin,tools}
+#chgrp -v -R lfs $LFS/{usr,lib,var,etc,bin,sbin,tools}
+#chown -R lfs $LFS/{bin,etc,lfs,lfs-sources.tar.gz,lib,lib64,sbin,sources,tools,usr,var}
+#chgrp -R lfs $LFS/{bin,etc,lfs,lfs-sources.tar.gz,lib,lib64,sbin,sources,tools,usr,var}
+#chown -v lfs $LFS/boot
+#chgrp -v lfs $LFS/boot
+#chown -v -R lfs $LFS
+#chgrp -v -R lfs $LFS
 chown -R lfs $LFS
 chgrp -R lfs $LFS
 case $(uname -m) in

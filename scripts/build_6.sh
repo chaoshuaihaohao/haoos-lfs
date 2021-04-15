@@ -62,8 +62,8 @@ make -C build/progs tic
 make
 make DESTDIR=$LFS TIC_PATH=$(pwd)/build/progs/tic install
 echo "INPUT(-lncursesw)" > $LFS/usr/lib/libncurses.so
-#mv -v $LFS/usr/lib/libncursesw.so.6* $LFS/lib
-#ln -sfv ../../lib/$(readlink $LFS/usr/lib/libncursesw.so) $LFS/usr/lib/libncursesw.so
+mv -v $LFS/usr/lib/libncursesw.so.6* $LFS/lib
+ln -sfv ../../lib/$(readlink $LFS/usr/lib/libncursesw.so) $LFS/usr/lib/libncursesw.so
 popd
 
 #6.4. Bash-5.1
@@ -74,7 +74,7 @@ pushd bash-5.1
             --without-bash-malloc
 make
 make DESTDIR=$LFS install
-#mv $LFS/usr/bin/bash $LFS/bin/bash
+mv $LFS/usr/bin/bash $LFS/bin/bash
 ln -sfv bash $LFS/bin/sh
 popd
 
@@ -90,11 +90,11 @@ patch -Np1 -i $LFS/sources/coreutils-8.32-i18n-1.patch
             --enable-no-install-program=kill,uptime
 make
 make DESTDIR=$LFS install
-#mv -v $LFS/usr/bin/{cat,chgrp,chmod,chown,cp,date,dd,df,echo} $LFS/bin
-#mv -v $LFS/usr/bin/{false,ln,ls,mkdir,mknod,mv,pwd,rm}        $LFS/bin
-#mv -v $LFS/usr/bin/{rmdir,stty,sync,true,uname}               $LFS/bin
-#mv -v $LFS/usr/bin/{head,nice,sleep,touch}                    $LFS/bin
-#mv -v $LFS/usr/bin/chroot                                     $LFS/usr/sbin
+mv -v $LFS/usr/bin/{cat,chgrp,chmod,chown,cp,date,dd,df,echo} $LFS/bin
+mv -v $LFS/usr/bin/{false,ln,ls,mkdir,mknod,mv,pwd,rm}        $LFS/bin
+mv -v $LFS/usr/bin/{rmdir,stty,sync,true,uname}               $LFS/bin
+mv -v $LFS/usr/bin/{head,nice,sleep,touch}                    $LFS/bin
+mv -v $LFS/usr/bin/chroot                                     $LFS/usr/sbin
 mkdir -pv $LFS/usr/share/man/man8
 mv -v $LFS/usr/share/man/man1/chroot.1                        $LFS/usr/share/man/man8/chroot.8
 sed -i 's/"1"/"8"/'                                           $LFS/usr/share/man/man8/chroot.8
@@ -131,7 +131,7 @@ pushd findutils-4.8.0
             --build=$(build-aux/config.guess)
 make
 make DESTDIR=$LFS install
-#mv -v $LFS/usr/bin/find $LFS/bin
+mv -v $LFS/usr/bin/find $LFS/bin
 sed -i 's|find:=${BINDIR}|find:=/bin|' $LFS/usr/bin/updatedb
 popd
 
@@ -160,7 +160,7 @@ pushd gzip-1.10
 make
 make DESTDIR=$LFS install
 #Move the executable to its final expected location:
-#mv -v $LFS/usr/bin/gzip $LFS/bin
+mv -v $LFS/usr/bin/gzip $LFS/bin
 popd
 
 #6.12. Make-4.3
@@ -214,9 +214,9 @@ pushd xz-5.2.5
 make
 make DESTDIR=$LFS install
 #Make sure that all essential files are in the correct directory:
-#mv -v $LFS/usr/bin/{lzma,unlzma,lzcat,xz,unxz,xzcat}  $LFS/bin
-#mv -v $LFS/usr/lib/liblzma.so.*                       $LFS/lib
-#ln -svf ../../lib/$(readlink $LFS/usr/lib/liblzma.so) $LFS/usr/lib/liblzma.so
+mv -v $LFS/usr/bin/{lzma,unlzma,lzcat,xz,unxz,xzcat}  $LFS/bin
+mv -v $LFS/usr/lib/liblzma.so.*                       $LFS/lib
+ln -svf ../../lib/$(readlink $LFS/usr/lib/liblzma.so) $LFS/usr/lib/liblzma.so
 popd
 
 #6.17. Binutils-2.36.1 - Pass 2
