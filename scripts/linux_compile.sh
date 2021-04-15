@@ -8,8 +8,10 @@ pushd /lfs
 pushd linux-5.10.17
 #make mrproper
 #need to copy a .config file from other place.
-cp /haoos/scripts/defconfig arch/x86/configs/x86_desktop_defconfig
-make x86_desktop_defconfig
+#cp /haoos/scripts/defconfig arch/x86/configs/x86_desktop_defconfig
+#make x86_desktop_defconfig
+##use the defconfig in linux kernel.
+make x86_64_defconfig
 #sed -i 's/CONFIG_SYSTEM_TRUSTED_KEYS\=\"debian\/canonical-certs.pem\"/CONFIG_SYSTEM_TRUSTED_KEYS\=\"\"/' .config
 #make menuconfig
 
