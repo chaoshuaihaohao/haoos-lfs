@@ -16,7 +16,7 @@ cp Makefile $LFS/haoos/
 cp scripts/* $LFS/haoos/scripts/
 
 #7.2. Changing Ownership
-chown -R root:root $LFS/{usr,lib,var,etc,bin,sbin,tools}
+chown -R root:root $LFS/{usr,var,etc,tools}
 case $(uname -m) in
   x86_64) chown -R root:root $LFS/lib64 ;;
 esac
