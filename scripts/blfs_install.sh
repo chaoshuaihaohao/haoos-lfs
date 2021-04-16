@@ -10,6 +10,57 @@ export MAKEFLAGS='-j4'
 export SOURCES=/blfs-sources
 pushd /lfs
 
+rm -rf libburn-1.5.4
+tar xf $SOURCES/libburn-1.5.4.tar.gz
+pushd libburn-1.5.4
+./configure --prefix=/usr --disable-static &&
+make
+#doxygen doc/doxygen.conf
+make install
+install -v -dm755 /usr/share/doc/libburn-1.5.4 &&
+#install -v -m644 doc/html/* /usr/share/doc/libburn-1.5.4
+popd
+rm -rf libburn-1.5.4
+
+rm -rf libisofs-1.5.4
+tar xf $SOURCES/libisofs-1.5.4.tar.gz
+pushd libisofs-1.5.4
+./configure --prefix=/usr --disable-static &&
+make
+#doxygen doc/doxygen.conf
+make install
+install -v -dm755 /usr/share/doc/libisofs-1.5.4 &&
+#install -v -m644 doc/html/* /usr/share/doc/libisofs-1.5.4
+popd
+rm -rf libisofs-1.5.4
+
+rm -rf libisoburn-1.5.4
+tar xf $SOURCES/libisoburn-1.5.4.tar.gz
+pushd libisoburn-1.5.4
+./configure --prefix=/usr              \
+            --disable-static           \
+            --enable-pkg-check-modules &&
+make
+#doxygen doc/doxygen.conf
+make install
+install -v -dm755 /usr/share/doc/libisoburn-1.5.4 &&
+#install -v -m644 doc/html/* /usr/share/doc/libisoburn-1.5.4
+popd
+rm -rf libisoburn-1.5.4
+
+#BLFS mkfs.fat command
+rm -rf dosfstools-4.2
+tar xf $SOURCES/dosfstools-4.2.tar.gz
+pushd dosfstools-4.2
+./configure --prefix=/               \
+            --enable-compat-symlinks \
+            --mandir=/usr/share/man  \
+            --docdir=/usr/share/doc/dosfstools-4.2 &&
+make
+make install
+popd
+rm -rf dosfstools-4.2
+
 #BLFS cpio,Linux compile need cpio
 rm -rf cpio-2.13
 tar xf $SOURCES/cpio-2.13.tar.bz2
