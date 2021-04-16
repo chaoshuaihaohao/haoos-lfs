@@ -16,6 +16,7 @@ esac
 
 mkdir -pv $LFS/tools
 
+#4.3. 添加 LFS 用户
 set +e
 userdel lfs
 set -e

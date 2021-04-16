@@ -1,17 +1,15 @@
 #!/bin/bash
 set -e
-#初始化日志文件并为其赋予适当的权限
+#7.6-2. 创建必要的文件和符号链接
 touch /var/log/{btmp,lastlog,faillog,wtmp}
 chgrp -v utmp /var/log/lastlog
 chmod -v 664  /var/log/lastlog
 chmod -v 600  /var/log/btmp
 
-
 export MAKEFLAGS='-j4'
 pushd /lfs
 
-
-#7.7. Libstdc++ from GCC-10.2.0, Pass 2
+#7.7. GCC-10.2.0 中的 Libstdc++，第二遍
 pushd gcc-10.2.0
 ln -svf gthr-posix.h libgcc/gthr-default.h
 rm build -rf
@@ -24,13 +22,10 @@ pushd build
     --disable-nls                    \
     --host=$(uname -m)-lfs-linux-gnu \
     --disable-libstdcxx-pch
-
 make
 make install
 popd #build
 popd #gcc-10.2.0
-
-
 
 #7.8. Gettext-0.21
 pushd gettext-0.21
@@ -39,8 +34,6 @@ make
 cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
 popd
 
-
-
 #7.9. Bison-3.7.5
 pushd bison-3.7.5
 ./configure --prefix=/usr \
@@ -48,8 +41,6 @@ pushd bison-3.7.5
 make
 make install
 popd
-
-
 
 #7.10. Perl-5.32.1
 pushd perl-5.32.1
@@ -66,19 +57,14 @@ make
 make install
 popd
 
-
-
 #7.11. Python-3.9.2
 pushd Python-3.9.2
 ./configure --prefix=/usr   \
             --enable-shared \
             --without-ensurepip
-
 make 
 make install
 popd
-
-
 
 #7.12. Texinfo-6.7
 pushd texinfo-6.7
@@ -86,7 +72,6 @@ pushd texinfo-6.7
 make 
 make install
 popd
-
 
 #7.13. Util-linux-2.36.2
 pushd util-linux-2.36.2
@@ -106,7 +91,6 @@ mkdir -pv /var/lib/hwclock
 make 
 make install
 popd
-
 
 popd #/lfs
 

@@ -55,7 +55,6 @@ make
 make install
 popd
 
-
 pushd wget-1.21.1
 ./configure --prefix=/usr      \
             --sysconfdir=/etc  \
@@ -89,6 +88,5 @@ pushd squashfs4.4/squashfs-tools
 make
 make install INSTALL_DIR=/usr/bin
 popd
-
 
 popd #LFS

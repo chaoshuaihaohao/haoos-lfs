@@ -25,7 +25,7 @@ export MAKEFLAGS='-j4'
 pushd $LFS/lfs
 
 
-#Chapter 6. Cross Compiling Temporary Tools
+#第 6 章 交叉编译临时工具
 
 #6.2. M4-1.4.18
 pushd m4-1.4.18
@@ -285,9 +285,5 @@ make DESTDIR=$LFS install
 ln -svf gcc $LFS/usr/bin/cc
 popd #build
 popd #gcc-10.2.0
-
-
-
-
 
 popd #$LFS/lfs

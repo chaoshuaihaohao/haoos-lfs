@@ -1,8 +1,7 @@
 #!/bin/bash
 set -e
-#Part IV. Building the LFS System
-#Chapter 8. Installing Basic System Software
-
+#第 IV 部分 构建 LFS 系统
+#第 8 章 安装基本系统软件
 export MAKEFLAGS='-j4'
 pushd /lfs
 
@@ -17,7 +16,7 @@ cp services protocols /etc
 popd
 
 #8.5. Glibc-2.33
-#8.5.1. Installation of Glibc
+#8.5.1. 安装 Glibc
 rm glibc-2.33 -rf
 tar xf /sources/glibc-2.33.tar.xz
 pushd glibc-2.33
@@ -69,8 +68,8 @@ localedef -i zh_CN -f GB18030 zh_CN.GB18030
 localedef -i zh_HK -f BIG5-HKSCS zh_HK.BIG5-HKSCS
 make localedata/install-locales
 
-#8.5.2. Configuring Glibc
-#8.5.2.1. Adding nsswitch.conf
+#8.5.2. 配置 Glibc
+#8.5.2.1. 创建 nsswitch.conf
 cat > /etc/nsswitch.conf << "EOF"
 # Begin /etc/nsswitch.conf
 
@@ -89,7 +88,7 @@ rpc: files
 # End /etc/nsswitch.conf
 EOF
 
-#8.5.2.2. Adding time zone data
+#8.5.2.2. 添加时区数据
 tar -xf /sources/tzdata2021a.tar.gz
 
 ZONEINFO=/usr/share/zoneinfo
@@ -109,7 +108,7 @@ unset ZONEINFO
 #read $zone
 ln -sfv /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
-#8.5.2.3. Configuring the Dynamic Loader
+#8.5.2.3. 配置动态加载器
 cat > /etc/ld.so.conf << "EOF"
 # Begin /etc/ld.so.conf
 /usr/local/lib
@@ -158,8 +157,6 @@ ln -sfv bzip2 /bin/bzcat
 rm -fv /usr/lib/libbz2.a
 popd
 
-
-
 #8.8. Xz-5.2.5
 pushd xz-5.2.5
 ./configure --prefix=/usr    \
@@ -183,7 +180,6 @@ mv -v /usr/lib/libzstd.so.* /lib
 ln -sfv ../../lib/$(readlink /usr/lib/libzstd.so) /usr/lib/libzstd.so
 popd
 
-
 #8.10. File-5.39
 rm file-5.39 -rf
 tar xf /sources/file-5.39.tar.gz
@@ -193,8 +189,6 @@ make
 #make check
 make install
 popd
-
-
 
 #8.11. Readline-8.1
 pushd readline-8.1
@@ -234,8 +228,6 @@ make test
 make install
 popd
 
-
-
 #8.14. Flex-2.6.4
 pushd flex-2.6.4
 ./configure --prefix=/usr \
@@ -246,8 +238,6 @@ make check
 make install
 ln -svf flex /usr/bin/lex
 popd
-
-
 
 #8.15. Tcl-8.6.11
 pushd tcl8.6.11
@@ -283,8 +273,6 @@ ln -sfv tclsh8.6 /usr/bin/tclsh
 mv /usr/share/man/man3/{Thread,Tcl_Thread}.3
 popd
 
-
-
 #8.16. Expect-5.45.4
 pushd expect5.45.4
 ./configure --prefix=/usr           \
@@ -298,8 +286,6 @@ make install
 ln -svf expect5.45.4/libexpect5.45.4.so /usr/lib
 popd
 
-
-
 #8.17. DejaGNU-1.6.2
 pushd dejagnu-1.6.2
 ./configure --prefix=/usr
@@ -310,8 +296,6 @@ install -v -dm755  /usr/share/doc/dejagnu-1.6.2
 install -v -m644   doc/dejagnu.{html,txt} /usr/share/doc/dejagnu-1.6.2
 #make check
 popd
-
-
 
 #8.18. Binutils-2.36.1
 pushd binutils-2.36.1
@@ -338,8 +322,6 @@ rm -fv /usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a
 popd #build
 popd
 
-
-
 #8.19. GMP-6.2.1
 pushd gmp-6.2.1
 ./configure --prefix=/usr    \
@@ -354,8 +336,6 @@ make install
 make install-html
 popd
 
-
-
 #8.20. MPFR-4.1.0
 pushd mpfr-4.1.0
 ./configure --prefix=/usr        \
@@ -369,8 +349,6 @@ make install
 make install-html
 popd
 
-
-
 #8.21. MPC-1.2.1
 pushd mpc-1.2.1
 ./configure --prefix=/usr    \
@@ -382,8 +360,6 @@ make html
 make install
 make install-html
 popd
-
-
 
 #8.22. Attr-2.4.48
 pushd attr-2.4.48
@@ -399,8 +375,6 @@ mv -v /usr/lib/libattr.so.* /lib
 ln -sfv ../../lib/$(readlink /usr/lib/libattr.so) /usr/lib/libattr.so
 popd
 
-
-
 #8.23. Acl-2.2.53
 pushd acl-2.2.53
 ./configure --prefix=/usr         \
@@ -414,8 +388,6 @@ mv -v /usr/lib/libacl.so.* /lib
 ln -sfv ../../lib/$(readlink /usr/lib/libacl.so) /usr/lib/libacl.so
 popd
 
-
-
 #8.24. Libcap-2.48
 pushd libcap-2.48
 sed -i '/install -m.*STA/d' libcap/Makefile
@@ -428,8 +400,6 @@ for libname in cap psx; do
     chmod -v 755 /lib/lib${libname}.so.2.48
 done
 popd
-
-
 
 #8.25. Shadow-4.8.1
 pushd shadow-4.8.1
@@ -448,15 +418,13 @@ touch /usr/bin/passwd
             --with-group-name-max-length=32
 make
 make install
-#8.25.2. Configuring Shadow
-#To enable shadowed passwords, run the following command:
+#8.25.2. 配置 Shadow
+#如果要对用户密码启用 Shadow 加密，执行以下命令：
 pwconv
-#To enable shadowed group passwords, run:
+#如果要对组密码启用 Shadow 加密，执行：
 grpconv
 #passwd root
 popd
-
-
 
 #8.26. GCC-10.2.0
 rm gcc-10.2.0 -rf
@@ -504,8 +472,6 @@ mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
 popd #build
 popd
 
-
-
 #8.27. Pkg-config-0.29.2
 pushd pkg-config-0.29.2
 ./configure --prefix=/usr              \
@@ -516,8 +482,6 @@ make
 #make check
 make install
 popd
-
-
 
 #8.28. Ncurses-6.2
 rm ncurses-6.2 -rf
@@ -547,8 +511,6 @@ mkdir -v       /usr/share/doc/ncurses-6.2
 cp -v -R doc/* /usr/share/doc/ncurses-6.2
 popd
 
-
-
 #8.29. Sed-4.8
 pushd sed-4.8
 ./configure --prefix=/usr --bindir=/bin
@@ -563,8 +525,6 @@ install -d -m755           /usr/share/doc/sed-4.8
 install -m644 doc/sed.html /usr/share/doc/sed-4.8
 popd
 
-
-
 #8.30. Psmisc-23.4
 pushd psmisc-23.4
 ./configure --prefix=/usr
@@ -573,8 +533,6 @@ make install
 mv -v /usr/bin/fuser   /bin
 mv -v /usr/bin/killall /bin
 popd
-
-
 
 #8.31. Gettext-0.21
 rm gettext-0.21 -rf
@@ -589,8 +547,6 @@ make install
 chmod -v 0755 /usr/lib/preloadable_libintl.so
 popd
 
-
-
 #8.32. Bison-3.7.5
 pushd bison-3.7.5
 ./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.7.5
@@ -599,8 +555,6 @@ make
 make install
 popd
 
-
-
 #8.33. Grep-3.6
 pushd grep-3.6
 ./configure --prefix=/usr --bindir=/bin
@@ -608,8 +562,6 @@ make
 #make check
 make install
 popd
-
-
 
 #8.34. Bash-5.1
 rm bash-5.1 -rf
@@ -627,7 +579,8 @@ make
 #PATH=$PATH make tests < $(tty)
 #EOF
 make install
+#安装该软件包，并把主要的可执行文件移动到 /bin：
 mv -vf /usr/bin/bash /bin
-#replacing the one that is currently being executed):
+#执行新编译的 bash 程序 (替换当前正在执行的版本)：
 exec /bin/bash --login +h
 popd

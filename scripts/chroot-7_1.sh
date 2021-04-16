@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-#7.5. Creating Directories
+#7.5. 创建目录
 mkdir -pv /{boot,home,mnt,opt,srv}
 mkdir -pv /etc/{opt,sysconfig}
 mkdir -pv /lib/firmware
@@ -19,7 +19,7 @@ ln -sfv /run/lock /var/lock
 install -dv -m 0750 /root
 install -dv -m 1777 /tmp /var/tmp
 
-#7.6. Creating Essential Files and Symlinks
+#7.6. 创建必要的文件和符号链接
 ln -sfv /proc/self/mounts /etc/mtab
 
 echo "127.0.0.1 localhost $(hostname)" > /etc/hosts
@@ -32,7 +32,6 @@ messagebus:x:18:18:D-Bus Message Daemon User:/run/dbus:/bin/false
 uuidd:x:80:80:UUID Generation Daemon User:/dev/null:/bin/false
 nobody:x:99:99:Unprivileged User:/dev/null:/bin/false
 EOF
-
 
 cat > /etc/group << "EOF"
 root:x:0:
@@ -61,7 +60,6 @@ wheel:x:97:
 nogroup:x:99:
 users:x:999:
 EOF
-
 
 echo "tester:x:$(ls -n $(tty) | cut -d" " -f3):101::/home/tester:/bin/bash" >> /etc/passwd
 echo "tester:x:101:" >> /etc/group
