@@ -38,7 +38,7 @@ system-conf:
 	./scripts/system_config.sh
 bootable:
 	./scripts/linux_compile.sh
-	./scripts/bootable.sh
+	./scripts/bootable-10.sh
 end:
 	./scripts/end.sh
 end1:
