@@ -12,13 +12,16 @@ sed -i 's/#PermitRootLogin\ prohibit-password/PermitRootLogin yes/' /etc/ssh/ssh
 systemctl restart sshd
 set -e
 
+#第 2 章 准备宿主系统
 echo "Please set the mount dev of lfs you want(such as '/dev/sdb' or '/dev/vdb':)"
 read lfs_dev
 #echo $lfs_dev
 
+#2.6. 设置 $LFS 环境变量
 echo "export LFS=/mnt/lfs" >  ~/.bash_profile
 source ~/.bash_profile
 
+#2.7. 挂载新的分区
 #磁盘分区,grub 300M, 交换分区2G, 其余的作为lfs构建分区
 fdisk $lfs_dev << EOF
 g
@@ -44,45 +47,26 @@ p
 w
 EOF
 
-#挂载boot分区，ext4文件系统格式
-#mkdir -pv $LFS/boot
-#set +e
-#echo ${lfs_dev}1
-#umount ${lfs_dev}1
-#mkfs -v -t ext4 ${lfs_dev}1
-#set -e
-#if [ ! "`grep "${lfs_dev}1  $LFS/boot ext4   defaults      1     1" /etc/fstab | head -1`" ];then
-#        echo "${lfs_dev}1  $LFS/boot ext4   defaults      1     1" >> /etc/fstab
-#fi
-
 #挂载efi分区
 set +e
-#umount ${lfs_dev}2
+umount ${lfs_dev}2
+set -e
 mkdir -pv $LFS/boot/efi
 mkfs.fat -v ${lfs_dev}2
-set -e
 if [ ! "`grep "${lfs_dev}2  /boot/efi  vfat      umask=0077     0     1" /etc/fstab | head -1`" ];then
 #	echo "${lfs_dev}2  /boot/efi  vfat      umask=0077     0     1" >> /etc/fstab
+	echo "${lfs_dev}2  /boot/efi  vfat      umask=0077     0     1"
 fi
-
-#挂载swap分区
-#set +e
-#umount ${lfs_dev}2
-#mkswap ${lfs_dev}2
-#/sbin/swapon -v ${lfs_dev}2
-#set -e
-#if [ ! "`grep "${lfs_dev}2  swap swap   defaults      0     0" /etc/fstab | head -1`" ];then
-#	echo "${lfs_dev}2  swap swap   defaults      0     0" >> /etc/fstab
-#fi
 
 #挂载lfs分区
 #mkdir -pv $LFS
 set +e
-#umount ${lfs_dev}3
+umount ${lfs_dev}3
 mkfs -v -t ext4 ${lfs_dev}3
 set -e
 if [ ! "`grep "${lfs_dev}3  $LFS ext4   defaults      1     1" /etc/fstab | head -1`" ];then
 #	echo "${lfs_dev}3  $LFS ext4   defaults      1     1" >> /etc/fstab
+	echo "${lfs_dev}3  $LFS ext4   defaults      1     1"
 fi
 mount ${lfs_dev}3 $LFS
 #mount -a

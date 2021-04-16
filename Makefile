@@ -1,34 +1,34 @@
 all:
 
 check:
-	./scripts/version-check.sh
+	./scripts/version-check-2_1.sh
 dep-install:
 	#安装依赖软件包
 	./scripts/dep_install.sh
 lfs-env-build:
 	#挂载lfs分区和swap分区
-	./scripts/mount_lfs_swap.sh
+	./scripts/mount_lfs_swap-2_2.sh
 	#解压缩获取源代码
-	./scripts/tar_xvf_sources.sh
+	./scripts/tar_xvf_sources-3.sh
 	#lfs账户配置
-	./scripts/adduser_lfs.sh
+	./scripts/adduser_lfs-4.sh
 
 build:
 	#源码包安装
-	./scripts/build_5.sh
-	./scripts/build_6.sh
+	./scripts/build-5.sh
+	./scripts/build-6.sh
 
 #chroot
 chroot:
-	./scripts/chroot.sh
+	./scripts/chroot-7.sh
 chroot1:
-	./scripts/chroot1.sh
+	./scripts/chroot-7_1.sh
 chroot-do:
-	./scripts/chroot_do.sh
+	./scripts/chroot_do-7_6.sh
 build-lfs:
-	./scripts/build_lfs_system.sh
+	./scripts/lfs_install-8_1.sh
 build-lfs1:
-	./scripts/build_lfs_system1.sh
+	./scripts/lfs_install-8_1.sh
 	./scripts/blfs_install.sh
 	./scripts/lfs_symbol_clean.sh
 chroot-again:
