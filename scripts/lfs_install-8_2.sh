@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 #Part IV. Building the LFS System
+if [ `id -u` != 0 ];then
+        echo Permission delay, Please run as root!
+        exit
+fi
 #Chapter 8. Installing Basic System Software
 
 export MAKEFLAGS='-j4'
