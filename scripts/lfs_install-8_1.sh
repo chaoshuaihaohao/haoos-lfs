@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 #第 IV 部分 构建 LFS 系统
+if [ `id -u` != 0 ];then
+        echo Permission delay, Please run as root!
+        exit
+fi
 #第 8 章 安装基本系统软件
 export MAKEFLAGS='-j4'
 pushd /lfs
