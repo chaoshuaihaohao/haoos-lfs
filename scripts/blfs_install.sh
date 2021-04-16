@@ -77,7 +77,6 @@ rm -rf cmake-3.19.5
 tar xf $SOURCES/cmake-3.19.5.tar.gz
 pushd cmake-3.19.5
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake &&
-
 ./bootstrap --prefix=/usr        \
             --system-libs        \
             --mandir=/share/man  \
@@ -124,6 +123,8 @@ rm -rf ethtool-5.10
 rm -rf cdrkit-release_1.1.11
 tar xf $SOURCES/cdrkit-release_1.1.11.tar.xz
 pushd cdrkit-release_1.1.11
+sed '1i CFLAGS += -fcommon' Makefile > Makefile-lfs-tmp
+mv Makefile-lfs-tmp Makefile
 make
 make install PREFIX=/usr
 ln -sfv  /usr/bin/genisoimage  /usr/bin/mkisofs
@@ -133,6 +134,8 @@ rm -rf cdrkit-release_1.1.11
 rm -rf squashfs4.4
 tar xf $SOURCES/squashfs4.4.tar.gz
 pushd squashfs4.4/squashfs-tools
+sed '1i CFLAGS += -fcommon' Makefile > Makefile-lfs-tmp
+mv Makefile-lfs-tmp Makefile
 make
 make install INSTALL_DIR=/usr/bin
 popd
