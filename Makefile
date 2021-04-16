@@ -39,6 +39,8 @@ system-conf:
 bootable:
 	./scripts/linux_compile.sh
 	./scripts/bootable-10.sh
+	./scripts/ramfsdisk-10_1.sh
+	./scripts/update-grub-10_2.sh
 end:
 	./scripts/end.sh
 end1:

@@ -362,4 +362,4 @@ exec switch_root /.root "$init" "$@"
 EOF
 
 mkinitramfs 5.10.17
-mv -v initrd.img-5.10.17 /boot/initrd.img-5.10.17-lfs-20210326-systemd
+mv -v initrd.img-5.10.17 /boot/initrd.img-5.10.17
