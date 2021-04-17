@@ -11,16 +11,16 @@ source ~/.bash_profile
 echo $LFS
 
 #do this if the dir is not link
-pushd $LFS
-mv lib/systemd/* lib/systemd/ && rm -rf lib/systemd
-mv lib/* usr/lib/ && rm -rf lib
-ln -svf usr/lib lib
-mkdir -vp usr/lib64
-mv lib64/* usr/lib64/ && rm -rf lib64
-ln -svf usr/lib64 lib64
-mv sbin/* usr/sbin/ && rm -rf sbin
-ln -svf usr/sbin sbin
-popd
+#pushd $LFS
+#mv lib/systemd/* lib/systemd/ && rm -rf lib/systemd
+#mv lib/* usr/lib/ && rm -rf lib
+#ln -svf usr/lib lib
+#mkdir -vp usr/lib64
+#mv lib64/* usr/lib64/ && rm -rf lib64
+#ln -svf usr/lib64 lib64
+#mv sbin/* usr/sbin/ && rm -rf sbin
+#ln -svf usr/sbin sbin
+#popd
 
 umount -Rv $LFS
 shutdown -r now

@@ -42,14 +42,14 @@ bootable:
 	./scripts/ramfsdisk-10_1.sh
 	./scripts/update-grub-10_2.sh
 end:
-	./scripts/end.sh
+	./scripts/end-11.sh
 end1:
 	#移除lfs文件系统不再使用的多余文件
 	./scripts/clean_used_file.sh
-	./scripts/end1.sh
+	./scripts/end-11_1.sh
 
 ramfs:
-	./scripts/ramfsdisk.sh
+	./scripts/ramfsdisk-10_1.sh
 
 
 unload-chroot:

@@ -116,7 +116,8 @@ mkdir bin etc lib proc sys
 #(2)
 cp -a /bin/{chgrp,cp,grep,mkdir,sed,dd} bin
 cp -a /bin/{cat,chmod,mount,sleep} bin
-cp -a /usr/bin/{touch,killall} bin
+#cp -a /usr/bin/{touch,killall} bin
+cp -a /bin/{touch,killall} bin
 cp -a /sbin/{switch_root,udevd,udevadm} bin
 cp -a /bin/bash bin
 #(3)
