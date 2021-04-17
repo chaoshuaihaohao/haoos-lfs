@@ -18,6 +18,6 @@ PRETTY_NAME="Linux From Scratch 10.1-systemd"
 VERSION_CODENAME="haoos-0.1"
 EOF
 
-rm -rf /lfs /sources /lfs-sources.tar.gz /haoos /tools
+#rm -rf /lfs /sources /lfs-sources.tar.gz /haoos /tools
 #logout
 exit
