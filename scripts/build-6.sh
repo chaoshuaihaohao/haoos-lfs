@@ -20,7 +20,13 @@ EOF
 
 source ~/.bashrc
 
-export MAKEFLAGS='-j64'
+if [ -n $JOBS ];then
+        JOBS=`grep -c ^processor /proc/cpuinfo 2>/dev/null`
+        if [ ! $JOBS ];then
+                JOBS="1"
+        fi
+fi
+export MAKEFLAGS=-j$JOBS
 export LFS_SRC_DIR=$LFS/sources/lfs-sources
 
 pushd $LFS/lfs

@@ -6,7 +6,15 @@ if [ `id -u` != 0 ];then
         exit
 fi
 #第 8 章 安装基本系统软件
-export MAKEFLAGS='-j4'
+if [ -n $JOBS ];then
+        JOBS=`grep -c ^processor /proc/cpuinfo 2>/dev/null`
+        if [ ! $JOBS ];then
+                JOBS="1"
+        fi
+fi
+export MAKEFLAGS=-j$JOBS
+
+export LFS_SRC_DIR=$LFS/sources/lfs-sources
 pushd /lfs
 
 #8.3. Man-pages-5.10
@@ -22,9 +30,9 @@ popd
 #8.5. Glibc-2.33
 #8.5.1. 安装 Glibc
 rm glibc-2.33 -rf
-tar xf /sources/glibc-2.33.tar.xz
+tar xf $LFS_SRC_DIR/glibc-2.33.tar.xz
 pushd glibc-2.33
-patch -Np1 -i /sources/glibc-2.33-fhs-1.patch
+patch -Np1 -i $LFS_SRC_DIR/glibc-2.33-fhs-1.patch
 sed -e '402a\      *result = local->data.services[database_index];' \
     -i nss/nss_database.c
 rm build -rf
@@ -93,7 +101,7 @@ rpc: files
 EOF
 
 #8.5.2.2. 添加时区数据
-tar -xf /sources/tzdata2021a.tar.gz
+tar -xf $LFS_SRC_DIR/tzdata2021a.tar.gz
 
 ZONEINFO=/usr/share/zoneinfo
 mkdir -pv $ZONEINFO/{posix,right}
@@ -143,9 +151,9 @@ popd
 
 #8.7. Bzip2-1.0.8
 rm bzip2-1.0.8 -rf
-tar xf /sources/bzip2-1.0.8.tar.gz
+tar xf $LFS_SRC_DIR/bzip2-1.0.8.tar.gz
 pushd bzip2-1.0.8
-patch -Np1 -i /sources/bzip2-1.0.8-install_docs-1.patch
+patch -Np1 -i $LFS_SRC_DIR/bzip2-1.0.8-install_docs-1.patch
 sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile
 sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
 make -f Makefile-libbz2_so
@@ -186,7 +194,7 @@ popd
 
 #8.10. File-5.39
 rm file-5.39 -rf
-tar xf /sources/file-5.39.tar.gz
+tar xf $LFS_SRC_DIR/file-5.39.tar.gz
 pushd file-5.39
 ./configure --prefix=/usr
 make
@@ -212,7 +220,7 @@ popd
 
 #8.12. M4-1.4.18
 rm m4-1.4.18 -rf
-tar xf /sources/m4-1.4.18.tar.xz
+tar xf $LFS_SRC_DIR/m4-1.4.18.tar.xz
 pushd m4-1.4.18
 sed -i 's/IO_ftrylockfile/IO_EOF_SEEN/' lib/*.c
 if [ ! "`grep -rn "#define _IO_IN_BACKUP 0x100" lib/stdio-impl.h | head -1`" ];then
@@ -245,7 +253,7 @@ popd
 
 #8.15. Tcl-8.6.11
 pushd tcl8.6.11
-tar -xf /sources/tcl8.6.11-html.tar.gz --strip-components=1
+tar -xf $LFS_SRC_DIR/tcl8.6.11-html.tar.gz --strip-components=1
 SRCDIR=$(pwd)
 cd unix
 ./configure --prefix=/usr           \
@@ -432,7 +440,7 @@ popd
 
 #8.26. GCC-10.2.0
 rm gcc-10.2.0 -rf
-tar xf /sources/gcc-10.2.0.tar.xz
+tar xf $LFS_SRC_DIR/gcc-10.2.0.tar.xz
 pushd gcc-10.2.0
 case $(uname -m) in
   x86_64)
@@ -489,7 +497,7 @@ popd
 
 #8.28. Ncurses-6.2
 rm ncurses-6.2 -rf
-tar xf /sources/ncurses-6.2.tar.gz
+tar xf $LFS_SRC_DIR/ncurses-6.2.tar.gz
 pushd ncurses-6.2
 ./configure --prefix=/usr           \
             --mandir=/usr/share/man \
@@ -540,7 +548,7 @@ popd
 
 #8.31. Gettext-0.21
 rm gettext-0.21 -rf
-tar xf /sources/gettext-0.21.tar.xz
+tar xf $LFS_SRC_DIR/gettext-0.21.tar.xz
 pushd gettext-0.21
 ./configure --prefix=/usr    \
             --disable-static \
@@ -569,7 +577,7 @@ popd
 
 #8.34. Bash-5.1
 rm bash-5.1 -rf
-tar xf /sources/bash-5.1.tar.gz
+tar xf $LFS_SRC_DIR/bash-5.1.tar.gz
 pushd bash-5.1
 sed -i  '/^bashline.o:.*shmbchar.h/a bashline.o: ${DEFDIR}/builtext.h' Makefile.in
 ./configure --prefix=/usr                    \
