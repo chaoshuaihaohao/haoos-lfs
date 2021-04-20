@@ -20,7 +20,7 @@ EOF
 
 source ~/.bashrc
 
-export MAKEFLAGS='-j4'
+export MAKEFLAGS='-j64'
 
 export LFS_SRC_DIR=$LFS/sources/lfs-sources
 pushd $LFS/lfs

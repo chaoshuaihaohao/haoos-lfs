@@ -1,3 +1,10 @@
+ifeq ($(JOBS),)
+  JOBS := $(shell  -c ^processor /proc/cpuinfo 2>/dev/null)
+  ifeq ($(JOBS),)
+    JOBS := 1
+  endif
+endif
+
 all:
 
 check:
