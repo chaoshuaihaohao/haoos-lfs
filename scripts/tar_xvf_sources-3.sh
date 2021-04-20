@@ -8,20 +8,25 @@ echo "export LFS=/mnt/lfs" >  ~/.bash_profile
 source ~/.bash_profile
 
 pushd $LFS
+tar xvf $LFS/sources.tar.xz
 
-tar xvf $LFS/lfs-sources.tar.gz
-chmod -v a+wt $LFS/sources
+pushd $LFS/sources
+tar xvf $LFS/sources/lfs-sources.tar.xz
+tar xvf $LFS/sources/blfs-sources.tar.xz
+popd #$LFS/sources
+
+chmod -v a+wt $LFS/sources/lfs-sources
 mkdir lfs && pushd lfs
-for tar_file in `ls $LFS/sources`
+for tar_file in `ls $LFS/sources/lfs-sources`
 do
 	echo $tar_file
 	if [ "$tar_file" != "tzdata2021a.tar.gz" ] && \
 		[ "$tar_file" != "tcl8.6.11-html.tar.gz" ]
 	then
-		#tar xvf $LFS/sources/$tar_file && rm $LFS/sources/$tar_file
-		tar xf $LFS/sources/$tar_file
+		#tar xvf $LFS/sources/lfs-sources/$tar_file && rm $LFS/sources/lfs-sources/$tar_file
+		tar xf $LFS/sources/lfs-sources/$tar_file
 	fi
 done
 popd #lfs
 
-popd
+popd #$lfs

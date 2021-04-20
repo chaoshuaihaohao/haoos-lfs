@@ -21,6 +21,7 @@ EOF
 source ~/.bashrc
 
 export MAKEFLAGS='-j4'
+export LFS_SRC_DIR=$LFS/sources/lfs-sources
 
 pushd $LFS/lfs
 
@@ -40,7 +41,7 @@ popd
 
 #6.3. Ncurses-6.2
 rm ncurses-6.2 -rf
-tar xf $LFS/sources/ncurses-6.2.tar.gz
+tar xf $LFS_SRC_DIR/ncurses-6.2.tar.gz
 pushd ncurses-6.2
 sed -i s/mawk// configure
 mkdir -v build
@@ -80,9 +81,9 @@ popd
 
 #6.5. Coreutils-8.32
 rm coreutils-8.32 -rf
-tar xf $LFS/sources/coreutils-8.32.tar.xz
+tar xf $LFS_SRC_DIR/coreutils-8.32.tar.xz
 pushd coreutils-8.32
-patch -Np1 -i $LFS/sources/coreutils-8.32-i18n-1.patch
+patch -Np1 -i $LFS_SRC_DIR/coreutils-8.32-i18n-1.patch
 ./configure --prefix=/usr                     \
             --host=$LFS_TGT                   \
             --build=$(build-aux/config.guess) \
@@ -109,7 +110,7 @@ popd
 
 #6.7. File-5.39
 rm file-5.39 -rf
-tar xf $LFS/sources/file-5.39.tar.gz
+tar xf $LFS_SRC_DIR/file-5.39.tar.gz
 pushd file-5.39
 mkdir -v build
 pushd build
@@ -175,9 +176,9 @@ popd
 
 #6.13. Patch-2.7.6
 rm patch-2.7.6 -rf
-tar xf $LFS/sources/patch-2.7.6.tar.xz
+tar xf $LFS_SRC_DIR/patch-2.7.6.tar.xz
 pushd patch-2.7.6
-patch -Np1 -i $LFS/sources/patch-2.7.6-util.patch
+patch -Np1 -i $LFS_SRC_DIR/patch-2.7.6-util.patch
 ./configure --prefix=/usr   \
             --host=$LFS_TGT \
             --build=$(build-aux/config.guess)
@@ -221,7 +222,7 @@ popd
 
 #6.17. Binutils-2.36.1 - Pass 2
 rm -rf binutils-2.36.1
-tar xf $LFS/sources/binutils-2.36.1.tar.xz
+tar xf $LFS_SRC_DIR/binutils-2.36.1.tar.xz
 pushd binutils-2.36.1
 mkdir -v build
 pushd build
@@ -242,13 +243,13 @@ popd #binutils-2.36.1
 
 #6.18. GCC-10.2.0 - Pass 2
 rm -rf gcc-10.2.0
-tar xf $LFS/sources/gcc-10.2.0.tar.xz
+tar xf $LFS_SRC_DIR/gcc-10.2.0.tar.xz
 pushd gcc-10.2.0
-tar -xf $LFS/sources/mpfr-4.1.0.tar.xz
+tar -xf $LFS_SRC_DIR/mpfr-4.1.0.tar.xz
 mv -v mpfr-4.1.0 mpfr
-tar -xf $LFS/sources/gmp-6.2.1.tar.xz
+tar -xf $LFS_SRC_DIR/gmp-6.2.1.tar.xz
 mv -v gmp-6.2.1 gmp
-tar -xf $LFS/sources/mpc-1.2.1.tar.gz
+tar -xf $LFS_SRC_DIR/mpc-1.2.1.tar.gz
 mv -v mpc-1.2.1 mpc
 
 case $(uname -m) in
