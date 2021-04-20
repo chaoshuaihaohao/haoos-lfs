@@ -20,7 +20,6 @@ for i in $DEP_PACKETS
 do
 	dpkg -s $i > /dev/null
 	if [ $? -ne 0 ];then
-		echo dpkg -s $i
-		apt -y $i
+		apt install -y $i
 	fi
 done
