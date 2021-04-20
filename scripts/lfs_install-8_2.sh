@@ -14,6 +14,9 @@ if [ -n $JOBS ];then
         fi
 fi
 export MAKEFLAGS=-j$JOBS
+
+export LFS_SRC_DIR=$LFS/sources/lfs-sources
+
 pushd /lfs
 
 #8.35. Libtool-2.4.6
@@ -74,7 +77,7 @@ popd
 
 #8.40. Perl-5.32.1
 rm perl-5.32.1 -rf
-tar xf /sources/perl-5.32.1.tar.xz
+tar xf $LFS_SRC_DIR/perl-5.32.1.tar.xz
 pushd perl-5.32.1
 export BUILD_ZLIB=False
 export BUILD_BZIP2=0
@@ -204,7 +207,7 @@ tar --strip-components=1  \
     --no-same-owner       \
     --no-same-permissions \
     -C /usr/share/doc/python-3.9.2/html \
-    -xvf /sources/python-3.9.2-docs-html.tar.bz2
+    -xvf $LFS_SRC_DIR/python-3.9.2-docs-html.tar.bz2
 popd
 
 #8.50. Ninja-1.10.2
@@ -234,9 +237,9 @@ popd
 
 #8.52. Coreutils-8.32
 rm coreutils-8.32 -rf
-tar xf /sources/coreutils-8.32.tar.xz
+tar xf $LFS_SRC_DIR/coreutils-8.32.tar.xz
 pushd coreutils-8.32
-patch -Np1 -i /sources/coreutils-8.32-i18n-1.patch
+patch -Np1 -i $LFS_SRC_DIR/coreutils-8.32-i18n-1.patch
 sed -i '/test.lock/s/^/#/' gnulib-tests/gnulib.mk
 autoreconf -fiv
 FORCE_UNSAFE_CONFIGURE=1 ./configure \
@@ -268,7 +271,7 @@ popd
 
 #8.54. Diffutils-3.7
 rm  diffutils-3.7 -rf
-tar xf /sources/diffutils-3.7.tar.xz
+tar xf $LFS_SRC_DIR/diffutils-3.7.tar.xz
 pushd diffutils-3.7
 ./configure --prefix=/usr
 make
@@ -289,7 +292,7 @@ popd
 
 #8.56. Findutils-4.8.0
 rm findutils-4.8.0 -rf
-tar xf /sources/findutils-4.8.0.tar.xz
+tar xf $LFS_SRC_DIR/findutils-4.8.0.tar.xz
 pushd findutils-4.8.0
 ./configure --prefix=/usr --localstatedir=/var/lib/locate
 make
@@ -332,7 +335,7 @@ popd
 
 #8.60. Gzip-1.10
 rm -rf gzip-1.10
-tar xf /sources/gzip-1.10.tar.xz
+tar xf $LFS_SRC_DIR/gzip-1.10.tar.xz
 pushd gzip-1.10
 ./configure --prefix=/usr
 make
@@ -352,9 +355,9 @@ popd
 
 #8.62. Kbd-2.4.0
 rm kbd-2.4.0 -rf
-tar xf /sources/kbd-2.4.0.tar.xz
+tar xf $LFS_SRC_DIR/kbd-2.4.0.tar.xz
 pushd kbd-2.4.0
-patch -Np1 -i /sources/kbd-2.4.0-backspace-1.patch
+patch -Np1 -i $LFS_SRC_DIR/kbd-2.4.0-backspace-1.patch
 sed -i '/RESIZECONS_PROGS=/s/yes/no/' configure
 sed -i 's/resizecons.8 //' docs/man/man8/Makefile.in
 ./configure --prefix=/usr --disable-vlock
@@ -383,7 +386,7 @@ popd
 
 #8.65. Patch-2.7.6
 rm -rf patch-2.7.6
-tar xf /sources/patch-2.7.6.tar.xz
+tar xf $LFS_SRC_DIR/patch-2.7.6.tar.xz
 pushd patch-2.7.6
 ./configure --prefix=/usr
 make
@@ -469,11 +472,11 @@ popd
 
 #8.70. Systemd-247
 rm systemd-247 -rf
-tar xf /sources/systemd-247.tar.gz
+tar xf $LFS_SRC_DIR/systemd-247.tar.gz
 pushd systemd-247
-patch -Np1 -i /sources/systemd-247-upstream_fixes-1.patch
+patch -Np1 -i $LFS_SRC_DIR/systemd-247-upstream_fixes-1.patch
 ln -sf /bin/true /usr/bin/xsltproc
-tar -xf /sources/systemd-man-pages-247.tar.xz
+tar -xf $LFS_SRC_DIR/systemd-man-pages-247.tar.xz
 sed '181,$ d' -i src/resolve/meson.build
 sed -i 's/GROUP="render"/GROUP="video"/' rules.d/50-udev-default.rules.in
 
@@ -551,7 +554,7 @@ mkdir -pv /lib/udev/rules.d
 mkdir -pv /etc/udev/rules.d
 #make check
 make install
-tar -xf /sources/udev-lfs-20171102.tar.xz
+tar -xf $LFS_SRC_DIR/udev-lfs-20171102.tar.xz
 make -f udev-lfs-20171102/Makefile.lfs install
 udevadm hwdb --update
 popd
