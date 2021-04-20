@@ -35,7 +35,7 @@ chroot-do:
 build-lfs:
 	./scripts/lfs_install-8_1.sh
 build-lfs1:
-	./scripts/lfs_install-8_1.sh
+	./scripts/lfs_install-8_2.sh
 	./scripts/blfs_install.sh
 	./scripts/lfs_symbol_clean.sh
 chroot-again:
