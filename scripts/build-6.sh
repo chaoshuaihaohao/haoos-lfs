@@ -20,7 +20,7 @@ EOF
 
 source ~/.bashrc
 
-export MAKEFLAGS='-j4'
+export MAKEFLAGS='-j64'
 export LFS_SRC_DIR=$LFS/sources/lfs-sources
 
 pushd $LFS/lfs
@@ -73,7 +73,7 @@ pushd bash-5.1
             --build=$(support/config.guess) \
             --host=$LFS_TGT                 \
             --without-bash-malloc
-make
+make -j1
 make DESTDIR=$LFS install
 mv $LFS/usr/bin/bash $LFS/bin/bash
 ln -sfv bash $LFS/bin/sh
