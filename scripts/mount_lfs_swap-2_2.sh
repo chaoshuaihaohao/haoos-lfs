@@ -77,5 +77,5 @@ VMWARE_IP=`hostname -I | sed 's/\ //g'`
 echo "Please set the host name and ip, such as "uos@10.16.5.206:""
 read HOST
 #scp $HOST:~/lfs-sources.tar.gz $VMWARE_NAME@$VMWARE_IP:$LFS/
-scp $HOST:~/lfs-sources.tar.gz $LFS/
-echo "scp $HOST:~/lfs-sources.tar.gz $VMWARE_NAME@$VMWARE_IP:$LFS/"
+scp $HOST:~/sources.tar.xz $LFS/
+echo "scp $HOST:~/sources.tar.xz $VMWARE_NAME@$VMWARE_IP:$LFS/"

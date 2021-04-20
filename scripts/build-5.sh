@@ -22,6 +22,7 @@ source ~/.bashrc
 
 export MAKEFLAGS='-j4'
 
+export LFS_SRC_DIR=$LFS/sources/lfs-sources
 pushd $LFS/lfs
 
 
@@ -30,7 +31,7 @@ pushd $LFS/lfs
 ##交叉编译工具安装到$LFS/tools目录下
 #5.2. Binutils-2.36.1 - Pass 1
 rm -rf binutils-2.36.1
-tar xf $LFS/sources/binutils-2.36.1.tar.xz
+tar xf $LFS_SRC_DIR/binutils-2.36.1.tar.xz
 pushd binutils-2.36.1
 mkdir -v build
 pushd build
@@ -47,13 +48,13 @@ popd #binutils-2.36.1
 
 #5.3. GCC-10.2.0 - Pass 1
 rm -rf gcc-10.2.0
-tar xf $LFS/sources/gcc-10.2.0.tar.xz
+tar xf $LFS_SRC_DIR/gcc-10.2.0.tar.xz
 pushd gcc-10.2.0
-tar -xf $LFS/sources/mpfr-4.1.0.tar.xz
+tar -xf $LFS_SRC_DIR/mpfr-4.1.0.tar.xz
 mv -v mpfr-4.1.0 mpfr
-tar -xf $LFS/sources/gmp-6.2.1.tar.xz
+tar -xf $LFS_SRC_DIR/gmp-6.2.1.tar.xz
 mv -v gmp-6.2.1 gmp
-tar -xf $LFS/sources/mpc-1.2.1.tar.gz
+tar -xf $LFS_SRC_DIR/mpc-1.2.1.tar.gz
 mv -v mpc-1.2.1 mpc
 
 case $(uname -m) in
@@ -98,7 +99,7 @@ popd #gcc
 
 #5.4. Linux-5.10.17 API Headers
 rm -rf linux-5.10.17
-tar xf $LFS/sources/linux-5.10.17.tar.xz
+tar xf $LFS_SRC_DIR/linux-5.10.17.tar.xz
 pushd linux-5.10.17
 #make mrproper
 make headers
@@ -116,7 +117,7 @@ fi
 
 #5.5. Glibc-2.33
 rm -rf glibc-2.33
-tar xf $LFS/sources/glibc-2.33.tar.xz
+tar xf $LFS_SRC_DIR/glibc-2.33.tar.xz
 pushd glibc-2.33
 case $(uname -m) in
     i?86)   ln -sfv ld-linux.so.2 $LFS/lib/ld-lsb.so.3
@@ -125,7 +126,7 @@ case $(uname -m) in
             ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64/ld-lsb-x86-64.so.3
     ;;
 esac
-patch -Np1 -i $LFS/sources/glibc-2.33-fhs-1.patch
+patch -Np1 -i $LFS_SRC_DIR/glibc-2.33-fhs-1.patch
 mkdir -v build
 pushd build
 
@@ -154,7 +155,7 @@ popd #glibc
 
 #5.6. Libstdc++ from GCC-10.2.0, Pass 1
 rm -rf gcc-10.2.0
-tar xf $LFS/sources/gcc-10.2.0.tar.xz
+tar xf $LFS_SRC_DIR/gcc-10.2.0.tar.xz
 pushd gcc-10.2.0
 mkdir -v build
 pushd build
