@@ -30,6 +30,8 @@ ls /dev/vdb
 
 ## 2. 准备虚拟机宿主环境
 
+如果之前构建过lfs系统，可以执行如下命令清除构建文件（该步骤可选）：
+
 ```
 #make distclean
 make clean
@@ -111,10 +113,14 @@ lfs@virt-PC:~$make build
 
 ### 7. 1进入 Chroot，chroot到/mnt/lfs环境
 
-`logout`切换到root@virt-PC:/home/virt/haoos-lfs#。
+`logout`或exit切换到root@virt-PC:/home/virt/haoos-lfs#。
 
 ```
-logout
+lfs@virt-PC:/home/virt/haoos-lfs$ logout
+bash: logout: 不是登录 shell: 使用 `exit'
+lfs@virt-PC:/home/virt/haoos-lfs$ exit
+exit
+virt@virt-PC:~/haoos-lfs$ 
 ```
 
 #chroot到/mnt/lfs
@@ -142,23 +148,18 @@ bash-5.1#make chroot-do
 ## 8. 安装基本系统软件
 
 ```
-bash-5.1#make build-lfs
+bash-5.1# make build-lfs
 ```
 
 结尾输出如下：
 
-rm
-accept
-csv
-cut
-
-...
+![image-20210416103212830](/home/uos/.config/Typora/typora-user-images/image-20210416103212830.png)
 
 以上输出结束后，**会进入新的bash环境**，目录是/lfs/bash-5.1，之后安装各种系统应用软件
 
 ```
-cd /haoos
-make build-lfs1
+bash-5.1# cd /haoos
+bash-5.1# make build-lfs1
 ```
 
 ![image-20210410164222444](/home/uos/.config/Typora/typora-user-images/image-20210410164222444.png)
@@ -176,7 +177,7 @@ logout
 进入chroot环境
 
 ```
-root@virt-PC:/home/virt/haoos-lfs#make chroot-again
+virt@virt-PC:~/haoos-lfs$ sudo make chroot-again
 ```
 
 ## 9.系统配置
@@ -192,28 +193,14 @@ root@virt-PC:/home/virt/haoos-lfs#make chroot-again
 
 为新的 LFS 系统构建内核，
 
+制作initramfs.img
+
 以及安装 GRUB 引导加载器，(需要fdisk /dev/vdb1分区为)
 
 使得系统引导时可以选择进入 LFS 系统。
 
 ```
 (lfs chroot) root:/haoos# make bootable
-```
-
-#生成initrd文件并修改grub.cfg
-
-当前通过拷贝/mnt/lfs/lib/modules/5.10.17到虚拟主机/lib/modules/目录下，然后
-
-```
-mkinitramfs -o /boot/initrd.img-5.10.17-lfs-20210326-systemd '5.10.17'
-```
-
-生成指定内核版本的initrd文件。
-
-grub.cfg需要添加：
-
-```
-initrd   /boot//boot/initrd.img-5.10.17-lfs-20210326-systemd
 ```
 
 注：
@@ -250,7 +237,13 @@ root@virt-PC:/home/virt/haoos-lfs# update-grub
 root@virt-PC:/home/virt/haoos-lfs# make end1
 ```
 
+# LIVECD制作
 
+```
+root@virt-PC:/home/virt/haoos-lfs# make livecd
+```
+
+![image-20210413160936269](/home/uos/.config/Typora/typora-user-images/image-20210413160936269.png)
 
 # 参考文献
 
@@ -267,6 +260,18 @@ https://bf.mengyan1223.wang/lfs/zh_CN/systemd/index.html
 http://www.linuxfromscratch.org/blfs/view/stable-systemd/
 
 [手把手教你构建自己的操作系统-孙海勇]
+
+[initrd/initramfs]
+
+http://www.linuxfromscratch.org/hints/downloads/files/initramfs.txt
+
+http://www.linuxfromscratch.org/hints/downloads/files/ATTACHMENTS/initramfs-scripts.tar.gz
+
+
+
+
+
+[BLFS-BOOK-10.1-systemd-nochunks.html](http://www.linuxfromscratch.org/blfs/downloads/10.1-systemd/BLFS-BOOK-10.1-systemd-nochunks.html)
 
 # 文献错误勘误
 
@@ -313,7 +318,11 @@ sudo cp /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 /mnt/lfs/tools/lib/gcc/x86_64-lf
 make INSTALL_MOD_STRIP=1 modules_install
 ```
 
+### 内核配置文件
 
+使用的ubuntu的配置文件，修改
+
+Kernel compression mode 为(xz)
 
 ## 缺少firmware
 
@@ -339,6 +348,22 @@ make INSTALL_MOD_STRIP=1 modules_install
 modprobe virtio_blk
 ```
 
+## initramfs
+
+### 按需加载固件
+
+获取ko依赖的firmware：
+
+modinfo ./kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko | grep firmware: | awk '{print $2}'
+
+```
+//todo
+```
+
+### break跳不出二重循环
+
+bash shell script (bash脚本)中，break是退出一层循环，break 2是退出2层循环（当有相互嵌套时）,....break: **break [n]** Exit for, while, or until loops. Exit a FOR, WHILE or UNTIL loop. If N is specified, break N enclosing loops. Exit.
+
 # 其他
 
 貌似内核必须支持initrd/initramfs.img。
@@ -360,4 +385,95 @@ make xxx > build_output_all.txt 2>&1
 找不到/dev/vdb3的原因是因为只剩一个磁盘，内核启动后，vdb名称变为了vda。
 
 grub.cfg要修改为通过UUID加载根文件系统增加容错性。
+
+
+
+#通过GRUB设置Linux终端分辨率
+
+[https://blog.csdn.net/Watanuki2006/article/details/52558318]
+
+linux 命令后面跟gfxpayload=1024x968x8,800x600
+
+## squashfs有报错
+
+Unrecognised xattr prefix system.posix_acl_access
+
+![image-20210420094138599](/home/uos/.config/Typora/typora-user-images/image-20210420094138599.png)
+
+# BLFS
+
+## 1)genisoimage编译报错
+
+[ 76%] Linking C executable genisoimage
+/usr/bin/ld: CMakeFiles/genisoimage.dir/apple.o:(.bss+0x0): multiple definition of `outfile'; CMakeFiles/genisoimage.dir/genisoimage.o:(.bss+0x0): first defined here
+
+报错原因参见：
+
+https://code.sigidli.com/bitcoin/bitcoin/commit/c7b4968552c704f1e2e9a046911e1207f5af5fe0?lang=en-US
+
+squashfs编译报错，同上。Makefile中添加CFLAGS +=-fcommon
+
+/usr/bin/ld: action.o:(.bss+0x0): multiple definition of `fwriter_buffer'; read_fs.o:(.bss+0x0): first defined here
+/usr/bin/ld: action.o:(.bss+0x8): multiple definition of `bwriter_buffer'; read_fs.o:(.bss+0x8): first defined here
+/usr/bin/ld: sort.o:(.bss+0x100000): multiple definition of `fwriter_buffer'; read_fs.o:(.bss+0x0): first defined here
+
+
+
+2)
+
+Size of boot image is 256 sectors -> genisoimage: Error - boot image 'iso/boot/livecd.img' has not an allowable size.
+
+修改
+
+mkisofs -R -boot-info-table -b boot/livecd.img -V "mylivecd" \
+        -o mylivecd.iso iso
+
+为
+
+mkisofs -R -boot-info-table -no-emul-boot -boot-load-size 4 -b boot/livecd.img -V "mylivecd" \
+        -o mylivecd.iso iso
+
+
+
+
+
+## 下载BLFS软件包源码
+
+另存网页http://www.linuxfromscratch.org/blfs/downloads/stable-systemd/BLFS-BOOK-10.1-systemd-nochunks.html
+
+为BLFS.html
+
+grep -r "Download (HTTP)" Beyond-Linux-From-Scratch-systemd-Edition.html  | awk -F '["]' '{ print $4 }' >blfs-wget-list
+
+wget -i blfs-wget-list
+
+
+
+## LIVECD
+
+### 找不到init文件
+
+虚拟机给的内存只有1G太小了，调整为4G后可以找到init文件
+
+### 没有/bin/bash文件，/bin/bash无法执行
+
+缺少库文件
+
+(lfs chroot) root:/haoos# ldd /opt/livecd/image/initramfs/bin/bash
+	linux-vdso.so.1 (0x00007ffdd05d2000)
+	libreadline.so.8 => /lib/libreadline.so.8 (0x00007f3d92141000)
+	libhistory.so.8 => /lib/libhistory.so.8 (0x00007f3d92134000)
+	libncursesw.so.6 => /lib/libncursesw.so.6 (0x00007f3d920c3000)
+	libdl.so.2 => /lib/libdl.so.2 (0x00007f3d920bd000)
+	libc.so.6 => /lib/libc.so.6 (0x00007f3d91ef4000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f3d9219d000)
+
+需要拷贝/lib64/ld-linux-x86-64.so.2及其相关的链接原文件。
+
+#cp -v /lib/ld-linux.so.2 lib/
+cp -v /lib/ld-2.33.so lib/
+cp -v /lib/ld-linux-x86-64.so.2 lib/
+cp -v /lib64/ld-linux-x86-64.so.2 lib64/
+
+注意：不是软链接的问题，软链接在chroot后也是有的。
 
