@@ -47,6 +47,8 @@ printf "Creating $INITRAMFS_FILE... "
 binfiles="sh cat cp dd killall ls mkdir mknod mount "
 binfiles="$binfiles umount sed sleep ln rm uname"
 binfiles="$binfiles readlink basename"
+#add by chenhao
+binfiles="$binfiles grep sed sleep touch chgrp chmod"
 
 # Systemd installs udevadm in /bin. Other udev implementations have it in /sbin
 if [ -x /bin/udevadm ] ; then binfiles="$binfiles udevadm"; fi
@@ -291,6 +293,45 @@ do_mount_root()
    fi
 }
 
+export SYSTEM=/SYSTEM
+do_mount_root_livecd()
+{
+mkdir -p ${SYSTEM} /mnt
+mount -t tmpfs tmpfs /mnt
+mkdir -p /mnt/{cdrom,system}
+CDROM_OK="F"
+while [ "${CDROM_OK}" = "F" ]
+do
+	for i in $(cat /proc/sys/dev/cdrom/info | grep "drive name" \
+		| sed 's@drive name:@@g')
+	do
+		LABEL=$(dd if=/dev/${i} bs=1 skip=32808 count=32 2>/dev/null)
+		LABEL=$(echo "${LABEL}" | grep -o "[^ ]\+\(\+[^ ]\+\)*")
+		if [ "${LABEL}" = "mylivecd" ]; then
+			mount -t iso9660 /dev/${i} /mnt/cdrom
+			break 2;
+		fi
+	done
+	if [ "${CDROM_OK}" = "F" ];then
+		sleep 3
+	fi
+done
+
+mount -t tmpfs tmpfs ${SYSTEM}
+mount -o loop -t squashfs /mnt/cdrom/SYSTEM.img /mnt/system
+#mount -t aufs -o dirs=${SYSTEM}=rw:mnt/system=ro aufs ${SYSTEM}
+mkdir -p ${SYSTEM}/{dev,proc,sys,tmp,mnt,initrd,home}
+
+mkdir -p ${SYSTEM}/var/{run,log,lock,mail,spool}
+mkdir -p ${SYSTEM}/var/{opt,cache,lib/{misc,locate},local}
+
+#touch ${SYSTEM}/var/run/utmp ${SYSTEM}/var/log/{btmp,lastlog,wtmp}
+#chgrp utmp ${SYSTEM}/var/run/utmp ${SYSTEM}/var/log/lastlog
+chmod 664 ${SYSTEM}/var/run/utmp ${SYSTEM}/var/log/lastlog
+chmod 1777 ${SYSTEM}/tmp
+chmod 0700 ${SYSTEM}/root
+}
+
 do_try_resume()
 {
    case "$resume" in
@@ -357,12 +398,14 @@ if [ -f /etc/mdadm.conf ] ; then mdadm -As                       ; fi
 if [ -x /sbin/vgchange  ] ; then /sbin/vgchange -a y > /dev/null ; fi
 if [ -n "$rootdelay"    ] ; then sleep "$rootdelay"              ; fi
 
-do_try_resume # This function will not return if resuming from disk
-do_mount_root
+#do_try_resume # This function will not return if resuming from disk
+#do_mount_root
+do_mount_root_livecd
 
 killall -w ${UDEVD##*/}
 
-exec switch_root /.root "$init" "$@"
+#exec switch_root /.root "$init" "$@"
+exec switch_root /mnt/system /sbin/init
 
 EOF
 
