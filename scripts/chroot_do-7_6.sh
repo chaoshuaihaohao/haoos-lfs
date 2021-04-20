@@ -6,7 +6,13 @@ chgrp -v utmp /var/log/lastlog
 chmod -v 664  /var/log/lastlog
 chmod -v 600  /var/log/btmp
 
-export MAKEFLAGS='-j4'
+if [ -n $JOBS ];then
+        JOBS=`grep -c ^processor /proc/cpuinfo 2>/dev/null`
+        if [ ! $JOBS ];then
+                JOBS="1"
+        fi
+fi
+export MAKEFLAGS=-j$JOBS
 pushd /lfs
 
 #7.7. GCC-10.2.0 中的 Libstdc++，第二遍

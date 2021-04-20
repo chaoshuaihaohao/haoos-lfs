@@ -7,7 +7,13 @@ if [ `id -u` != 0 ];then
 fi
 #Chapter 8. Installing Basic System Software
 
-export MAKEFLAGS='-j4'
+if [ -n $JOBS ];then
+        JOBS=`grep -c ^processor /proc/cpuinfo 2>/dev/null`
+        if [ ! $JOBS ];then
+                JOBS="1"
+        fi
+fi
+export MAKEFLAGS=-j$JOBS
 pushd /lfs
 
 #8.35. Libtool-2.4.6
