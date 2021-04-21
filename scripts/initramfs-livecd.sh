@@ -319,13 +319,13 @@ done
 
 mount -t tmpfs tmpfs ${SYSTEM}
 mount -o loop -t squashfs /mnt/cdrom/SYSTEM.img /mnt/system
-#mount -t aufs -o dirs=${SYSTEM}=rw:mnt/system=ro aufs ${SYSTEM}
+mount -t aufs -o dirs=${SYSTEM}=rw:mnt/system=ro aufs ${SYSTEM}
 mkdir -p ${SYSTEM}/{dev,proc,sys,tmp,mnt,initrd,home}
 
 mkdir -p ${SYSTEM}/var/{run,log,lock,mail,spool}
 mkdir -p ${SYSTEM}/var/{opt,cache,lib/{misc,locate},local}
 
-#touch ${SYSTEM}/var/run/utmp ${SYSTEM}/var/log/{btmp,lastlog,wtmp}
+touch ${SYSTEM}/var/run/utmp ${SYSTEM}/var/log/{btmp,lastlog,wtmp}
 #chgrp utmp ${SYSTEM}/var/run/utmp ${SYSTEM}/var/log/lastlog
 chmod 664 ${SYSTEM}/var/run/utmp ${SYSTEM}/var/log/lastlog
 chmod 1777 ${SYSTEM}/tmp
@@ -405,7 +405,9 @@ do_mount_root_livecd
 killall -w ${UDEVD##*/}
 
 #exec switch_root /.root "$init" "$@"
-exec switch_root /mnt/system /sbin/init
+#exec switch_root /mnt/system /sbin/init
+exec switch_root ${SYSTEM} /sbin/init
+
 
 EOF
 
