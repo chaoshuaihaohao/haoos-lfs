@@ -6,7 +6,7 @@
 
 百度网盘下载地址：
 
-链接: https://pan.baidu.com/s/1uzpjr-wnRAp4mlVUr5RuGQ  密码: v3j6
+链接: https://pan.baidu.com/s/1lybURDdTHm5wu5Q9k9etZQ  密码: gvc1
 
 下载到物理机的～目录下。
 
@@ -16,7 +16,7 @@
 
 https://ubuntu.com/download/desktop/thank-you/?version=20.10&architecture=amd64
 
-虚拟机需要新增一块磁盘/dev/vdb，建议**大小为40G+**（越大越好），linux内核编译比较耗费空间(20多G) 。
+虚拟机需要新增一块磁盘/dev/vdb用于lfs构建，建议**大小为40G+**（越大越好），linux内核编译比较耗费空间(20多G) 。
 
 磁盘分区规划为grub分区 300M, 交换分区2G, 其余的作为lfs构建分区。
 
@@ -29,6 +29,18 @@ ls /dev/vdb
 注：这里使用的磁盘总线类型都是VIRTIO，不是SATA。所以ubuntu20.10中的新增磁盘设备名不是/dev/sdb，是/dev/vdb。
 
 ## 2. 准备虚拟机宿主环境
+
+#安装工具
+
+```
+sudo apt update && sudo apt install git make vim
+```
+
+#下载haoos仓库
+
+```
+git clone https://github.com/chaoshuaihaohao/haoos-lfs.git
+```
 
 如果之前构建过lfs系统，可以执行如下命令清除构建文件（该步骤可选）：
 
@@ -207,7 +219,7 @@ virt@virt-PC:~/haoos-lfs$ sudo make chroot-again
 
 ​	initrd.img-`uname -r`和linux内核匹配的时候，grub-mkconfig生成的grug.cfg文件才会添加initrd部分。并且“root=”也是使用UUID而不是/dev/vdb。
 
-## 11. 尾声
+## 11. 尾声（可以不进行此步）
 
 创建一个 `/etc/lfs-release` 文件。
 
@@ -237,7 +249,7 @@ root@virt-PC:/home/virt/haoos-lfs# update-grub
 root@virt-PC:/home/virt/haoos-lfs# make end1
 ```
 
-# LIVECD制作
+## LIVECD制作
 
 ```
 root@virt-PC:/home/virt/haoos-lfs# make livecd
@@ -324,6 +336,26 @@ make INSTALL_MOD_STRIP=1 modules_install
 
 Kernel compression mode 为(xz)
 
+### 内核aufs文件系统适配
+
+git clone https://github.com/sfjro/aufs5-standalone.git
+
+pushd aufs5-standalone
+
+git checkout remotes/origin/aufs5.10
+
+cp -a fs/aufs linux-5.10.17/fs/
+
+cp -a include/* linux-5.10.17/include/
+
+patch -Np1 -i ../aufs5-standalone/aufs5-mmap.patch
+
+patch -Np1 -i ../aufs5-standalone/aufs5-standalone.patch
+
+patch -Np1 -i ../aufs5-standalone/aufs5-base.patch
+
+popd
+
 ## 缺少firmware
 
 需要自行下载linux-firmware安装
@@ -399,6 +431,14 @@ linux 命令后面跟gfxpayload=1024x968x8,800x600
 Unrecognised xattr prefix system.posix_acl_access
 
 ![image-20210420094138599](/home/uos/.config/Typora/typora-user-images/image-20210420094138599.png)
+
+## 脚本命令行修改密码
+
+```
+chpasswd user_name:password
+```
+
+https://blog.csdn.net/weixin_33912453/article/details/91556417
 
 # BLFS
 
