@@ -84,49 +84,43 @@ CURRENT_DIR=`dirname $0`
 . $CURRENT_DIR/initramfs-livecd.sh
 #done
 
+#将所需的文件和目录制作成镜像文件
 pushd ${LIVECD}/system
-
-#将所需的文件和目录制作成景象文件
 mksquashfs * ${LIVECD}/iso/SYSTEM.img
-
 popd #${LIVECD}/system
 
-pushd ${LIVECD}/iso
 #grub2 install
+pushd ${LIVECD}/iso
 #1
 #mkdir -p boot/grub
-#2
-#cp -a /usr/lib/grub/i386-pc/*.mod boot/grub
-#cp -a /usr/lib/grub/i386-pc/*.lst boot/grub
-cp -a /usr/lib/grub/i386-pc boot/grub/
-#grub-install $DEVICE --boot-directory=boot
+#2安装grub2的模块文件
+cp -rf ${LIVECD}/system/usr/lib/grub boot/
 
-#3
+#3创建GRUB-2的启动配置文件
 cat > ${LIVECD}/iso/boot/grub/grub.cfg << "EOF"
 set default=0
 set timeout=5
 menuentry "My LiveCD with Initramfs" {
 	set gfxpayload=keep
+	echo    '载入 Linux 5.10.17 ...'
 	linux	/live/livecd-kernel
+	echo    '载入初始化内存盘...'
 	initrd	/live/livecd-initramfs.img
 }
-menuentry 'Check ISO Md5 '{
-linux /live/vmlinuz console=tty quiet splash livecd-installer locales=zh_CN.UTF-8 boot=live init=/usr/bin/deepinisocheck.sh
-initrd /live/initrd.img
-boot
+menuentry '重启 '{
+	reboot
 }
 
 insmod vbe
 set gfxpayload=800x600x16
 EOF
 
-#4
-set -x
-export LIVECD=/opt/livecd/
-grub-mkimage -o ${LIVECD}/core.img -p ${LIVECD} -O i386-pc iso9660 linux biosdisk
+#4创建LiveCD启动文件
+#-p --prefix-directory.Set the $prefix variable
+export PREFIX=/boot/grub
+grub-mkimage -o ${LIVECD}/core.img -p $PREFIX -O i386-pc iso9660 linux biosdisk
 cat /usr/lib/grub/i386-pc/cdboot.img ${LIVECD}/core.img \
 	> ${LIVECD}/iso/boot/livecd.img
-set +x
 popd #${LIVECD}/iso
 
 #generate iso file
