@@ -37,8 +37,14 @@ export DOWNLOAD_DIR=${LIVECD}/download
 #livecd filesystem build
 pushd ${LIVECD}/system
 echo "copying the files to system..."
-cp -a /{bin,dev,etc,home,lib,lib64,run,sbin,tmp,usr,var} ./
-mkdir -vp media mnt opt proc root srv sys
+#cp -a /{bin,dev,etc,home,lib,lib64,run,sbin,tmp,usr,var} ./
+cp -a /{bin,dev,etc,lib,lib64,run,sbin,tmp,usr,var} ./
+mkdir -vp media mnt opt proc root srv sys home
+#创建默认用户haoos和root，密码为1
+chroot ${LIVECD}/system groupadd haoos
+chroot ${LIVECD}/system useradd -m -d /home/haoos -g haoos haoos
+chroot ${LIVECD}/system echo root:1 | chpasswd
+#chroot ${LIVECD}/system echo haoos:1 | chpasswd
 
 rm -rf usr/src
 rm -rf lib/modules
