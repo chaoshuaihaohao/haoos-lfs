@@ -64,3 +64,6 @@ clean:
 
 livecd:
 	./scripts/livecd.sh
+
+backup:
+	./scripts/backup_sources.sh
