@@ -93,13 +93,22 @@ popd #${LIVECD}/system
 pushd ${LIVECD}/iso
 #1
 #mkdir -p boot/grub
-#2安装grub2的模块文件
-cp -rf ${LIVECD}/system/usr/lib/grub boot/
+#2安装grub2的模块文件,这里从lfs系统拷贝，system没有字体文件。
+cp -av /boot/grub boot/
 
 #3创建GRUB-2的启动配置文件
 cat > ${LIVECD}/iso/boot/grub/grub.cfg << "EOF"
 set default=0
 set timeout=5
+insmod vbe
+insmod font
+if loadfont /boot/grub/fonts/unicode.pf2
+then
+	insmod gfxterm
+	set gfxmode=auto
+	set gfxpayload=keep
+	terminal_output gfxterm
+fi
 menuentry "My LiveCD with Initramfs" {
 	set gfxpayload=keep
 	echo    '载入 Linux 5.10.17 ...'
@@ -110,9 +119,6 @@ menuentry "My LiveCD with Initramfs" {
 menuentry '重启 '{
 	reboot
 }
-
-insmod vbe
-set gfxpayload=800x600x16
 EOF
 
 #4创建LiveCD启动文件
