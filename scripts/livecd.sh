@@ -109,7 +109,21 @@ then
 	set gfxpayload=keep
 	terminal_output gfxterm
 fi
-menuentry "My LiveCD with Initramfs" {
+insmod gfxmenu
+loadfont ($root)/boot/grub/themes/Cyberpunk/Blender_Pro_Book_12.pf2
+loadfont ($root)/boot/grub/themes/Cyberpunk/Blender_Pro_Book_14.pf2
+loadfont ($root)/boot/grub/themes/Cyberpunk/Blender_Pro_Book_16.pf2
+loadfont ($root)/boot/grub/themes/Cyberpunk/Blender_Pro_Book_24.pf2
+loadfont ($root)/boot/grub/themes/Cyberpunk/Blender_Pro_Book_32.pf2
+loadfont ($root)/boot/grub/themes/Cyberpunk/Blender_Pro_Book_48.pf2
+loadfont ($root)/boot/grub/themes/Cyberpunk/terminus-12.pf2
+loadfont ($root)/boot/grub/themes/Cyberpunk/terminus-14.pf2
+loadfont ($root)/boot/grub/themes/Cyberpunk/terminus-16.pf2
+loadfont ($root)/boot/grub/themes/Cyberpunk/terminus-18.pf2
+insmod png
+set theme=($root)/boot/grub/themes/Cyberpunk/theme.txt
+export theme
+menuentry "HaoOS's LiveCD" {
 	set gfxpayload=keep
 	echo    '载入 Linux 5.10.17 ...'
 	linux	/live/livecd-kernel
