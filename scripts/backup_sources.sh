@@ -7,7 +7,7 @@ fi
 
 
 #备份软件包sources
-if [ -d $LFS ];then
+if [ -d /mnt/lfs ];then
 	export LFS=/mnt/lfs
 else
 	export LFS=/
