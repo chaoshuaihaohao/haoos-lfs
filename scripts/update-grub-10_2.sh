@@ -6,8 +6,8 @@ set -e
 pushd /tmp
 grub-mkrescue --output=grub-img.iso
 grub-install /dev/vdb -v
-#添加grub字体文件
-tar xf /sources/other-sources/grub-fonts.tar.xz -C /boot/grub/
-mv /boot/grub/grub-fonts /boot/grub/fonts
+#给lfs系统添加grub字体文件
+tar xf /sources/other-sources/grub-fonts.tar.xz -C /lfs
+mv -v -T /lfs/grub-fonts /boot/grub/fonts
 grub-mkconfig -o /boot/grub/grub.cfg
 popd
