@@ -101,16 +101,31 @@ loadfont /boot/grub/fonts/unifont.pf2
 ```
 
 ```
-font=unicode
-set gfxmode=auto
-if loadfont $font ; then
-	set gfxmode=1920x1080
-	load_video
-	insmod gfxterm
-	set locale_dir=$prefix/locale
-	set lang=zh_CN
-	insmod gettext
-	echo
+grub-mkfont -s 16 -o unicode.pf2 simsun.ttc
+simsun.ttc可以是其他支持中文的字体，比如雅黑，文泉驿等……
+
+bios平台的：
+insmod vbe
+insmod font
+if loadfont /boot/fonts/unicode.pf2
+then
+    insmod gfxterm
+    set gfxmode=auto
+    set gfxpayload=keep
+    terminal_output gfxterm
+fi
+
+
+UEFI平台的：
+insmod efi_gop
+insmod efi_uga
+insmod font
+if loadfont /boot/fonts/unicode.pf2
+then
+    insmod gfxterm
+    set gfxmode=auto
+    set gfxpayload=keep
+    terminal_output gfxterm
 fi
 ```
 
@@ -125,6 +140,8 @@ sudo apt install fontforge
 
 
 ## 参考文献
+
+[关于grub2显示中文菜单](http://bbs.wuyou.net/forum.php?mod=viewthread&tid=308028)
 
 [[Linux字体美化实战(Fontconfig配置)](http://www.jinbuguo.com/gui/linux_fontconfig.html)]
 
