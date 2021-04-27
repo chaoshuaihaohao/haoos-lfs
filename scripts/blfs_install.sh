@@ -198,4 +198,14 @@ make install INSTALL_DIR=/usr/bin
 popd
 rm -rf squashfs4.4
 
+rm -rf which-2.21
+tar xf $BLFS_SRC_DIR/which-2.21.tar.gz
+pushd which-2.21
+./configure --prefix=/usr &&
+make
+make install
+popd
+rm -rf which-2.21
+
+
 popd #LFS
