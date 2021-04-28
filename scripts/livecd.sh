@@ -143,6 +143,9 @@ cat /usr/lib/grub/i386-pc/cdboot.img ${LIVECD}/core.img \
 	> ${LIVECD}/iso/boot/livecd.img
 popd #${LIVECD}/iso
 
+#添加UEFI启动支持
+tar xf /sources/other-sources/EFI.tar.xz -C ${LIVECD}/iso/
+
 #generate iso file
 pushd ${LIVECD}
 mkisofs -R -boot-info-table -no-emul-boot -boot-load-size 4 -b boot/livecd.img -V "mylivecd" \
