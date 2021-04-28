@@ -328,7 +328,7 @@ fi
 #(2)通过在U盘中放置标记文件识别U盘设备
 for i in $(find /sys/block/sd*)
 do
-  REMOVEABLE=$(cat $i/removeable)
+  REMOVEABLE=$(cat $i/removable)
   if [ "${REMOVEABLE}" = "1" ];then
     for j in $(blkid /dev/$(basename $i)* -o device)
     do
