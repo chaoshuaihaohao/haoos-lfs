@@ -67,6 +67,8 @@ clean:
 
 livecd:
 	./scripts/livecd.sh
+liveusb:
+	./scripts/liveusb.sh
 
 backup:
 	./scripts/backup_sources.sh
