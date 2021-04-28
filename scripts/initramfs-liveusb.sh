@@ -242,7 +242,6 @@ cat > ${TMP_DIR}/usr/share/mkinitramfs/init.in << "EOF"
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 export PATH
 
-#
 problem()
 {
    printf "Encountered a problem!\n\nDropping you to a shell.\n\n"
@@ -385,7 +384,10 @@ resume=
 noresume=false
 
 modprobe virtio_blk
+modprobe usb_storage
+modprobe ahci
 
+#挂载必要的文件系统
 mount -n -t devtmpfs devtmpfs /dev
 mount -n -t proc     proc     /proc
 mount -n -t sysfs    sysfs    /sys
