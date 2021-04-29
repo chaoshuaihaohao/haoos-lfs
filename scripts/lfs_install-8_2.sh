@@ -537,28 +537,6 @@ ln -sfv ../../lib/$(readlink /usr/lib/libdbus-1.so) /usr/lib/libdbus-1.so
 ln -sfv /etc/machine-id /var/lib/dbus
 popd
 
-#8.70. Eudev-3.2.10
-pushd eudev-3.2.10
-./configure --prefix=/usr           \
-            --bindir=/sbin          \
-            --sbindir=/sbin         \
-            --libdir=/usr/lib       \
-            --sysconfdir=/etc       \
-            --libexecdir=/lib       \
-            --with-rootprefix=      \
-            --with-rootlibdir=/lib  \
-            --enable-manpages       \
-            --disable-static
-make
-mkdir -pv /lib/udev/rules.d
-mkdir -pv /etc/udev/rules.d
-#make check
-make install
-tar -xf $LFS_SRC_DIR/udev-lfs-20171102.tar.xz
-make -f udev-lfs-20171102/Makefile.lfs install
-udevadm hwdb --update
-popd
-
 #8.72. Procps-ng-3.3.17
 pushd procps-3.3.17
 ./configure --prefix=/usr                            \
