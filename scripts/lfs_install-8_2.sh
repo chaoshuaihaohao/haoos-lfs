@@ -187,6 +187,7 @@ make
 #make test
 sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
+rm -rf /usr/share/doc/openssl-1.1.1j
 mv -v /usr/share/doc/openssl /usr/share/doc/openssl-1.1.1j
 cp -vfr doc/* /usr/share/doc/openssl-1.1.1j
 popd
@@ -211,6 +212,8 @@ tar --strip-components=1  \
 popd
 
 #8.50. Ninja-1.10.2
+rm -rf ninja-1.10.2
+tar xf $LFS_SRC_DIR/ninja-1.10.2.tar.gz
 pushd ninja-1.10.2
 export NINJAJOBS=4
 sed -i '/int Guess/a \
@@ -227,6 +230,7 @@ install -vm755 ninja /usr/bin/
 install -vDm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
 install -vDm644 misc/zsh-completion  /usr/share/zsh/site-functions/_ninja
 popd
+rm -rf ninja-1.10.2
 
 #8.51. Meson-0.57.1
 pushd meson-0.57.1
@@ -286,6 +290,7 @@ sed -i 's/extras//' Makefile.in
 make
 #make check
 make install
+rm -rf /usr/share/doc/gawk-5.1.0
 mkdir -v /usr/share/doc/gawk-5.1.0
 cp    -v doc/{awkforai.txt,*.{eps,pdf,jpg}} /usr/share/doc/gawk-5.1.0
 popd
@@ -364,6 +369,7 @@ sed -i 's/resizecons.8 //' docs/man/man8/Makefile.in
 make
 #make check
 make install
+rm -rf /usr/share/doc/kbd-2.4.0
 mkdir -v            /usr/share/doc/kbd-2.4.0
 cp -R -v docs/doc/* /usr/share/doc/kbd-2.4.0
 popd
@@ -439,6 +445,8 @@ make TEXMF=/usr/share/texmf install-tex
 popd
 
 #8.69. Vim-8.2.2433
+rm -rf vim-8.2.2433
+tar xf $LFS_SRC_DIR/vim-8.2.2433.tar.gz
 pushd vim-8.2.2433
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 ./configure --prefix=/usr
@@ -448,7 +456,7 @@ make
 make install
 ln -sfv vim /usr/bin/vi
 for L in  /usr/share/man/{,*/}man1/vim.1; do
-    ln -sv vim.1 $(dirname $L)/vi.1
+    ln -sfv vim.1 $(dirname $L)/vi.1
 done
 ln -sfv ../vim/vim82/doc /usr/share/doc/vim-8.2.2433
 cat > /etc/vimrc << "EOF"
