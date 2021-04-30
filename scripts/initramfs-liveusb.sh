@@ -189,10 +189,14 @@ fi
 # Install the kernel modules if requested
 if [ -n "$KERNEL_VERSION" ]; then
   find                                                                        \
+     /lib/modules/$KERNEL_VERSION/kernel/{acpi}					\
      /lib/modules/$KERNEL_VERSION/kernel/{crypto,fs,lib}                      \
      /lib/modules/$KERNEL_VERSION/kernel/drivers/{block,ata,md,firewire}      \
      /lib/modules/$KERNEL_VERSION/kernel/drivers/{scsi,message,pcmcia,virtio} \
      /lib/modules/$KERNEL_VERSION/kernel/drivers/usb/{host,storage}           \
+     /lib/modules/$KERNEL_VERSION/kernel/drivers/{hid,input}		      \
+     /lib/modules/$KERNEL_VERSION/kernel/drivers/{gpu,video,media,iommu}			      \
+     /lib/modules/$KERNEL_VERSION/kernel/drivers/i2c			      \
      -type f 2> /dev/null | cpio --make-directories -p --quiet $WDIR
 
   cp /lib/modules/$KERNEL_VERSION/modules.{builtin,order}                     \
@@ -310,6 +314,11 @@ else
 	sleep ${DELAY}
 fi
 
+
+   case "$haoos-mode" in
+      initramfs ) echo "Go to initramfs mode..." ; exec sh ;;
+   esac
+
 #搜索LiveUSB所在的U盘设备
 #（1）UUID编号识别。
 #UUID=$(cat /proc/cmdline | awk -F'UUID=' '{print $2}' \
@@ -383,9 +392,32 @@ device=
 resume=
 noresume=false
 
+#
+modprobe nls_iso8859-1
+modprobe dm-mirror
+modprobe i2c-i801
+#加载必要的磁盘block驱动
 modprobe virtio_blk
 modprobe usb_storage
+modprobe uas
 modprobe ahci
+modprobe xhci-pci
+modprobe nvme
+
+#添加必要的显卡驱动
+modprobe drm
+modprobe radeon
+modprobe amdgpu
+#modprobe i915
+#modprobe virtio-gpu
+modprobe video
+
+#加载必要的USB键盘驱动
+modprobe psmouse
+modprobe hid-generic
+modprobe usbkbd
+modprobe usbmouse
+modprobe usbhid
 
 #挂载必要的文件系统
 mount -n -t devtmpfs devtmpfs /dev
