@@ -6,13 +6,15 @@ set -e
 pushd /tmp
 grub-mkrescue --output=grub-img.iso
 popd
+
 grub-install /dev/vdb -v
 #给lfs系统添加grub字体文件
 tar xf /sources/other-sources/grub-fonts.tar.xz -C /lfs
 rm -rf /boot/grub/fonts
 mv -v -T /lfs/grub-fonts /boot/grub/fonts
+
 #给lfs系统添加grub主题文件
-tar xf /sources/other-sources/grub-theme.tar.xz
+tar xf /sources/other-sources/grub-theme.tar.xz -C /lfs
 unzip /lfs/grub-theme/Cyberpunk-Theme-v0.5-1080.zip
 
 #THEME_DIR="/usr/share/grub/themes"
