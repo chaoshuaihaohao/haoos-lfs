@@ -314,11 +314,6 @@ else
 	sleep ${DELAY}
 fi
 
-
-   case "$haoos-mode" in
-      initramfs ) echo "Go to initramfs mode..." ; exec sh ;;
-   esac
-
 #搜索LiveUSB所在的U盘设备
 #（1）UUID编号识别。
 #UUID=$(cat /proc/cmdline | awk -F'UUID=' '{print $2}' \
@@ -438,6 +433,7 @@ for param in $cmdline ; do
     noresume    ) noresume=true                   ;;
     ro          ) ro="ro"                         ;;
     rw          ) ro="rw"                         ;;
+    initramfs   ) echo "Go to initramfs mode..." ; exec sh ;;
   esac
 done
 
