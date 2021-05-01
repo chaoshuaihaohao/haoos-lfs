@@ -31,7 +31,9 @@ build-lfs1:
 	./scripts/lfs_install-8_2.sh
 	./scripts/blfs_install.sh
 	./scripts/blfs_install-4-security.sh
+	./scripts/blfs_install-11-General-Utilities.sh
 	./scripts/blfs_install-12-system-utilities.sh
+	./scripts/blfs_install-13-programming.sh
 	./scripts/blfs_install-14-connecting-network.sh
 	./scripts/lfs_symbol_clean.sh
 chroot-again:
