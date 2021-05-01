@@ -48,7 +48,7 @@ binfiles="sh cat cp dd killall ls mkdir mknod mount "
 binfiles="$binfiles umount sed sleep ln rm uname"
 binfiles="$binfiles readlink basename"
 #add by chenhao
-binfiles="$binfiles grep sed awk sleep touch chgrp chmod find"
+binfiles="$binfiles grep sed awk sleep touch chgrp chmod find reboot poweroff ps top"
 
 # Systemd installs udevadm in /bin. Other udev implementations have it in /sbin
 if [ -x /bin/udevadm ] ; then binfiles="$binfiles udevadm"; fi
@@ -189,14 +189,7 @@ fi
 # Install the kernel modules if requested
 if [ -n "$KERNEL_VERSION" ]; then
   find                                                                        \
-     /lib/modules/$KERNEL_VERSION/kernel/{acpi}					\
-     /lib/modules/$KERNEL_VERSION/kernel/{crypto,fs,lib}                      \
-     /lib/modules/$KERNEL_VERSION/kernel/drivers/{block,ata,md,firewire}      \
-     /lib/modules/$KERNEL_VERSION/kernel/drivers/{scsi,message,pcmcia,virtio} \
-     /lib/modules/$KERNEL_VERSION/kernel/drivers/usb/{host,storage}           \
-     /lib/modules/$KERNEL_VERSION/kernel/drivers/{hid,input}		      \
-     /lib/modules/$KERNEL_VERSION/kernel/drivers/{gpu,video,media,iommu}			      \
-     /lib/modules/$KERNEL_VERSION/kernel/drivers/i2c			      \
+     /lib/modules/$KERNEL_VERSION/kernel/				      \
      -type f 2> /dev/null | cpio --make-directories -p --quiet $WDIR
 
   cp /lib/modules/$KERNEL_VERSION/modules.{builtin,order}                     \
