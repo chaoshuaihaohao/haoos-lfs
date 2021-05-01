@@ -132,8 +132,11 @@ menuentry "HaoOS's LiveUSB" {
 	echo    '载入初始化内存盘...'
 	initrd	/live/liveusb-initramfs.img
 }
-menuentry '重启 '{
+menuentry '重启'{
 	reboot
+}
+menuentry '进入UEFI界面'{
+	fwsetup
 }
 EOF
 
