@@ -135,6 +135,9 @@ menuentry "HaoOS's LiveUSB" {
 menuentry '重启'{
 	reboot
 }
+menuentry '关机'{
+	halt
+}
 menuentry '进入UEFI界面'{
 	fwsetup
 }
