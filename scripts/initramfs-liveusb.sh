@@ -48,12 +48,14 @@ binfiles="sh cat cp dd killall ls mkdir mknod mount "
 binfiles="$binfiles umount sed sleep ln rm uname"
 binfiles="$binfiles readlink basename"
 #add by chenhao
-binfiles="$binfiles grep sed awk sleep touch chgrp chmod find reboot poweroff ps top"
+binfiles="$binfiles grep sed awk sleep touch chgrp chmod find ps top"
 
 # Systemd installs udevadm in /bin. Other udev implementations have it in /sbin
 if [ -x /bin/udevadm ] ; then binfiles="$binfiles udevadm"; fi
 
 sbinfiles="modprobe blkid switch_root"
+#add by chenhao
+sbinfiles="$sbinfiles reboot poweroff"
 
 #Optional files and locations
 for f in mdadm mdmon udevd udevadm; do
@@ -380,32 +382,8 @@ device=
 resume=
 noresume=false
 
-#
-modprobe nls_iso8859-1
-modprobe dm-mirror
-modprobe i2c-i801
-#加载必要的磁盘block驱动
-modprobe virtio_blk
-modprobe usb_storage
-modprobe uas
-modprobe ahci
+#加载USB到PCI的总线，从而udev可以检测到usb设备，否则系统不会检测到USB设备而启动失败
 modprobe xhci-pci
-modprobe nvme
-
-#添加必要的显卡驱动
-modprobe drm
-modprobe radeon
-modprobe amdgpu
-#modprobe i915
-#modprobe virtio-gpu
-modprobe video
-
-#加载必要的USB键盘驱动
-modprobe psmouse
-modprobe hid-generic
-modprobe usbkbd
-modprobe usbmouse
-modprobe usbhid
 
 #挂载必要的文件系统
 mount -n -t devtmpfs devtmpfs /dev
