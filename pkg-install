@@ -17,6 +17,14 @@ export MAKEFLAGS=-j$JOBS
 PKG_PATH=unit
 BLFS_SRC_DIR=/sources/blfs-sources
 
+usage()
+{
+	echo "Usage: $0 [option] [args]"
+	echo "        不带参数:安装所有软件包"
+	echo "	-d ,--download:下载软件包"
+	echo "	-i ,--install:安装单个软件包"
+}
+
 install-pkg()
 {
 #检测pkg必要文件
@@ -26,7 +34,7 @@ install-pkg()
 #fi
 
 if [ ! -e $PKG_PATH/$1.cmd ];then
-	echo Not exist $1.cmd
+	echo Not exist $PKG_PATH/$1.cmd
 	exit
 fi
 
@@ -38,16 +46,64 @@ fi
 
 #如果已经安装过，则无需再次安装
 set +e
-grep $1 LIST > /dev/null
+grep $1 /haoos/LIST > /dev/null
 if [ $? != 0 ];then
-	#. ./$PKG_PATH/$1.cmd
-	echo $1.cmd
-	echo $1 >> LIST
+	set -e
+
+	exec_cmd $1
+#	echo $1.cmd
+
 fi
 set -e
 }
 
-#rm LIST
-touch LIST
+exec_cmd()
+{
+set +e
+pkg_tar=`grep Download $PKG_PATH/$1.info | awk -F '/' '{print $NF}'`
+pkg_dir=`echo $pkg_tar | awk -F '.tar' '{print $1}'`
+set -e
+	pushd /lfs
+	rm -rf $pkg_dir
+	tar xf $BLFS_SRC_DIR/$pkg_tar
+	pushd $pkg_dir
 
-install-pkg $1
+	#. ./$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
+	. /haoos/$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
+
+	popd #$pkg_dir
+	rm -rf $pkg_dir
+	popd #/lfs
+}
+
+#入参检测
+#如果没有后缀参数，则安装所有包
+if [ -z $1 ];then
+  for pkg in `find unit/ -name *.cmd -type f`
+  do
+	#获取包名
+	name=`echo $pkg | awk -F '[./]+' '{print $2}'`
+	install-pkg $name
+  done
+  echo "已完成所有软件包安装" && exit
+fi
+
+if [[ ! -z $1 ]] && [[ ! -z $2 ]];then
+	case $1 in
+	-d )
+		# --download,下载软件包
+		wget -P /sources/blfs-sources --no-check-certificate -c `cat $PKG_PATH/$2.info | awk -F ' ' '{print $2}'`
+	;;
+	-i)
+		# --install,安装单个软件包
+		#rm /haoos/LIST
+		touch /haoos/LIST
+		install-pkg $2
+	;;
+	*)
+		usage
+	;;
+	esac
+else
+		usage
+fi
