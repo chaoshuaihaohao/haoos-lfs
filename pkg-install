@@ -60,12 +60,14 @@ set -e
 exec_cmd()
 {
 set +e
-pkg_tar=`grep Download $PKG_PATH/$1.info | awk -F '/' '{print $NF}'`
-pkg_dir=`echo $pkg_tar | awk -F '.tar' '{print $1}'`
+#获取软件包url的第一行的压缩包名
+compressed_pkg_name=`grep Download $PKG_PATH/$1.info | head -1| awk -F '/' '{print $NF}'`
+pkg_dir=`echo $compressed_pkg_name | awk -F '.tar' -F '.tgz' -F '.zip' '{print $1}'`
 set -e
 	pushd /lfs
 	rm -rf $pkg_dir
-	tar xf $BLFS_SRC_DIR/$pkg_tar
+	#解压缩软件包
+	decompress $BLFS_SRC_DIR/$compressed_pkg_name
 	pushd $pkg_dir
 
 	#. ./$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
@@ -74,6 +76,23 @@ set -e
 	popd #$pkg_dir
 	rm -rf $pkg_dir
 	popd #/lfs
+}
+
+decompress()
+{
+	file_type=`file -b $1 | awk -F ' ' '{print$1}'`
+	if [ $file_type = gzip ];then
+		tar xvf $1 -C /lfs
+	elif [ $file_type = XZ ];then
+		tar xvf $1 -C /lfs
+	elif [ $file_type = Zip ];then
+		unzip -d /lfs $1
+	else
+		echo "unknown compressed file" && exit
+	fi
+
+		
+
 }
 
 #入参检测
@@ -92,7 +111,10 @@ if [[ ! -z $1 ]] && [[ ! -z $2 ]];then
 	case $1 in
 	-d )
 		# --download,下载软件包
-		wget -P /sources/blfs-sources --no-check-certificate -c `cat $PKG_PATH/$2.info | awk -F ' ' '{print $2}'`
+		for pkg_url in `cat $PKG_PATH/$2.info | awk -F ' ' '{print $2}'`
+		do
+		  wget -P /sources/blfs-sources --no-check-certificate -c $pkg_url
+	  	done
 	;;
 	-i)
 		# --install,安装单个软件包
