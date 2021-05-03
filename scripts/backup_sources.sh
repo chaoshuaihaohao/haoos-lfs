@@ -12,7 +12,7 @@ else
 	export LFS=/
 fi
 
-#删除目录文件，只保留压缩文件
+#删除目录文件，只保留压缩文件和patch文件
 for file in `find $LFS/sources/lfs-sources/*`
 do
   if [ -d $file ];then
