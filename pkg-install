@@ -34,12 +34,20 @@ fi
 if [ -e $PKG_PATH/$1.dep ];then
 	depend_pkg=`cat $PKG_PATH/$1.dep`
 	install-pkg $depend_pkg
-	. ./$PKG_PATH/$1.cmd
-	#echo $1.cmd
-else
-. ./$PKG_PATH/$1.cmd
-	#echo $1.cmd
 fi
+
+#如果已经安装过，则无需再次安装
+set +e
+grep $1 LIST > /dev/null
+if [ $? != 0 ];then
+	#. ./$PKG_PATH/$1.cmd
+	echo $1.cmd
+	echo $1 >> LIST
+fi
+set -e
 }
+
+#rm LIST
+touch LIST
 
 install-pkg $1
