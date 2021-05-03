@@ -1,0 +1,45 @@
+#!/bin/bash
+set -e
+#
+if [ `id -u` != 0 ];then
+        echo Permission delay, Please run as root!
+        exit
+fi
+
+if [ -n $JOBS ];then
+        JOBS=`grep -c ^processor /proc/cpuinfo 2>/dev/null`
+        if [ ! $JOBS ];then
+                JOBS="1"
+        fi
+fi
+export MAKEFLAGS=-j$JOBS
+
+PKG_PATH=unit
+BLFS_SRC_DIR=/sources/blfs-sources
+
+install-pkg()
+{
+#检测pkg必要文件
+#if [ ! -e $PKG_PATH/$1.info ];then
+#	echo Not exist $1.info
+#	exit
+#fi
+
+if [ ! -e $PKG_PATH/$1.cmd ];then
+	echo Not exist $1.cmd
+	exit
+fi
+
+#安装有依赖的软件包
+if [ -e $PKG_PATH/$1.dep ];then
+	depend_pkg=`cat $PKG_PATH/$1.dep`
+	install-pkg $depend_pkg
+	. ./$PKG_PATH/$1.cmd
+	#echo $1.cmd
+else
+. ./$PKG_PATH/$1.cmd
+	#echo $1.cmd
+fi
+}
+
+install-pkg $1
