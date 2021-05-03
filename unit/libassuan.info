@@ -1,0 +1,3 @@
+PKG_NAME: libassuan
+DIR: libassuan-2.5.4
+Download: https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.4.tar.bz2

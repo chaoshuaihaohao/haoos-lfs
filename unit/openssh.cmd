@@ -1,24 +1,3 @@
-#!/bin/sh
-set -e
-#
-if [ `id -u` != 0 ];then
-        echo Permission delay, Please run as root!
-        exit
-fi
-
-if [ -n $JOBS ];then
-        JOBS=`grep -c ^processor /proc/cpuinfo 2>/dev/null`
-        if [ ! $JOBS ];then
-                JOBS="1"
-        fi
-fi
-export MAKEFLAGS=-j$JOBS
-export BLFS_SRC_DIR=/sources/blfs-sources
-pushd /lfs
-
-rm -rf openssh-8.4p1
-tar xf $BLFS_SRC_DIR/openssh-8.4p1.tar.gz
-pushd openssh-8.4p1
 install  -v -m700 -d /var/lib/sshd &&
 chown    -v root:sys /var/lib/sshd &&
 
@@ -47,12 +26,7 @@ ssh-keygen #&&
 #ssh-copy-id -i ~/.ssh/id_rsa.pub REMOTE_USERNAME@REMOTE_HOSTNAME
 echo "PasswordAuthentication no" >> /etc/ssh/sshd_config &&
 echo "ChallengeResponseAuthentication no" >> /etc/ssh/sshd_config
-sed 's@d/login@d/sshd@g' /etc/pam.d/login > /etc/pam.d/sshd &&
-chmod 644 /etc/pam.d/sshd &&
-echo "UsePAM yes" >> /etc/ssh/sshd_config
+#sed 's@d/login@d/sshd@g' /etc/pam.d/login > /etc/pam.d/sshd &&
+#chmod 644 /etc/pam.d/sshd &&
+#echo "UsePAM yes" >> /etc/ssh/sshd_config
 make install-sshd
-popd
-
-
-
-popd #LFS

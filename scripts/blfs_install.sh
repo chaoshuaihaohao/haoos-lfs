@@ -104,22 +104,7 @@ make install
 popd
 rm -rf libuv-v1.41.0
 
-rm -rf curl-7.75.0
-tar xf $BLFS_SRC_DIR/curl-7.75.0.tar.xz
-pushd curl-7.75.0
-grep -rl '#!.*python$' | xargs sed -i '1s/python/&3/'
-./configure --prefix=/usr                           \
-            --disable-static                        \
-            --enable-threaded-resolver              \
-            --with-ca-path=/etc/ssl/certs &&
-make
-make install &&
-rm -rf docs/examples/.deps &&
-find docs \( -name Makefile\* -o -name \*.1 -o -name \*.3 \) -exec rm {} \; &&
-install -v -d -m755 /usr/share/doc/curl-7.75.0 &&
-cp -v -R docs/*     /usr/share/doc/curl-7.75.0
-popd
-rm -rf curl-7.75.0
+
 
 rm -rf libarchive-3.5.1
 tar xf $BLFS_SRC_DIR/libarchive-3.5.1.tar.xz
@@ -197,15 +182,5 @@ make
 make install INSTALL_DIR=/usr/bin
 popd
 rm -rf squashfs4.4
-
-rm -rf which-2.21
-tar xf $BLFS_SRC_DIR/which-2.21.tar.gz
-pushd which-2.21
-./configure --prefix=/usr &&
-make
-make install
-popd
-rm -rf which-2.21
-
 
 popd #LFS
