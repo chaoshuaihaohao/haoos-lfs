@@ -14,8 +14,12 @@ if [ -n $JOBS ];then
 fi
 export MAKEFLAGS=-j$JOBS
 
-PKG_PATH=unit
-BLFS_SRC_DIR=/sources/blfs-sources
+export PKG_PATH=unit
+export BLFS_SRC_DIR=/sources/blfs-sources
+export XORG_PREFIX="/usr"
+export XORG_CONFIG="--prefix=$XORG_PREFIX --sysconfdir=/etc \
+    --localstatedir=/var --disable-static"
+
 
 usage()
 {
@@ -75,8 +79,8 @@ set -e
 	fi
 	pushd $pkg_dir
 
-	#. ./$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
-	. /haoos/$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
+	#. /haoos/$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
+	bash -e /haoos/$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
 
 	popd #$pkg_dir
 	rm -rf $pkg_dir
