@@ -32,10 +32,10 @@ usage()
 install-pkg()
 {
 #检测pkg必要文件
-#if [ ! -e $PKG_PATH/$1.info ];then
-#	echo Not exist $1.info
-#	exit
-#fi
+if [ ! -e $PKG_PATH/$1.info ];then
+	echo Not exist $1.info
+	exit
+fi
 
 if [ ! -e $PKG_PATH/$1.cmd ];then
 	echo Not exist $PKG_PATH/$1.cmd
@@ -54,7 +54,7 @@ grep $1 /haoos/LIST > /dev/null
 if [ $? != 0 ];then
 	set -e
 
-	exec_cmd $1
+	exec_cmd $1 && echo $1 >> /haoos/LIST
 #	echo $1.cmd
 
 fi
@@ -79,8 +79,9 @@ set -e
 	fi
 	pushd $pkg_dir
 
-	#. /haoos/$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
-	bash -e /haoos/$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
+#	. /haoos/$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
+#	bash -e /haoos/$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
+	bash -e /haoos/$PKG_PATH/$1.cmd
 
 	popd #$pkg_dir
 	rm -rf $pkg_dir
@@ -127,10 +128,28 @@ if [[ ! -z $1 ]] && [[ ! -z $2 ]];then
 	case $1 in
 	-d )
 		# --download,下载软件包
+		if [ $2 = Xorg-Applications ];then
+			wget_dir=/sources/blfs-sources/$2
+		elif [ $2 = Xorg-Libraries ];then
+			wget_dir=/sources/blfs-sources/$2
+		else
+			wget_dir=/sources/blfs-sources
+		fi
+
 		for pkg_url in `cat $PKG_PATH/$2.info | awk -F ' ' '{print $2}'`
 		do
-		  wget -P /sources/blfs-sources --no-check-certificate -c $pkg_url
+		  set +e
+		  wget -P $wget_dir --no-check-certificate -c $pkg_url
+		  set -e
 	  	done
+
+		if [ $2 = Xorg-Applications ];then
+			tar czvf -C /sources/blfs-sources/$2.tar.xz /sources/blfs-sources/$2
+		elif [ $2 = Xorg-Libraries ];then
+			tar czvf -C /sources/blfs-sources/$2.tar.xz /sources/blfs-sources/$2
+		else
+			echo donothing > /dev/null
+		fi
 	;;
 	-i)
 		# --install,安装单个软件包
