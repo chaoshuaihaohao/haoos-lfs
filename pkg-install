@@ -62,12 +62,17 @@ exec_cmd()
 set +e
 #获取软件包url的第一行的压缩包名
 compressed_pkg_name=`grep Download $PKG_PATH/$1.info | head -1| awk -F '/' '{print $NF}'`
-pkg_dir=`echo $compressed_pkg_name | awk -F '.tar' -F '.tgz' -F '.zip' '{print $1}'`
+pkg_dir=`echo $compressed_pkg_name | awk -F '.tar' '{print $1}' | awk -F '.tgz' '{print $1}'| awk -F '.zip' '{print $1}' | awk -F '.src' '{print $1}'`
 set -e
 	pushd /lfs
 	rm -rf $pkg_dir
-	#解压缩软件包
-	decompress $BLFS_SRC_DIR/$compressed_pkg_name
+	#判断压缩包是否存在
+	if [ -e $BLFS_SRC_DIR/$compressed_pkg_name ];then
+	  #解压缩软件包
+	  decompress $BLFS_SRC_DIR/$compressed_pkg_name
+	else
+	  echo "Not exist $pkg_dir, maybe you have not download it, try 'dpk-install -d' to download it." && exit
+	fi
 	pushd $pkg_dir
 
 	#. ./$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
@@ -82,13 +87,20 @@ decompress()
 {
 	file_type=`file -b $1 | awk -F ' ' '{print$1}'`
 	if [ $file_type = gzip ];then
-		tar xvf $1 -C /lfs
+		tar xf $1 -C /lfs
 	elif [ $file_type = XZ ];then
-		tar xvf $1 -C /lfs
+		tar xf $1 -C /lfs
+	elif [ $file_type = bzip2 ];then
+		tar xf $1 -C /lfs
 	elif [ $file_type = Zip ];then
-		unzip -d /lfs $1
+		if [ $1 = /sources/blfs-sources/docbook-xml-4.5.zip ];then
+		  mkdir /lfs/docbook-xml-4.5
+		  unzip -d /lfs/docbook-xml-4.5 $1
+		else
+		  unzip -d /lfs $1
+		fi
 	else
-		echo "unknown compressed file" && exit
+		echo "unknown compressed file $1, type is: $file_type." && exit
 	fi
 
 		
