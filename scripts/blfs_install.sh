@@ -115,21 +115,6 @@ make install
 popd
 rm -rf libarchive-3.5.1
 
-rm -rf cmake-3.19.5
-tar xf $BLFS_SRC_DIR/cmake-3.19.5.tar.gz
-pushd cmake-3.19.5
-sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake &&
-./bootstrap --prefix=/usr        \
-            --system-libs        \
-            --mandir=/share/man  \
-            --no-system-jsoncpp  \
-            --no-system-librhash \
-            --docdir=/share/doc/cmake-3.19.5 &&
-make
-make install
-popd
-rm -rf cmake-3.19.5
-
 rm -rf wget-1.21.1
 tar xf $BLFS_SRC_DIR/wget-1.21.1.tar.gz
 pushd wget-1.21.1
