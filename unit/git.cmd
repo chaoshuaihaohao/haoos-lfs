@@ -21,17 +21,17 @@ make htmldir=/usr/share/doc/git-2.30.1 install-html
 #find        /usr/share/doc/git-2.30.1 -type f -exec chmod 644 {} \;
 
 #重新整理html-docs中的文本和html（两种方法）
-mkdir -vp /usr/share/doc/git-2.30.1/man-pages/{html,text}         &&
-mv        /usr/share/doc/git-2.30.1/{git*.txt,man-pages/text}     &&
-mv        /usr/share/doc/git-2.30.1/{git*.,index.,man-pages/}html &&
+#mkdir -vp /usr/share/doc/git-2.30.1/man-pages/{html,text}         &&
+#mv        /usr/share/doc/git-2.30.1/{git*.txt,man-pages/text}     &&
+#mv        /usr/share/doc/git-2.30.1/{git*.,index.,man-pages/}html &&
 
-mkdir -vp /usr/share/doc/git-2.30.1/technical/{html,text}         &&
-mv        /usr/share/doc/git-2.30.1/technical/{*.txt,text}        &&
-mv        /usr/share/doc/git-2.30.1/technical/{*.,}html           &&
+#mkdir -vp /usr/share/doc/git-2.30.1/technical/{html,text}         &&
+#mv        /usr/share/doc/git-2.30.1/technical/{*.txt,text}        &&
+#mv        /usr/share/doc/git-2.30.1/technical/{*.,}html           &&
 
-mkdir -vp /usr/share/doc/git-2.30.1/howto/{html,text}             &&
-mv        /usr/share/doc/git-2.30.1/howto/{*.txt,text}            &&
-mv        /usr/share/doc/git-2.30.1/howto/{*.,}html               &&
+#mkdir -vp /usr/share/doc/git-2.30.1/howto/{html,text}             &&
+#mv        /usr/share/doc/git-2.30.1/howto/{*.txt,text}            &&
+#mv        /usr/share/doc/git-2.30.1/howto/{*.,}html               &&
 
-sed -i '/^<a href=/s|howto/|&html/|' /usr/share/doc/git-2.30.1/howto-index.html &&
-sed -i '/^\* link:/s|howto/|&html/|' /usr/share/doc/git-2.30.1/howto-index.txt
+#sed -i '/^<a href=/s|howto/|&html/|' /usr/share/doc/git-2.30.1/howto-index.html &&
+#sed -i '/^\* link:/s|howto/|&html/|' /usr/share/doc/git-2.30.1/howto-index.txt
