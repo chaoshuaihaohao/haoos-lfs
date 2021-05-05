@@ -82,7 +82,8 @@ set -e
 	  #解压缩软件包
 	  decompress $BLFS_SRC_DIR/$compressed_pkg_name
 	else
-	  echo "Not exist $pkg_dir, maybe you have not download it, try 'dpk-install -d' to download it." && exit
+	  pkg_name=`echo $pkg_dir | awk -F '-' '{print $1}'`
+	  echo "Not exist $pkg_name, maybe you have not download it, try 'pkg-install -d $pkg_name' to download it." && exit
 	fi
 	pushd $pkg_dir
 
