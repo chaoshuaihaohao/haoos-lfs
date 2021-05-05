@@ -69,9 +69,9 @@ set +e
 #获取软件包url的第一行的压缩包名
 compressed_pkg_name=`grep Download $PKG_PATH/$1.info | head -1| awk -F '/' '{print $NF}'`
 if [ $1 = LLVM ];then
-  pkg_dir=`echo $compressed_pkg_name | awk -F '.tar' '{print $1}' | awk -F '.tgz' '{print $1}'| awk -F '.zip' '{print $1}'`
+  pkg_dir=`echo $compressed_pkg_name | awk -F '\\\.tar' '{print $1}' | awk -F '\\\.tgz' '{print $1}'| awk -F '\\\.zip' '{print $1}'`
 else
-  pkg_dir=`echo $compressed_pkg_name | awk -F '.tar' '{print $1}' | awk -F '.tgz' '{print $1}'| awk -F '.zip' '{print $1}' | awk -F '.src' '{print $1}'`
+  pkg_dir=`echo $compressed_pkg_name | awk -F '\\\.tar' '{print $1}' | awk -F '\\\.tgz' '{print $1}'| awk -F '\\\.zip' '{print $1}' | awk -F '\\\.src' '{print $1}'`
 fi
 
 set -e
