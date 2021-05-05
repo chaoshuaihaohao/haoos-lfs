@@ -17,7 +17,7 @@ export BLFS_SRC_DIR=/sources/blfs-sources
 pushd /lfs
 
 
-#网桥配置
+#Chapter 14. Connecting to a Network网桥配置
 cat > /etc/systemd/network/50-br0.netdev << EOF
 [NetDev]
 Name=br0
@@ -51,5 +51,21 @@ DNS=192.168.0.1
 EOF
 
 systemctl restart systemd-networkd
+
+#Chapter 24. X Window系统环境
+export XORG_PREFIX="/usr"
+
+export XORG_CONFIG="--prefix=$XORG_PREFIX --sysconfdir=/etc \
+    --localstatedir=/var --disable-static"
+
+mkdir -vp /etc/profile.d
+touch /etc/profile.d/xorg.sh
+cat > /etc/profile.d/xorg.sh << EOF
+XORG_PREFIX="$XORG_PREFIX"
+XORG_CONFIG="--prefix=\$XORG_PREFIX --sysconfdir=/etc --localstatedir=/var --disable-static"
+export XORG_PREFIX XORG_CONFIG
+EOF
+chmod 644 /etc/profile.d/xorg.sh
+
 
 popd #LFS
