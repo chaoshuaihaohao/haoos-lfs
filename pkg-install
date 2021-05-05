@@ -156,9 +156,9 @@ if [[ ! -z $1 ]] && [[ ! -z $2 ]];then
 	  	done
 
 		if [ $2 = Xorg-Applications ];then
-			tar czvf -C /sources/blfs-sources/$2.tar.xz /sources/blfs-sources/$2
+			tar czvf /sources/blfs-sources/$2.tar.xz /sources/blfs-sources/$2
 		elif [ $2 = Xorg-Libraries ];then
-			tar czvf -C /sources/blfs-sources/$2.tar.xz /sources/blfs-sources/$2
+			tar czvf /sources/blfs-sources/$2.tar.xz /sources/blfs-sources/$2
 		else
 			echo donothing > /dev/null
 		fi
