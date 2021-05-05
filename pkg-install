@@ -68,7 +68,12 @@ exec_cmd()
 set +e
 #获取软件包url的第一行的压缩包名
 compressed_pkg_name=`grep Download $PKG_PATH/$1.info | head -1| awk -F '/' '{print $NF}'`
-pkg_dir=`echo $compressed_pkg_name | awk -F '.tar' '{print $1}' | awk -F '.tgz' '{print $1}'| awk -F '.zip' '{print $1}' | awk -F '.src' '{print $1}'`
+if [ $1 = LLVM ];then
+  pkg_dir=`echo $compressed_pkg_name | awk -F '.tar' '{print $1}' | awk -F '.tgz' '{print $1}'| awk -F '.zip' '{print $1}'`
+else
+  pkg_dir=`echo $compressed_pkg_name | awk -F '.tar' '{print $1}' | awk -F '.tgz' '{print $1}'| awk -F '.zip' '{print $1}' | awk -F '.src' '{print $1}'`
+fi
+
 set -e
 	pushd /lfs
 	rm -rf $pkg_dir
@@ -82,8 +87,13 @@ set -e
 	pushd $pkg_dir
 
 #	. /haoos/$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
-	bash -e /haoos/$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
-#	bash -e /haoos/$PKG_PATH/$1.cmd
+#	bash -e /haoos/$PKG_PATH/$1.cmd && echo $1 >> /haoos/LIST
+	bash -e /haoos/$PKG_PATH/$1.cmd
+        if [ $? = 0 ];then
+                echo $1 >> /haoos/LIST
+        else
+                exit
+        fi
 
 	popd #$pkg_dir
 	rm -rf $pkg_dir
