@@ -144,6 +144,8 @@ if [[ ! -z $1 ]] && [[ ! -z $2 ]];then
 			wget_dir=/sources/blfs-sources/$2
 		elif [ $2 = Xorg-Libraries ];then
 			wget_dir=/sources/blfs-sources/$2
+		elif [ $2 = Xorg-Fonts ];then
+			wget_dir=/sources/blfs-sources/$2
 		else
 			wget_dir=/sources/blfs-sources
 		fi
@@ -156,9 +158,20 @@ if [[ ! -z $1 ]] && [[ ! -z $2 ]];then
 	  	done
 
 		if [ $2 = Xorg-Applications ];then
-			tar czvf /sources/blfs-sources/$2.tar.xz /sources/blfs-sources/$2
+			pushd /sources/blfs-sources
+			tar czvf $2.tar.xz $2
+			rm -rf $2
+			popd
 		elif [ $2 = Xorg-Libraries ];then
-			tar czvf /sources/blfs-sources/$2.tar.xz /sources/blfs-sources/$2
+			pushd /sources/blfs-sources
+			tar czvf $2.tar.xz $2
+			rm -rf $2
+			popd
+		elif [ $2 = Xorg-Fonts ];then
+			pushd /sources/blfs-sources
+			tar czvf $2.tar.xz $2
+			rm -rf $2
+			popd
 		else
 			echo donothing > /dev/null
 		fi
