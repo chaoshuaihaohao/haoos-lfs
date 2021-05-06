@@ -39,12 +39,12 @@ ninja install
 
 #如果您已经构建了llvm文档，请以root 用户身份运行以下命令来安装它：
 #install -v -m644 docs/man/* /usr/share/man/man1             &&
-install -v -d -m755 /usr/share/doc/llvm-11.1.0/llvm-html     &&
-cp -Rv docs/html/* /usr/share/doc/llvm-11.1.0/llvm-html
+#install -v -d -m755 /usr/share/doc/llvm-11.1.0/llvm-html     &&
+#cp -Rv docs/html/* /usr/share/doc/llvm-11.1.0/llvm-html
 
 #如果您已经建立了clang文档，则可以用相同的方式（与root 用户相同）进行安装：
 #install -v -m644 tools/clang/docs/man/* /usr/share/man/man1 &&
-install -v -d -m755 /usr/share/doc/llvm-11.1.0/clang-html    &&
-cp -Rv tools/clang/docs/html/* /usr/share/doc/llvm-11.1.0/clang-html
+#install -v -d -m755 /usr/share/doc/llvm-11.1.0/clang-html    &&
+#cp -Rv tools/clang/docs/html/* /usr/share/doc/llvm-11.1.0/clang-html
 
 popd
