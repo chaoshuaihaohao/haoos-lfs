@@ -33,12 +33,12 @@ install-pkg()
 {
 #检测pkg必要文件
 if [ ! -e $PKG_PATH/$1.info ];then
-	echo Not exist $1.info
+	echo Not exist $1.info, please create it!
 	exit
 fi
 
 if [ ! -e $PKG_PATH/$1.cmd ];then
-	echo Not exist $PKG_PATH/$1.cmd
+	echo Not exist $PKG_PATH/$1.cmd, please create it!
 	exit
 fi
 
@@ -70,6 +70,8 @@ set +e
 compressed_pkg_name=`grep Download $PKG_PATH/$1.info | head -1| awk -F '/' '{print $NF}'`
 if [ $1 = LLVM ];then
   pkg_dir=`echo $compressed_pkg_name | awk -F '\\\.tar' '{print $1}' | awk -F '\\\.tgz' '{print $1}'| awk -F '\\\.zip' '{print $1}'`
+elif [ $1 = ICU ];then
+  pkg_dir=icu
 else
   pkg_dir=`echo $compressed_pkg_name | awk -F '\\\.tar' '{print $1}' | awk -F '\\\.tgz' '{print $1}'| awk -F '\\\.zip' '{print $1}' | awk -F '\\\.src' '{print $1}'`
 fi
@@ -83,7 +85,7 @@ set -e
 	  decompress $BLFS_SRC_DIR/$compressed_pkg_name
 	else
 	  pkg_name=`echo $pkg_dir | awk -F '-' '{print $1}'`
-	  echo "Not exist $pkg_name, maybe you have not download it, try 'pkg-install -d $pkg_name' to download it." && exit
+	  echo "Not exist $pkg_name source packet, try './pkg-install -d $pkg_name' to download it." && exit
 	fi
 	pushd $pkg_dir
 
