@@ -14,7 +14,7 @@ openssl x509 -in class3.crt -text -fingerprint -setalias "CAcert Class 3 root" \
         > /etc/ssl/local/CAcert_Class_3_root.pem &&
 /usr/sbin/make-ca -r -f
 
-
+:<<eof
 openssl x509 -in /etc/ssl/certs/Makebelieve_CA_Root.pem \
              -text \
              -fingerprint \
@@ -24,3 +24,4 @@ openssl x509 -in /etc/ssl/certs/Makebelieve_CA_Root.pem \
              -addreject codeSigning \
        > /etc/ssl/local/Disabled_Makebelieve_CA_Root.pem &&
 /usr/sbin/make-ca -r -f
+eof
