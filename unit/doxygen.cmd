@@ -11,7 +11,7 @@ make
 
 cmake -DDOC_INSTALL_DIR=share/doc/doxygen-1.9.1 -Dbuild_doc=ON .. &&
 
-make docs
+#make docs
 
 make install &&
 install -vm644 ../doc/*.1 /usr/share/man/man1
