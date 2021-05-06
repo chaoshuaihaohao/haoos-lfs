@@ -396,6 +396,35 @@ modinfo ./kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko | grep firmware: 
 
 bash shell script (bash脚本)中，break是退出一层循环，break 2是退出2层循环（当有相互嵌套时）,....break: **break [n]** Exit for, while, or until loops. Exit a FOR, WHILE or UNTIL loop. If N is specified, break N enclosing loops. Exit.
 
+## 获取依赖固件的方法
+
+```
+uos@home:~/Backup/source/initramfs-tools-0.137.25$ modinfo -k 5.10.18-amd64-desktop -F firmware ath10k_pci
+ath10k/QCA9377/hw1.0/board.bin
+ath10k/QCA9377/hw1.0/firmware-5.bin
+ath10k/QCA9377/hw1.0/firmware-6.bin
+ath10k/QCA6174/hw3.0/board-2.bin
+ath10k/QCA6174/hw3.0/board.bin
+ath10k/QCA6174/hw3.0/firmware-6.bin
+ath10k/QCA6174/hw3.0/firmware-5.bin
+ath10k/QCA6174/hw3.0/firmware-4.bin
+ath10k/QCA6174/hw2.1/board-2.bin
+ath10k/QCA6174/hw2.1/board.bin
+ath10k/QCA6174/hw2.1/firmware-5.bin
+ath10k/QCA6174/hw2.1/firmware-4.bin
+ath10k/QCA9887/hw1.0/board-2.bin
+ath10k/QCA9887/hw1.0/board.bin
+ath10k/QCA9887/hw1.0/firmware-5.bin
+ath10k/QCA988X/hw2.0/board-2.bin
+ath10k/QCA988X/hw2.0/board.bin
+ath10k/QCA988X/hw2.0/firmware-5.bin
+ath10k/QCA988X/hw2.0/firmware-4.bin
+ath10k/QCA988X/hw2.0/firmware-3.bin
+ath10k/QCA988X/hw2.0/firmware-2.bin
+```
+
+
+
 # 其他
 
 貌似内核必须支持initrd/initramfs.img。
@@ -439,6 +468,61 @@ chpasswd user_name:password
 ```
 
 https://blog.csdn.net/weixin_33912453/article/details/91556417
+
+## 物理机上init脚本clocksource: Switched to clocksource tsc后卡死
+
+```
+tsc: Refined TSC clocksource calibration: 2903.999MHz
+clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x29dc050a48e, mac_idle_ns: 440795325698 ns
+clocksource: Switched to clocksource tsc
+```
+
+需要加载显卡驱动
+
+```
+modprobe radeon
+modprobe drm
+```
+
+加载后ok。
+
+## 编译pciutils-3.7.0报wget错误
+
+```
+wget: unable to resolve host address 'www.linux-usb.org'
+```
+
+wget：无法解析主机地址。这就能看出是DNS解析的问题。
+
+错误提示
+
+
+wget: unable to resolve host address
+
+解决办法：
+
+1.登入root（VPS）。
+2.进入/etc/resolv.conf。
+3.修改内容为下
+
+```
+nameserver 8.8.8.8 #google域名服务器
+nameserver 8.8.4.4 #google域名服务器
+```
+
+## git安装缺少make install
+
+make 后应该跟着make install
+
+## apt cmake Could not find triehash executable
+
+https://stackoverflow.com/questions/58128537/could-not-find-triehash-executable-error
+
+```
+wget https://github.com/julian-klode/triehash/blob/main/triehash.pl -O triehash && chmod a+x triehash && sudo mv triehash /usr/bin
+```
+
+
 
 # BLFS
 
@@ -516,4 +600,16 @@ cp -v /lib/ld-linux-x86-64.so.2 lib/
 cp -v /lib64/ld-linux-x86-64.so.2 lib64/
 
 注意：不是软链接的问题，软链接在chroot后也是有的。
+
+
+
+
+
+# u盘刻制镜像方法
+
+找到U盘设备：
+
+```
+sudo dd bs=4M if=~/haoos-liveusb.iso of=/dev/sdb status=progress && sync
+```
 
