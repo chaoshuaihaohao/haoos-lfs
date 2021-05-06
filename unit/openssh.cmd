@@ -29,4 +29,4 @@ echo "ChallengeResponseAuthentication no" >> /etc/ssh/sshd_config
 #sed 's@d/login@d/sshd@g' /etc/pam.d/login > /etc/pam.d/sshd &&
 #chmod 644 /etc/pam.d/sshd &&
 #echo "UsePAM yes" >> /etc/ssh/sshd_config
-make install-sshd
+#make install-sshd
