@@ -13,7 +13,7 @@ CC=gcc CXX=g++ \
                     --enable-readline        &&
 make
 
-rm -fv /usr/lib/libmozjs-78.so
+#rm -fv /usr/lib/libmozjs-78.so
 
 make install &&
 rm -v /usr/lib/libjs_static.ajs &&

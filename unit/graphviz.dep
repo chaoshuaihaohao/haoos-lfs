@@ -1,0 +1,8 @@
+pango
+cairo
+Xorg-Libraries
+fontconfig
+libpng
+gtk
+libjpeg-turbo 
+libwebp

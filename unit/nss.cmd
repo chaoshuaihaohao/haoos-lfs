@@ -2,11 +2,12 @@ patch -Np1 -i $BLFS_SRC_DIR/nss-3.61-standalone-1.patch &&
 
 pushd nss &&
 
-make -j1 BUILD_OPT=1                  \
+make BUILD_OPT=1                  \
   NSPR_INCLUDE_DIR=/usr/include/nspr  \
   USE_SYSTEM_ZLIB=1                   \
   ZLIB_LIBS=-lz                       \
   NSS_ENABLE_WERROR=0                 \
+  NSS_DISABLE_GTESTS=1				\
   $([ $(uname -m) = x86_64 ] && echo USE_64=1) \
   $([ -f /usr/include/sqlite3.h ] && echo NSS_USE_SYSTEM_SQLITE=1)
 

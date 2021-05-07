@@ -1,0 +1,7 @@
+glib-networking
+libpsl
+libxml2
+sqlite
+gobject-introspection
+sysprof
+vala
