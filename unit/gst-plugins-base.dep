@@ -1,0 +1,12 @@
+gstreamer
+alsa-lib
+cdparanoia
+gobject-introspection
+iso-codes
+libgudev
+libogg
+libtheora
+libvorbis
+mesa
+wayland-protocols
+Xorg-Libraries

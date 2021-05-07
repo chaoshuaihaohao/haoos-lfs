@@ -37,6 +37,10 @@ b13afec137b9b331814a9824ab03ec80  xvinfo-1.1.4.tar.bz2
 79972093bb0766fcd0223b2bd6d11932  xwud-1.0.5.tar.bz2
 EOF
 
+if [ -h /usr/lib/X11 ];then
+  rm /usr/lib/X11
+fi
+
 mkdir app &&
 pushd app &&
 #grep -v '^#' ../app-7.md5 | awk '{print $2}' | wget -i- -c \

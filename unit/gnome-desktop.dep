@@ -1,7 +1,7 @@
 gsettings-desktop-schemas 
-GTK
-ISO-Codes
+gtk
+iso-codes
 itstool
 libseccomp
 libxml2
-XKeyboardConfig
+xkeyboardconfig

@@ -20,7 +20,7 @@ docs = false
 extended = true
 
 [install]
-prefix = "/opt/rustc-1.47.0"
+prefix = "/usr"
 docdir = "share/doc/rustc-1.47.0"
 
 [rust]

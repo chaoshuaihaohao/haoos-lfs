@@ -1,0 +1,17 @@
+cairo
+cmake
+gst-plugins-base
+gst-plugins-bad
+gtk
+icu
+libgudev
+libsecret
+libsoup
+libwebp
+mesa
+openjpeg
+ruby
+sqlite
+which
+enchant
+libnotify
