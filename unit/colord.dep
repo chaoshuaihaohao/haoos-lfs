@@ -1,0 +1,8 @@
+glib
+little-cms 
+polkit
+sqlite
+gobject-introspection
+libgudev
+libgusb
+vala

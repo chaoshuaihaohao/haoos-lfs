@@ -46,9 +46,11 @@ EOF
 
 install -v -dm 755 /var/lib/dhclient
 
-rm -rf blfs-systemd-units-20210122
-tar xf $BLFS_SRC_DIR/blfs-systemd-units-20210122.tar.xz
-pushd blfs-systemd-units-20210122
+rm -rf /lfs/blfs-systemd-units-20210122
+tar xf $BLFS_SRC_DIR/blfs-systemd-units-20210122.tar.xz -C /lfs
+pushd /lfs/blfs-systemd-units-20210122
 make install-dhclient
 systemctl start dhclient@$ETH
 systemctl enable dhclient@$ETH
+popd
+rm -rf /lfs/blfs-systemd-units-20210122
