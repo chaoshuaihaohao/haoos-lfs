@@ -1,0 +1,7 @@
+clutter-gst
+clutter-gtk
+gnome-desktop
+gst-plugins-bad
+gst-plugins-good
+libcanberra
+libgudev

@@ -1,0 +1,6 @@
+libsndfile
+alsa-lib
+glib
+libcap
+speex
+Xorg-Libraries
