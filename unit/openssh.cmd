@@ -22,7 +22,7 @@ install -v -m755 -d /usr/share/doc/openssh-8.4p1     &&
 install -v -m644    INSTALL LICENCE OVERVIEW README* \
                     /usr/share/doc/openssh-8.4p1
 echo "PermitRootLogin no" >> /etc/ssh/sshd_config
-ssh-keygen #&&
+ssh-keygen -t rsa -P "" -f ~/.ssh/id_rsa  #&&
 #ssh-copy-id -i ~/.ssh/id_rsa.pub REMOTE_USERNAME@REMOTE_HOSTNAME
 echo "PasswordAuthentication no" >> /etc/ssh/sshd_config &&
 echo "ChallengeResponseAuthentication no" >> /etc/ssh/sshd_config
