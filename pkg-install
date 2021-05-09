@@ -52,13 +52,12 @@ fi
 
 #如果已经安装过，则无需再次安装
 set +e
-grep $1 /haoos/LIST > /dev/null
+grep -w $1 /haoos/LIST > /dev/null
 if [ $? != 0 ];then
 	set -e
 
 	exec_cmd $1
 #	echo $1.cmd
-
 fi
 set -e
 }
@@ -68,10 +67,26 @@ exec_cmd()
 set +e
 #获取软件包url的第一行的压缩包名
 compressed_pkg_name=`grep Download $PKG_PATH/$1.info | head -1| awk -F '/' '{print $NF}'`
-if [ $1 = LLVM ];then
+if [ $1 = llvm ];then
   pkg_dir=`echo $compressed_pkg_name | awk -F '\\\.tar' '{print $1}' | awk -F '\\\.tgz' '{print $1}'| awk -F '\\\.zip' '{print $1}'`
-elif [ $1 = ICU ];then
+elif [ $1 = js ];then
+  pkg_dir=`echo $compressed_pkg_name | awk -F 'esr' '{print $1}'`
+elif [ $1 = icu ];then
   pkg_dir=icu
+elif [ $1 = "cdrkit-release" ];then
+  pkg_dir=cdrkit-release_1.1.11
+elif [ $1 = "libyaml" ];then
+  pkg_dir=libyaml-0.2.4
+elif [ $1 = "tk" ];then
+  pkg_dir=tk8.6.11
+elif [ $1 = "cups" ];then
+  pkg_dir=cups-2.3.3
+elif [ $1 = "libaio" ];then
+  pkg_dir=libaio-0.3.112
+elif [ $1 = "volume_key" ];then
+  pkg_dir=volume_key-volume_key-0.3.12
+elif [ $1 = "lmdb" ];then
+  pkg_dir=lmdb-LMDB_0.9.28
 else
   pkg_dir=`echo $compressed_pkg_name | awk -F '\\\.tar' '{print $1}' | awk -F '\\\.tgz' '{print $1}'| awk -F '\\\.zip' '{print $1}' | awk -F '\\\.src' '{print $1}'`
 fi
@@ -84,8 +99,30 @@ set -e
 	  #解压缩软件包
 	  decompress $BLFS_SRC_DIR/$compressed_pkg_name
 	else
-	  pkg_name=`echo $pkg_dir | awk -F '-' '{print $1}'`
-	  echo "Not exist $pkg_name source packet, try './pkg-install -d $pkg_name' to download it." && exit
+	  if [ $1 = gnome-keyring ];then
+		  pkg_name=$1
+	  elif [ $1 = evolution-data-server ];then
+		  pkg_name=$1
+	  elif [ $1 = glib-networking ];then
+		  pkg_name=$1
+	  elif [ $1 = json-glib ];then
+		  pkg_name=$1
+	  elif [ $1 = alsa-lib ];then
+		  pkg_name=$1
+	  elif [ $1 = gst-plugins-base ];then
+		  pkg_name=$1
+	  elif [ $1 = gst-plugins-bad ];then
+		  pkg_name=$1
+	  elif [ $1 = gst-plugins-good ];then
+		  pkg_name=$1
+	  elif [ $1 = little-cms ];then
+		  pkg_name=$1
+	  elif [ $1 = xorg-wacom-driver ];then
+		  pkg_name=$1
+	  else
+		  pkg_name=`echo $pkg_dir | awk -F '-' '{print $1}'`
+	  fi
+	  echo "Not exist $pkg_dir:$pkg_name source packet, try './pkg-install -d $pkg_name' to download it." && exit
 	fi
 	pushd $pkg_dir
 
