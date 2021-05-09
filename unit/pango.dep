@@ -1,3 +1,4 @@
 fontconfig
 fribidi
 glib
+cairo

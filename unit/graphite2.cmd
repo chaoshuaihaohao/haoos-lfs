@@ -1,4 +1,6 @@
+set +e
 sed -i '/cmptest/d' tests/cmakeLists.txt
+set -e
 
 mkdir build &&
 pushd    build &&
