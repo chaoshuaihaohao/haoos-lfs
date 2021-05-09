@@ -24,7 +24,8 @@ rm /home/lfs -rf
 groupadd lfs
 useradd -s /bin/bash -g lfs -m -k /dev/null lfs
 echo "Please set the new account lfs's password:"
-passwd lfs
+#passwd lfs
+echo lfs:1 | chpasswd
 
 chown -R lfs $LFS
 chgrp -R lfs $LFS
