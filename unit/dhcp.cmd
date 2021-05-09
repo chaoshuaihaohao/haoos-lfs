@@ -1,4 +1,3 @@
-export ETH=ens3
 sed -i '/o.*dhcp_type/d' server/mdb.c &&
 sed -r '/u.*(local|remote)_port/d'    \
     -i client/dhclient.c              \
@@ -50,7 +49,5 @@ rm -rf /lfs/blfs-systemd-units-20210122
 tar xf $BLFS_SRC_DIR/blfs-systemd-units-20210122.tar.xz -C /lfs
 pushd /lfs/blfs-systemd-units-20210122
 make install-dhclient
-systemctl start dhclient@$ETH
-systemctl enable dhclient@$ETH
 popd
 rm -rf /lfs/blfs-systemd-units-20210122

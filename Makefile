@@ -27,6 +27,8 @@ chroot-do:
 	./scripts/chroot_do-7_6.sh
 build-lfs:
 	./scripts/lfs_install-8_1.sh
+system-conf:
+	./scripts/system_config.sh
 build-lfs1:
 	./scripts/lfs_install-8_2.sh
 	./scripts/blfs_env_config.sh
@@ -35,8 +37,6 @@ build-lfs1:
 chroot-again:
 	./scripts/chroot_again.sh
 
-system-conf:
-	./scripts/system_config.sh
 bootable:
 	./scripts/linux_compile.sh
 	./scripts/bootable-10.sh
