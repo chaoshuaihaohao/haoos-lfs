@@ -1,0 +1,9 @@
+bluez
+ffmpeg
+gstreamer
+gst-plugins-base
+libva
+pulseaudio
+sbc
+sdl2
+v4l-utils
