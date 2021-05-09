@@ -1,0 +1,9 @@
+gnome-desktop
+gnome-settings-daemon
+graphene
+libcanberra
+libwacom
+libxkbcommon
+pipewire
+upower
+zenity
