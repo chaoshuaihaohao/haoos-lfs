@@ -10,10 +10,8 @@ echo "export LFS=/mnt/lfs" >  ~/.bash_profile
 source ~/.bash_profile
 echo $LFS
 
-#拷贝必要的脚本文件
-mkdir -vp $LFS/haoos/scripts
-cp Makefile $LFS/haoos/
-cp scripts/* $LFS/haoos/scripts/
+#拷贝haoos-lfs文件
+cp -a * $LFS/haoos/
 
 #7.2. 改变$LFS所有者
 chown -R root:root $LFS/{usr,lib,var,etc,bin,sbin,tools}
