@@ -594,5 +594,5 @@ make install
 #安装该软件包，并把主要的可执行文件移动到 /bin：
 mv -vf /usr/bin/bash /bin
 #执行新编译的 bash 程序 (替换当前正在执行的版本)：
-exec /bin/bash --login +h
+exec /bin/bash --login +h -c "cd /haoos && make build-lfs1"
 popd
