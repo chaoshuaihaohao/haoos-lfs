@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-LIVEUSB=/opt/liveusb
+LIVEUSB=/haoos/liveusb
 TMP_DIR=${LIVEUSB}/tmpfs/tmp
 
 pushd $TMP_DIR
@@ -68,7 +68,7 @@ if [ -x /sbin/lvm ] ; then sbinfiles="$sbinfiles lvm dmsetup"; fi
 
 unsorted=$(mktemp /tmp/unsorted.XXXXXXXXXX)
 
-DATADIR=/opt/liveusb/tmpfs/tmp/usr/share/mkinitramfs
+DATADIR=/haoos/liveusb/tmpfs/tmp/usr/share/mkinitramfs
 INITIN=init.in
 
 # Create a temporary working directory

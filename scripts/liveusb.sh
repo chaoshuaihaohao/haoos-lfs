@@ -15,8 +15,8 @@ fi
 export MAKEFLAGS=-j$JOBS
 
 #1.创建“制作基地”
-export LIVEUSB=/opt/liveusb
-rm -rf ${LIVEUSB}/*
+export LIVEUSB=/haoos/liveusb
+rm -rf ${LIVEUSB}
 mkdir -pv $LIVEUSB
 #2.创建制作相关的目录
 #（1）创建制作初始化辅助系统的目录
@@ -37,8 +37,8 @@ export DOWNLOAD_DIR=${LIVEUSB}/download
 pushd ${LIVEUSB}/system
 echo "copying the files to system..."
 #cp -a /{bin,dev,etc,home,lib,lib64,run,sbin,tmp,usr,var} ./
-cp -a /{bin,dev,etc,lib,lib64,run,sbin,tmp,usr,var} ./
-mkdir -vp media mnt opt proc root srv sys home
+cp -a /{bin,dev,etc,lib,lib64,run,sbin,tmp,usr,var,opt} ./
+mkdir -vp media mnt proc root srv sys home
 #创建默认用户haoos和root，密码为1
 chroot ${LIVEUSB}/system groupadd haoos
 chroot ${LIVEUSB}/system useradd -m -d /home/haoos -g haoos haoos
@@ -48,7 +48,7 @@ chroot ${LIVEUSB}/system echo root:1 | chpasswd
 rm -rf usr/src
 rm -rf lib/modules
 
-rm lib/udev/write_*
+rm -rf lib/udev/write_*
 rm -f etc/udev/rules.d/70*
 
 rm ${LIVEUSB}/system/etc/fstab
