@@ -33,20 +33,13 @@ ls /dev/vdb
 #安装工具
 
 ```
-sudo apt update && sudo apt install git make vim
+sudo apt update && sudo apt install git make vim -y
 ```
 
 #下载haoos仓库
 
 ```
 git clone https://github.com/chaoshuaihaohao/haoos-lfs.git
-```
-
-如果之前构建过lfs系统，可以执行如下命令清除构建文件（该步骤可选）：
-
-```
-#make distclean
-make clean
 ```
 
 #检查宿主机器的环境，针对结果安装不同的包
@@ -58,10 +51,10 @@ make check
 #安装依赖的软件包
 
 ```
-make dep-install
+sudo make dep-install
 ```
 
-## LFS磁盘分区
+## LFS磁盘分区介绍
 
 注意：通过fdisk -l查看，宿主虚拟机的分区如下--》
 
@@ -118,7 +111,7 @@ make lfs-env-build
 ## 5. 编译交叉工具链 && 6. 交叉编译临时工具
 
 ```
-lfs@virt-PC:~$make build
+lfs@virt-PC:~$ make build
 ```
 
 ## 构建 LFS 系统
@@ -145,36 +138,20 @@ root@virt-PC:/home/virt/haoos-lfs# make chroot
 #切换到haoos项目目录
 
 ```
-(lfs chroot) I have no name!:/#cd haoos
-(lfs chroot) I have no name!:/#make chroot1
+(lfs chroot) I have no name!:/#cd haoos && make chroot1
 ```
 
 #执行完后是：bash-5.1#
 
-### 7. 2构建其他临时工具
+### 7. 2构建其他临时工具&&8. 安装基本系统软件 && 8.1安装各种系统应用软件&&更新系统配置&&安装blfs软件包
 
 ```
-bash-5.1#make chroot-do
-```
-
-## 8. 安装基本系统软件
-
-```
-bash-5.1# make build-lfs
-```
-
-结尾输出如下：
-
-![image-20210416103212830](/home/uos/.config/Typora/typora-user-images/image-20210416103212830.png)
-
-以上输出结束后，**会进入新的bash环境**，目录是/lfs/bash-5.1，之后安装各种系统应用软件
-
-```
-bash-5.1# cd /haoos
-bash-5.1# make build-lfs1
+bash-5.1# make chroot-do && make build-lfs
 ```
 
 ![image-20210410164222444](/home/uos/.config/Typora/typora-user-images/image-20210410164222444.png)
+
+此处将make build-lfs和make build-lfs1合二为一了，在脚本scripts/lfs_install-8_1.sh结尾添加了如下指令exec /bin/bash --login +h -c "cd /haoos && make system-conf && make build-lfs1"。
 
 ## 再次chroot
 
@@ -192,14 +169,7 @@ logout
 virt@virt-PC:~/haoos-lfs$ sudo make chroot-again
 ```
 
-## 9.系统配置
-
-```
-(lfs chroot) root:/# cd haoos/
-(lfs chroot) root:/haoos# make system-conf
-```
-
-## 10. 使 LFS 系统可引导
+## 9.10. 使 LFS 系统可引导
 
 创建 `/etc/fstab` 文件，
 
@@ -212,50 +182,56 @@ virt@virt-PC:~/haoos-lfs$ sudo make chroot-again
 使得系统引导时可以选择进入 LFS 系统。
 
 ```
-(lfs chroot) root:/haoos# make bootable
+root[ / ]# cd /haoos && make bootable
 ```
 
 注：
 
 ​	initrd.img-`uname -r`和linux内核匹配的时候，grub-mkconfig生成的grug.cfg文件才会添加initrd部分。并且“root=”也是使用UUID而不是/dev/vdb。
 
-## 11. 尾声（可以不进行此步）
+## 11. 尾声
 
-创建一个 `/etc/lfs-release` 文件。
+创建一个 `/etc/haoos-release` 文件。
 
 创建一个文件/etc/lsb-release，根据 Linux Standards Base (LSB) 的规则显示系统状态。
 
 创建一个文件/etc/os-release，systemd 和一些图形桌面环境会使用它。
 
 ```
-(lfs chroot) root:/haoos# make end
+root [ /haoos ]# make end
 ```
 
 ```
 logout
 ```
 
-在宿主机中
+在宿主机中添加haoos系统的grub菜单（此步骤可选）
 
 ```
 root@virt-PC:/home/virt/haoos-lfs# update-grub
 ```
 
-，之后重启电脑会有lfs系统的grub选择界面。
 
-重启电脑：
-
-```
-root@virt-PC:/home/virt/haoos-lfs# make end1
-```
 
 ## LIVECD制作
 
+在make chroot-again环境中执行：
+
 ```
-root@virt-PC:/home/virt/haoos-lfs# make livecd
+root [ /haoos ]# make livecd
 ```
 
 ![image-20210413160936269](/home/uos/.config/Typora/typora-user-images/image-20210413160936269.png)
+
+## LIVEUSB制作
+
+在make chroot-again环境中执行：
+
+```
+root [ /haoos ]# make liveusb
+```
+
+
 
 # 参考文献
 
@@ -486,7 +462,7 @@ modprobe drm
 
 加载后ok。
 
-## 编译pciutils-3.7.0报wget错误
+## 编译pciutils-3.7.0报wget错误/ wget无法链接github下载压缩包
 
 ```
 wget: unable to resolve host address 'www.linux-usb.org'
@@ -513,16 +489,6 @@ nameserver 8.8.4.4 #google域名服务器
 ## git安装缺少make install
 
 make 后应该跟着make install
-
-## apt cmake Could not find triehash executable
-
-https://stackoverflow.com/questions/58128537/could-not-find-triehash-executable-error
-
-```
-wget https://github.com/julian-klode/triehash/blob/main/triehash.pl -O triehash && chmod a+x triehash && sudo mv triehash /usr/bin
-```
-
-
 
 # BLFS
 
@@ -603,7 +569,13 @@ cp -v /lib64/ld-linux-x86-64.so.2 lib64/
 
 
 
+## 编译js/firefox报错
 
+Exception: Could not detect environment shell
+
+```jsx
+export SHELL=/bin/bash
+```
 
 # u盘刻制镜像方法
 
@@ -611,5 +583,49 @@ cp -v /lib64/ld-linux-x86-64.so.2 lib64/
 
 ```
 sudo dd bs=4M if=~/haoos-liveusb.iso of=/dev/sdb status=progress && sync
+```
+
+# debian包管理器移植
+
+## apt cmake Could not find triehash executable
+
+https://stackoverflow.com/questions/58128537/could-not-find-triehash-executable-error
+
+```
+wget https://github.com/julian-klode/triehash/blob/main/triehash.pl -O triehash && chmod a+x triehash && sudo mv triehash /usr/bin
+```
+
+
+
+github下载lz4   liblz4
+
+make PREFIX=/usr
+
+make install PREFIX=/usr
+
+libxxhash   xxhash
+
+# 
+
+
+
+
+
+
+
+# ssh-keygen 免交互
+
+[plain] view plain copy
+
+```
+$ ssh-keygen -t rsa -P "" -f ~/.ssh/id_rsa
+```
+
+# sshfs报：“read: Connection reset by peer”
+
+虚拟机需要安装openssh-server开启sshd服务。
+
+```
+sudo apt install openssh-server
 ```
 
