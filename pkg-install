@@ -133,6 +133,14 @@ set -e
 		  pkg_name=$1
 	  elif [ $1 = startup-notification ];then
 		  pkg_name=$1
+	  elif [ $1 = gnome-shell ];then
+		  pkg_name=$1
+	  elif [ $1 = dbus-glib ];then
+		  pkg_name=$1
+	  elif [ $1 = gconf ];then
+		  pkg_name=$1
+	  elif [ $1 = gnome-session ];then
+		  pkg_name=$1
 	  else
 		  pkg_name=`echo $pkg_dir | awk -F '-' '{print $1}'`
 	  fi
@@ -187,7 +195,7 @@ if [ -z $1 ];then
 	name=`echo $pkg | awk -F '[./]+' '{print $2}'`
 	install-pkg $name
   done
-  echo "已完成所有软件包安装" && exit
+  echo "已完成所有BLFS软件包安装" && exit
 fi
 
 if [[ ! -z $1 ]] && [[ ! -z $2 ]];then
