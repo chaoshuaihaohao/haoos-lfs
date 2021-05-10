@@ -13,6 +13,7 @@ libwacom
 pulseaudio
 upower
 xorg-wacom-driver
+cups
 networkmanager
 nss
 wayland

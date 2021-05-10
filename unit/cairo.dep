@@ -3,3 +3,4 @@ pixman
 fontconfig
 glib
 Xorg-Libraries
+harfbuzz

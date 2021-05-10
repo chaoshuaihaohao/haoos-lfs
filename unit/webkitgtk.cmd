@@ -11,9 +11,9 @@ cmake -DCMAKE_BUILD_TYPE=Release  \
       -DUSE_WOFF2=OFF             \
       -DUSE_WPE_RENDERER=OFF      \
       -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
-      -Wno-dev -G Ninja ..        &&
+      -Wno-dev -G Ninja ..
 ninja
-ninja install &&
+ninja install
 
 install -vdm755 /usr/share/gtk-doc/html/webkit{2,dom}gtk-4.0 &&
 install -vm644  ../Documentation/webkit2gtk-4.0/html/*   \

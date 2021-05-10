@@ -1,3 +1,9 @@
 glib
 gobject-introspection
+gtk2
+gtk
+libdaemon
+libglade
 qt
+libevent
+doxygen

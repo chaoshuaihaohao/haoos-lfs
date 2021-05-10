@@ -13,21 +13,22 @@ LDFLAGS="-ltirpc"                      \
     --enable-selftest                  &&
 make
 
-make install &&
+mkdir -vp /run/lock &&
+make install
 
-mv -v /usr/lib/libnss_win{s,bind}.so.*  /lib                       &&
-ln -v -sf ../../lib/libnss_winbind.so.2 /usr/lib/libnss_winbind.so &&
-ln -v -sf ../../lib/libnss_wins.so.2    /usr/lib/libnss_wins.so    &&
+mv -v /usr/lib/libnss_win{s,bind}.so.*  /lib                       
+ln -v -sf ../../lib/libnss_winbind.so.2 /usr/lib/libnss_winbind.so 
+ln -v -sf ../../lib/libnss_wins.so.2    /usr/lib/libnss_wins.so    
 
-install -v -m644    examples/smb.conf.default /etc/samba &&
+install -v -m644    examples/smb.conf.default /etc/samba
 
-mkdir -pv /etc/openldap/schema                        &&
+mkdir -pv /etc/openldap/schema
 
 install -v -m644    examples/LDAP/README              \
-                    /etc/openldap/schema/README.LDAP  &&
+                    /etc/openldap/schema/README.LDAP
 
 install -v -m644    examples/LDAP/samba*              \
-                    /etc/openldap/schema              &&
+                    /etc/openldap/schema
 
 install -v -m755    examples/LDAP/{get*,ol*} \
                     /etc/openldap/schema
