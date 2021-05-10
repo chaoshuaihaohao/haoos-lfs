@@ -14,6 +14,8 @@ if [ -n $JOBS ];then
 fi
 export MAKEFLAGS=-j$JOBS
 
+export SHELL=/bin/bash
+export QT5PREFIX=/opt/qt5
 export PKG_PATH=unit
 export BLFS_SRC_DIR=/sources/blfs-sources
 export XORG_PREFIX="/usr"
@@ -46,7 +48,13 @@ fi
 if [ -e $PKG_PATH/$1.dep ];then
 	for depend_pkg in `cat $PKG_PATH/$1.dep`
 	do
-		install-pkg $depend_pkg
+		set +e
+		grep -w $depend_pkg /haoos/LIST > /dev/null
+		if [ $? != 0 ];then
+			set -e
+			install-pkg $depend_pkg
+		fi
+		set -e
 	done
 fi
 
@@ -118,6 +126,12 @@ set -e
 	  elif [ $1 = little-cms ];then
 		  pkg_name=$1
 	  elif [ $1 = xorg-wacom-driver ];then
+		  pkg_name=$1
+	  elif [ $1 = fdk-aac ];then
+		  pkg_name=$1
+	  elif [ $1 = sdl2 ];then
+		  pkg_name=$1
+	  elif [ $1 = startup-notification ];then
 		  pkg_name=$1
 	  else
 		  pkg_name=`echo $pkg_dir | awk -F '-' '{print $1}'`
