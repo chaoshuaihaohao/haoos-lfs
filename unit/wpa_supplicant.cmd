@@ -61,11 +61,11 @@ install -v -m644 wpa_gui-qt4/wpa_gui.desktop /usr/share/applications/ &&
 install -v -m644 wpa_gui-qt4/icons/wpa_gui.svg /usr/share/pixmaps/
 
 #该软件包将桌面文件安装到/usr/share/applications层次结构中，您可以通过更新来提高系统性能和内存使用率 /usr/share/applications/mimeinfo.cache。要执行更新，您必须安装了desktop-file-utils-0.26并以root用户身份发出以下命令：
-#update-desktop-database -q
+update-desktop-database -q
 
 install -v -dm755 /etc/wpa_supplicant &&
 wpa_passphrase SSID SECRET_PASSWORD > /etc/wpa_supplicant/wpa_supplicant-wifi0.conf
 
-systemctl start wpa_supplicant@wlan0
+#systemctl start wpa_supplicant@wlan0
 
-systemctl enable wpa_supplicant@wlan0
+#systemctl enable wpa_supplicant@wlan0
