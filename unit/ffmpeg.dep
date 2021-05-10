@@ -1,4 +1,12 @@
-glib
-libical
-
 libass
+fdk-aac
+freetype
+lame
+libtheora
+libvorbis
+libvpx
+opus
+x264
+x265
+nasm
+yasm

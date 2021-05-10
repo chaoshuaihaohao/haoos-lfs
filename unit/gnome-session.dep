@@ -1,0 +1,10 @@
+dbus-glib
+gnome-desktop
+json-glib
+mesa
+upower
+gconf
+xmlto
+libxslt
+docbook-xml
+docbook-xsl

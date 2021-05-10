@@ -108,6 +108,8 @@ EOF
 
 ldconfig
 
+
+
 cat > /etc/profile.d/qt5.sh << "EOF"
 # Begin /etc/profile.d/qt5.sh
 

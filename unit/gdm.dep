@@ -6,3 +6,6 @@ libcanberra
 libdaemon
 linux-pam
 dconf
+keyutils
+gnome-session
+gnome-shell
