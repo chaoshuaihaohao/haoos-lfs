@@ -52,6 +52,8 @@ cat > /etc/resolv.conf << "EOF"
 #nameserver <IP address of your secondary nameserver>
 nameserver 10.20.0.10
 nameserver 10.20.0.52
+nameserver 8.8.8.8
+nameserver 8.8.4.4
 
 # End /etc/resolv.conf
 EOF
