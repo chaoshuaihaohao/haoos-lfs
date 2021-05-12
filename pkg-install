@@ -200,6 +200,16 @@ fi
 
 if [[ ! -z $1 ]] && [[ ! -z $2 ]];then
 	case $1 in
+	-f)
+		# --file,按顺序安装文件列表中的软件包
+		#入参检测
+		#如果没有后缀参数，则安装所有包
+		  for pkg in `cat $2`
+		  do
+			install-pkg $name
+		  done
+		  echo "已完成所有BLFS软件包安装" && exit
+	;;
 	-d )
 		# --download,下载软件包
 		if [ $2 = Xorg-Applications ];then
