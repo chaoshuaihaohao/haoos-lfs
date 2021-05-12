@@ -9,3 +9,4 @@ dconf
 keyutils
 gnome-session
 gnome-shell
+systemd

@@ -2,3 +2,6 @@ pixman
 Xorg-Fonts
 xkeyboardconfig
 libepoxy
+wayland
+wayland-protocols
+systemd

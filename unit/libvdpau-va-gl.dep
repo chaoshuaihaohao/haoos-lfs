@@ -1,0 +1,7 @@
+cmake
+ffmpeg
+libvdpau
+libva
+doxygen
+graphviz
+mesa

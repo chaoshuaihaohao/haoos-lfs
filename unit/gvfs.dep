@@ -1,0 +1,12 @@
+dbus
+glib
+libusb
+libsecret
+libsoup
+gcr
+gtk
+libcdio
+libgdata
+libgudev
+systemd
+udisks

@@ -5,7 +5,7 @@ gnome-control-center
 mutter
 sassc
 startup-notification
-
+systemd
 asciidoc
 desktop-file-utils
 gnome-bluetooth
