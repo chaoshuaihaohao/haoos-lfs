@@ -1,6 +1,6 @@
 export QT5PREFIX=/opt/qt5
 
-mkdir /opt/qt-5.15.2
+mkdir -p /opt/qt-5.15.2
 ln -sfnv qt-5.15.2 /opt/qt5
 
 ./configure -prefix $QT5PREFIX                        \

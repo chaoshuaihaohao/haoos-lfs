@@ -1,3 +1,5 @@
 libgcrypt
 polkit
 gobject-introspection
+systemd
+xmlto

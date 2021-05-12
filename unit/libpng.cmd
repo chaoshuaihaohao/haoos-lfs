@@ -6,5 +6,5 @@ make
 #make check
 
 make install &&
-mkdir -v /usr/share/doc/libpng-1.6.37 &&
+mkdir -vp /usr/share/doc/libpng-1.6.37 &&
 cp -v README libpng-manual.txt /usr/share/doc/libpng-1.6.37

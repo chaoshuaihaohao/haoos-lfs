@@ -1,3 +1,13 @@
 jansson
 libndp
+curl
+dhcp
+gobject-introspection
 newt
+nss
+polkit
+pygobject
+systemd
+upower
+vala
+wpa_supplicant

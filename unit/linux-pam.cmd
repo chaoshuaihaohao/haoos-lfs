@@ -20,6 +20,8 @@ password required       pam_deny.so
 session  required       pam_deny.so
 EOF
 
+make check
+
 rm -fv /etc/pam.d/other
 
 make install &&
@@ -30,6 +32,10 @@ do
   mv -v /usr/lib/lib${file}.so.* /lib &&
   ln -sfv ../../lib/$(readlink /usr/lib/lib${file}.so) /usr/lib/lib${file}.so
 done
+
+
+
+
 
 install -vdm755 /etc/pam.d &&
 cat > /etc/pam.d/system-account << "EOF" &&
