@@ -140,7 +140,8 @@ EOF
 
 install --directory --mode=0755 --owner=root --group=root /etc/bash_completion.d
 
-
+#该脚本使用~/.dircolors 和/etc/dircolors文件控制目录列表中文件名的颜色。
+#它们控制ls --color之类的东西的彩色输出。
 cat > /etc/profile.d/dircolors.sh << "EOF"
 # Setup for /bin/ls and /bin/grep to support color, the alias is in /etc/bashrc.
 if [ -f "/etc/dircolors" ] ; then
@@ -155,6 +156,8 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 EOF
 
+#该脚本向添加了一些有用的路径PATH，可用于自定义所有用户可能需要的其他与PATH相关的环境变量
+#（例如LD_LIBRARY_PATH等）
 cat > /etc/profile.d/extrapaths.sh << "EOF"
 if [ -d /usr/local/lib/pkgconfig ] ; then
         pathappend /usr/local/lib/pkgconfig PKG_CONFIG_PATH
@@ -186,12 +189,6 @@ if [ "$(id -gn)" = "$(id -un)" -a $EUID -gt 99 ] ; then
 else
   umask 022
 fi
-EOF
-
-cat > /etc/profile.d/i18n.sh << "EOF"
-# Set up i18n variables
-. /etc/locale.conf
-export LANG
 EOF
 
 cat > /etc/bashrc << "EOF"
@@ -270,7 +267,7 @@ fi
 
 # Set up user specific i18n variables
 #export LANG=<ll>_<CC>.<charmap><@modifiers>
-
+export LANG=zh_CN.UTF-8
 # End ~/.profile
 EOF
 
@@ -292,7 +289,7 @@ fi
 
 # Set up user specific i18n variables
 #export LANG=<ll>_<CC>.<charmap><@modifiers>
-
+export LANG=zh_CN.UTF-8
 # End ~/.bashrc
 EOF
 
