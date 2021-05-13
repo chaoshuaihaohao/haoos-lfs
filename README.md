@@ -619,6 +619,9 @@ libxxhash   xxhash
 
 ```
 $ ssh-keygen -t rsa -P "" -f ~/.ssh/id_rsa
+
+echo -e 'y\n'|ssh-keygen -q -t rsa -N "" -f ~/.ssh/id_rsa 
+
 ```
 
 # sshfs报：“read: Connection reset by peer”
@@ -627,5 +630,27 @@ $ ssh-keygen -t rsa -P "" -f ~/.ssh/id_rsa
 
 ```
 sudo apt install openssh-server
+```
+
+
+
+
+
+# 图形桌面xorg+gdm
+
+xorg/X11
+
+[Xorg (简体中文)](https://wiki.archlinux.org/title/Xorg_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+
+GDM/lightdm
+
+[Display manager (简体中文)](https://wiki.archlinux.org/title/Display_manager_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+
+
+
+debian文件系统构建
+
+```
+debootstrap --arch=amd64 stable ./ http://ftp2.cn.debian.org/debian
 ```
 
