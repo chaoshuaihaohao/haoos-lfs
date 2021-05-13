@@ -22,13 +22,13 @@ export XORG_PREFIX="/usr"
 export XORG_CONFIG="--prefix=$XORG_PREFIX --sysconfdir=/etc \
     --localstatedir=/var --disable-static"
 
-
 usage()
 {
 	echo "Usage: $0 [option] [args]"
 	echo "        不带参数:安装所有软件包"
-	echo "	-d ,--download:下载软件包"
-	echo "	-i ,--install:安装单个软件包"
+	echo "	-f ,	--file:下载软件包"
+	echo "	-d ,	--download:下载软件包"
+	echo "	-i ,	--install:安装单个软件包"
 }
 
 install-pkg()
@@ -73,7 +73,7 @@ set -e
 exec_cmd()
 {
 set +e
-#获取软件包url的第一行的压缩包名
+#获取软件包url的第一行的压缩包名，从而得到软件包解压后的目录名。
 compressed_pkg_name=`grep Download $PKG_PATH/$1.info | head -1| awk -F '/' '{print $NF}'`
 if [ $1 = llvm ];then
   pkg_dir=`echo $compressed_pkg_name | awk -F '\\\.tar' '{print $1}' | awk -F '\\\.tgz' '{print $1}'| awk -F '\\\.zip' '{print $1}'`
@@ -95,6 +95,8 @@ elif [ $1 = "volume_key" ];then
   pkg_dir=volume_key-volume_key-0.3.12
 elif [ $1 = "lmdb" ];then
   pkg_dir=lmdb-LMDB_0.9.28
+elif [ $1 = "inkscape" ];then
+  pkg_dir=inkscape-1.0.2_2021-01-15_e86c870879
 else
   pkg_dir=`echo $compressed_pkg_name | awk -F '\\\.tar' '{print $1}' | awk -F '\\\.tgz' '{print $1}'| awk -F '\\\.zip' '{print $1}' | awk -F '\\\.src' '{print $1}'`
 fi
@@ -107,39 +109,19 @@ set -e
 	  #解压缩软件包
 	  decompress $BLFS_SRC_DIR/$compressed_pkg_name
 	else
-	  if [ $1 = gnome-keyring ];then
-		  pkg_name=$1
-	  elif [ $1 = evolution-data-server ];then
-		  pkg_name=$1
-	  elif [ $1 = glib-networking ];then
-		  pkg_name=$1
-	  elif [ $1 = json-glib ];then
-		  pkg_name=$1
-	  elif [ $1 = alsa-lib ];then
-		  pkg_name=$1
-	  elif [ $1 = gst-plugins-base ];then
-		  pkg_name=$1
-	  elif [ $1 = gst-plugins-bad ];then
-		  pkg_name=$1
-	  elif [ $1 = gst-plugins-good ];then
-		  pkg_name=$1
-	  elif [ $1 = little-cms ];then
-		  pkg_name=$1
-	  elif [ $1 = xorg-wacom-driver ];then
-		  pkg_name=$1
-	  elif [ $1 = fdk-aac ];then
-		  pkg_name=$1
-	  elif [ $1 = sdl2 ];then
-		  pkg_name=$1
-	  elif [ $1 = startup-notification ];then
-		  pkg_name=$1
-	  elif [ $1 = gnome-shell ];then
-		  pkg_name=$1
-	  elif [ $1 = dbus-glib ];then
-		  pkg_name=$1
-	  elif [ $1 = gconf ];then
-		  pkg_name=$1
-	  elif [ $1 = gnome-session ];then
+	  if [ $1 = gnome-keyring ] || [[ $1 = evolution-data-server ]] || \
+		[[ $1 = glib-networking ]] || [[ $1 = json-glib ]] || \
+		[[ $1 = alsa-lib ]] || [[ $1 = gst-plugins-base ]] || \
+		[[ $1 = gst-plugins-bad ]] || [[ $1 = gst-plugins-good ]] || \
+		[[ $1 = little-cms ]] || [[ $1 = xorg-wacom-driver ]] || \
+		[[ $1 = fdk-aac ]] || [[ $1 = sdl2 ]] || \
+		[[ $1 = startup-notification ]] || [[ $1 = gnome-shell ]] || \
+		[[ $1 = dbus-glib ]] || [[ $1 = gconf ]] || \
+		[[ $1 = gnome-session ]] || [[ $1 = perl-xml-namespacesupport ]] || \
+		[[ $1 = perl-xml-sax-base ]] || [[ $1 = perl-xml-sax ]] || \
+		[[ $1 = perl-xml-simple ]] || [[ $1 = perl-xml-sax ]] || \
+		[[ $1 = icon-naming-utils ]] || [[ gnome-icon-theme ]] \
+	 ;then			# || [[ $1 =  ]]
 		  pkg_name=$1
 	  else
 		  pkg_name=`echo $pkg_dir | awk -F '-' '{print $1}'`
@@ -165,11 +147,7 @@ set -e
 decompress()
 {
 	file_type=`file -b $1 | awk -F ' ' '{print$1}'`
-	if [ $file_type = gzip ];then
-		tar xf $1 -C /lfs
-	elif [ $file_type = XZ ];then
-		tar xf $1 -C /lfs
-	elif [ $file_type = bzip2 ];then
+	if [[ $file_type = gzip ]] || [[ $file_type = XZ ]] || [[ $file_type = bzip2 ]] ;then
 		tar xf $1 -C /lfs
 	elif [ $file_type = Zip ];then
 		if [ $1 = /sources/blfs-sources/docbook-xml-4.5.zip ];then
@@ -181,9 +159,6 @@ decompress()
 	else
 		echo "unknown compressed file $1, type is: $file_type." && exit
 	fi
-
-		
-
 }
 
 #入参检测

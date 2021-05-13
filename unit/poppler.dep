@@ -1,0 +1,8 @@
+cmake
+fontconfig
+cairo
+little-cms
+libjpeg-turbo
+libpng
+nss
+openjpeg
