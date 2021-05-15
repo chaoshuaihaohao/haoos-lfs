@@ -1,0 +1,10 @@
+evolution-data-server
+gobject-introspection
+libgee
+python-dbusmock
+telepathy-glib
+
+
+
+bluez
+vala

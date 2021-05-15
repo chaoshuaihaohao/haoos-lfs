@@ -1,0 +1,13 @@
+bubblewrap
+gexiv2
+gnome-autoar
+gnome-desktop
+libnotify
+libseccomp
+tracker3-miners
+
+desktop-file-utils
+exempi
+gobject-introspection
+gst-plugins-base
+libexif

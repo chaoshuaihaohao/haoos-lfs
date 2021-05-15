@@ -1,0 +1,9 @@
+gtk
+gsettings-desktop-schemas
+itstool
+
+
+desktop-file-utils
+docbook-xml
+docbook-xsl
+libxslt

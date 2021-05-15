@@ -1,0 +1,5 @@
+libxml2
+boost
+c-ares
+jansson
+libevent
