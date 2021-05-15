@@ -1,0 +1,6 @@
+clutter
+clutter-gtk
+gtk
+libsoup
+sqlite
+gtk-doc

@@ -1,0 +1,10 @@
+json-glib
+libseccomp
+libsoup
+vala
+
+gobject-introspection
+icu
+networkmanager
+sqlite
+upower
