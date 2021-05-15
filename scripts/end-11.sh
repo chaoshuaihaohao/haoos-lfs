@@ -4,14 +4,14 @@ set -e
 echo haoos-0.2 > /etc/haoos-release
 
 cat > /etc/lsb-release << "EOF"
-DISTRIB_ID="Linux From Scratch"
+DISTRIB_ID="Linux haoos"
 DISTRIB_RELEASE="haoos-0.2"
 DISTRIB_CODENAME="haoos-0.2"
-DISTRIB_DESCRIPTION="Linux From Scratch"
+DISTRIB_DESCRIPTION="Linux haoos"
 EOF
 
 cat > /etc/os-release << "EOF"
-NAME="Linux From Scratch"
+NAME="Linux haoos"
 VERSION="haoos-0.2"
 ID=lfs
 PRETTY_NAME="haoos 0.2"
