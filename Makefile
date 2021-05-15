@@ -61,7 +61,7 @@ clean:
 
 livecd:
 	./scripts/livecd.sh
-liveusb:
+live-usb:
 	./scripts/liveusb.sh
 
 backup:
