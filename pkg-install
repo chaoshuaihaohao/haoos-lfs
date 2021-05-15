@@ -16,6 +16,7 @@ export MAKEFLAGS=-j$JOBS
 
 export SHELL=/bin/bash
 export QT5PREFIX=/opt/qt5
+export PYTHONDOCS=/usr/share/doc/python-3/html
 export PKG_PATH=unit
 export BLFS_SRC_DIR=/sources/blfs-sources
 export XORG_PREFIX="/usr"
@@ -97,6 +98,8 @@ elif [ $1 = "lmdb" ];then
   pkg_dir=lmdb-LMDB_0.9.28
 elif [ $1 = "inkscape" ];then
   pkg_dir=inkscape-1.0.2_2021-01-15_e86c870879
+elif [ $1 = "firefox" ];then
+  pkg_dir=firefox-78.8.0
 else
   pkg_dir=`echo $compressed_pkg_name | awk -F '\\\.tar' '{print $1}' | awk -F '\\\.tgz' '{print $1}'| awk -F '\\\.zip' '{print $1}' | awk -F '\\\.src' '{print $1}'`
 fi
