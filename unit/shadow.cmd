@@ -165,8 +165,8 @@ done
 
 
 
+set +e
 [ -f /etc/login.access ] && mv -v /etc/login.access{,.NOUSE}
 
-
-
 [ -f /etc/limits ] && mv -v /etc/limits{,.NOUSE}
+set -e

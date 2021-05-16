@@ -31,6 +31,7 @@ ninja
 
 
 ninja install &&
+rm -rf /usr/share/doc/NetworkManager-1.30.0
 mv -v /usr/share/doc/NetworkManager{,-1.30.0}
 
 #Configuring NetworkManager
