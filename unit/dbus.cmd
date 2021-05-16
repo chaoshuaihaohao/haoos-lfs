@@ -24,7 +24,7 @@ PYTHON=python3 ./configure --enable-tests         \
                            --disable-doxygen-docs \
                            --disable-xml-docs     &&
 make                                              &&
-make check
+#make check
 
 
 

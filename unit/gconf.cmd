@@ -5,4 +5,4 @@
 make
 
 make install &&
-ln -s gconf.xml.defaults /etc/gconf/gconf.xml.system
+ln -svf gconf.xml.defaults /etc/gconf/gconf.xml.system
