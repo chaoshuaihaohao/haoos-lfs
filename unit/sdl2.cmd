@@ -5,13 +5,13 @@ esac
 ./configure --prefix=/usr &&
 make
 
-pushd docs  &&
-  doxygen   &&
-popd
+#pushd docs  &&
+#  doxygen   &&
+#popd
 
 make install              &&
 rm -v /usr/lib/libSDL2*.a
 
 
-install -v -m755 -d        /usr/share/doc/SDL2-2.0.14/html &&
-cp -Rv  docs/output/html/* /usr/share/doc/SDL2-2.0.14/html
+#install -v -m755 -d        /usr/share/doc/SDL2-2.0.14/html &&
+#cp -Rv  docs/output/html/* /usr/share/doc/SDL2-2.0.14/html

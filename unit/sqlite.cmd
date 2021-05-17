@@ -1,4 +1,4 @@
-unzip -d ./ -q $BLFS_SRC_DIR/sqlite-doc-3340100.zip
+#unzip -d ./ -q $BLFS_SRC_DIR/sqlite-doc-3340100.zip
 
 ./configure --prefix=/usr     \
             --disable-static  \
@@ -15,5 +15,5 @@ make
 
 make install
 
-install -v -m755 -d /usr/share/doc/sqlite-3.34.1 &&
-cp -v -R sqlite-doc-3340100/* /usr/share/doc/sqlite-3.34.1
+#install -v -m755 -d /usr/share/doc/sqlite-3.34.1 &&
+#cp -v -R sqlite-doc-3340100/* /usr/share/doc/sqlite-3.34.1

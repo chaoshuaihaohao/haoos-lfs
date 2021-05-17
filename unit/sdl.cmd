@@ -7,9 +7,9 @@ make
 
 make install &&
 
-install -v -m755 -d /usr/share/doc/SDL-1.2.15/html &&
-install -v -m644    docs/html/*.html \
-                    /usr/share/doc/SDL-1.2.15/html
+#install -v -m755 -d /usr/share/doc/SDL-1.2.15/html &&
+#install -v -m644    docs/html/*.html \
+#                    /usr/share/doc/SDL-1.2.15/html
 
 #Testing SDL
 #cd test &&

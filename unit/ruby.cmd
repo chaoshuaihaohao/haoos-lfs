@@ -2,5 +2,5 @@
             --enable-shared \
             --docdir=/usr/share/doc/ruby-3.0.0 &&
 make
-make capi
+#make capi
 make install
