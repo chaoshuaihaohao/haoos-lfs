@@ -18,7 +18,7 @@ make soinstall &&
 install -v -m644 base/*.h /usr/include/ghostscript &&
 ln -sfvn ghostscript /usr/include/ps
 
-mv -v /usr/share/doc/ghostscript/9.53.3 /usr/share/doc/ghostscript-9.53.3  &&
+#mv -v /usr/share/doc/ghostscript/9.53.3 /usr/share/doc/ghostscript-9.53.3  &&
 rm -rfv /usr/share/doc/ghostscript &&
 cp -r examples/ /usr/share/ghostscript/9.53.3/
 

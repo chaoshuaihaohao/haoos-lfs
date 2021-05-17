@@ -34,8 +34,8 @@ ln -v -sf ../../lib/libkrb5support.so.0.1 /usr/lib/libkrb5support.so &&
 mv -v /usr/bin/ksu /bin &&
 chmod -v 755 /bin/ksu   &&
 
-install -v -dm755 /usr/share/doc/krb5-1.19.1 &&
-cp -vfr ../doc/*  /usr/share/doc/krb5-1.19.1
+#install -v -dm755 /usr/share/doc/krb5-1.19.1 &&
+#cp -vfr ../doc/*  /usr/share/doc/krb5-1.19.1
 
 
 cat > /etc/krb5.conf << "EOF"

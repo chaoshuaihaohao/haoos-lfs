@@ -17,10 +17,10 @@ mv -vf /usr/bin/fusermount3  /bin         &&
 mv -vf /usr/sbin/mount.fuse3 /sbin        &&
 chmod u+s /bin/fusermount3                &&
 
-install -v -m755 -d /usr/share/doc/fuse-3.10.2      &&
-install -v -m644    ../doc/{README.NFS,kernel.txt} \
-                    /usr/share/doc/fuse-3.10.2      &&
-cp -Rv ../doc/html  /usr/share/doc/fuse-3.10.2
+#install -v -m755 -d /usr/share/doc/fuse-3.10.2      &&
+#install -v -m644    ../doc/{README.NFS,kernel.txt} \
+#                    /usr/share/doc/fuse-3.10.2      &&
+#cp -Rv ../doc/html  /usr/share/doc/fuse-3.10.2
 
 popd
 
