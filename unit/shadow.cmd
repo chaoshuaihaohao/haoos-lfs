@@ -162,8 +162,8 @@ do
     sed -i "s/chage/$PROGRAM/" /etc/pam.d/${PROGRAM}
 done
 
-
-
+#修复chpasswd无法修改密码的问题
+cp /etc/pam.d/system-password /etc/pam.d/chpasswd
 
 set +e
 [ -f /etc/login.access ] && mv -v /etc/login.access{,.NOUSE}

@@ -53,10 +53,15 @@ done
 
 mkdir -vp media mnt proc root srv sys home
 #创建默认用户haoos和root，密码为1
+set +e
+chroot ${LIVEUSB}/system rm -rf haoos
+chroot ${LIVEUSB}/system userdel haoos
+chroot ${LIVEUSB}/system groupdel haoos
 chroot ${LIVEUSB}/system groupadd haoos
-chroot ${LIVEUSB}/system useradd -m -d /home/haoos -g haoos haoos
-chroot ${LIVEUSB}/system echo root:1 | chpasswd
-#chroot ${LIVEUSB}/system echo haoos:1 | chpasswd
+chroot ${LIVEUSB}/system useradd -m -s /bin/bash  -g haoos haoos
+echo "root:1" | chroot ${LIVEUSB}/system/ chpasswd
+echo "haoos:1" | chroot ${LIVEUSB}/system/ chpasswd
+set -e
 
 rm -rf usr/src
 rm -rf lib/modules
