@@ -33,6 +33,7 @@ build-lfs1:
 	./scripts/lfs_install-8_2.sh
 	./scripts/blfs_env_config.sh
 	./pkg-install
+	./scripts/other_install.sh
 	./scripts/lfs_symbol_clean.sh
 chroot-again:
 	./scripts/chroot_again.sh
