@@ -1,0 +1,14 @@
+adwaita-icon-theme
+gsettings-desktop-schemas
+gtk
+itstool
+libxml2
+openjpeg
+
+
+gnome-keyring
+gobject-introspection
+libarchive
+libsecret
+nautilus
+poppler

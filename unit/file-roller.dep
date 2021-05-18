@@ -1,0 +1,10 @@
+gtk
+itstool
+
+
+cpio
+desktop-file-utils
+json-glib
+libarchive
+libnotify
+nautilus

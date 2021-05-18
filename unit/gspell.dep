@@ -1,0 +1,9 @@
+enchant
+gtk
+
+
+gobject-introspection
+gtk-doc
+iso-codes
+vala
+valgrind
