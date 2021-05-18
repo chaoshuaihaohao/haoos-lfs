@@ -1,0 +1,14 @@
+gst-plugins-base
+itstool
+libcanberra
+libnotify
+
+
+
+
+gobject-introspection
+libburn
+libisoburn
+libisofs
+nautilus
+totem-pl-parser
