@@ -259,6 +259,8 @@ xorg-vmware-driver
 shadow
 cpio
 xorg-libinput-driver
+dbus
+dbus-glib
 gconf
 gnome-session
 gdm
@@ -275,8 +277,6 @@ apr-util
 ghostscript
 freeglut
 libvdpau-va-gl
-dbus
-dbus-glib
 xcb-util-wm
 python2
 xclock
@@ -304,7 +304,6 @@ perl-xml-simple
 icon-naming-utils
 gnome-icon-theme
 extra-cmake-modules
-breeze-icons
 boost
 double-conversion
 libatomic_ops
@@ -329,7 +328,6 @@ adwaita-icon-theme
 gnome-icon-theme-extras
 gnome-icon-theme-symbolic
 gnome-themes-extra
-oxygen-icons5
 gnome-menus
 lxde-icon-theme
 gtksourceview4
@@ -376,3 +374,17 @@ gnome-nettool
 gnome-video-effects
 gnome-power-manager
 gnome-logs
+file-roller
+gnome-system-monitor
+brasero
+bogofilter
+gspell
+highlight
+seahorse
+gnome-weather
+gnome-tweaks
+gnome-screenshot
+evince
+baobab
+libpeas
+eog
