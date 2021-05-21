@@ -211,7 +211,7 @@ logout
 root@virt-PC:/home/virt/haoos-lfs# update-grub
 ```
 
-
+# ISO制作
 
 ## LIVECD制作
 
@@ -228,8 +228,12 @@ root [ /haoos ]# make livecd
 在make chroot-again环境中执行：
 
 ```
-root [ /haoos ]# make liveusb
+root [ /haoos ]# make live-usb
 ```
+
+之后会在/haoos/liveusb目录下生成haoos-liveusb.iso文件。
+
+使用iso-boot-maker.exe制作usb启动盘即可。
 
 
 
