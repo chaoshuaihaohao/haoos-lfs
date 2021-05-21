@@ -36,13 +36,13 @@ done
 
 #压缩文件
 pushd $LFS/sources
-tar czf lfs-sources.tar.xz lfs-sources && rm -rf lfs-sources
-tar czf blfs-sources.tar.xz blfs-sources && rm -rf blfs-sources
-tar czf other-sources.tar.xz other-sources && rm -rf other-sources
+tar czvf lfs-sources.tar.xz lfs-sources && rm -rf lfs-sources
+tar czvf blfs-sources.tar.xz blfs-sources && rm -rf blfs-sources
+tar czvf other-sources.tar.xz other-sources && rm -rf other-sources
 popd
 
 pushd $LFS
-tar czf sources.tar.xz sources && rm -rf sources
+tar czvf sources.tar.xz sources && rm -rf sources
 popd
 
 #解压缩还原最新的压缩包文件
