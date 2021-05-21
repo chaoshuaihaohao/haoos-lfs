@@ -27,7 +27,7 @@ cp -av /sources/other-sources/saigepengkegirl.jpg /usr/share/backgrounds/
 set +e
 grep -rn "saigepengkegirl" /usr/share/gnome-background-properties/gnome-backgrounds.xml
 if [ $? != 0 ];then
-sed -i '3a\        <wallpaper deleted="false">\n                <name>Light Waves</name>\n                <filename>/usr/share/backgrounds/gnome/saigepengkegirl.jpg</filename>\n                <options>zoom</options>\n    <pcolor>#ffffff</pcolor>\n    <scolor>#000000</scolor>\n        </wallpaper>\n        <wallpaper deleted="false">' /usr/share/gnome-background-properties/gnome-backgrounds.xml
+sed -i '3a\        <wallpaper deleted="false">\n                <name>Light Waves</name>\n                <filename>/usr/share/backgrounds/saigepengkegirl.jpg</filename>\n                <options>zoom</options>\n    <pcolor>#ffffff</pcolor>\n    <scolor>#000000</scolor>\n        </wallpaper>' /usr/share/gnome-background-properties/gnome-backgrounds.xml
 fi
 set -e
 
