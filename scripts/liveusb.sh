@@ -38,7 +38,7 @@ pushd ${LIVEUSB}/system
 echo "copying the files to system..."
 #cp -a /{bin,dev,etc,home,lib,lib64,run,sbin,tmp,usr,var} ./
 #cp -a /{bin,dev,etc,lib,lib64,run,sbin,tmp,usr,var,opt} ./
-cp -a /{dev,etc,run,tmp,usr,var,opt} ./
+cp -a /{dev,etc,run,usr,var,opt} ./
 
 #如果主系统存在/lib64目录，则把/lib64内容移动到/system/usr/lib64下，并创建
 #/system/lib64软链接指向/system/usr/lib64.
@@ -51,7 +51,7 @@ if [ -d /$root_dir ];then
 fi
 done
 
-mkdir -vp media mnt proc root srv sys home
+mkdir -vp media mnt proc root srv sys home tmp
 #创建默认用户haoos和root，密码为1
 set +e
 chroot ${LIVEUSB}/system rm -rf haoos
