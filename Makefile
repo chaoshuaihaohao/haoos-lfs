@@ -31,12 +31,16 @@ system-conf:
 	./scripts/system_config.sh
 build-lfs1:
 	./scripts/lfs_install-8_2.sh
+	./scripts/clean_up.sh
+chroot-again:
+	./scripts/chroot_again.sh
+build-blfs:
 	./scripts/blfs_env_config.sh
 	./pkg-install
 	./scripts/other_install.sh
+symbol-clean:
+	./scripts/clean_up.sh
 	./scripts/lfs_symbol_clean.sh
-chroot-again:
-	./scripts/chroot_again.sh
 
 bootable:
 	./scripts/linux_compile.sh
