@@ -143,7 +143,7 @@ root@virt-PC:/home/virt/haoos-lfs# make chroot
 
 #执行完后是：bash-5.1#
 
-### 7. 2构建其他临时工具&&8. 安装基本系统软件 && 8.1安装各种系统应用软件&&更新系统配置&&安装blfs软件包
+### 7. 2构建其他临时工具&&8. 安装基本系统软件 && 8.1安装各种系统应用软件&&更新系统配置
 
 ```
 bash-5.1# make chroot-do && make build-lfs
@@ -167,6 +167,12 @@ logout
 
 ```
 virt@virt-PC:~/haoos-lfs$ sudo make chroot-again
+```
+
+## 8.2安装blfs软件包
+
+```
+cd /haoos && make build-blfs
 ```
 
 ## 9.10. 使 LFS 系统可引导
