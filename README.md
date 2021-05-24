@@ -237,6 +237,16 @@ root [ /haoos ]# make live-usb
 
 
 
+当前启动后，桌面起不来，需要组合按键CRTL+ALT+F2,CRTL+ALT+F1后才能启动桌面，原因未知。
+
+通过重新编译accountsservice和gnome-online-accounts软件包，再次制作ISO后，可以直接进入桌面登录环境。应该是重新命令行删除然后创建了haoos账户，结果账户信息没有添加到accountsservice某些配置文件中导致。
+
+
+
+# 软件包适配
+
+参见Documentation/unit-adaptor.md文档
+
 # 参考文献
 
 [Linux From Scratch Version 10.1-systemd Published March 1st, 2021]
