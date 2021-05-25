@@ -63,6 +63,42 @@ echo "root:1" | chroot ${LIVEUSB}/system/ chpasswd
 echo "haoos:1" | chroot ${LIVEUSB}/system/ chpasswd
 set -e
 
+cat > ${LIVEUSB}/system/etc/haoos_defconf << "EOF"
+#!/bin/bash
+gsettings set org.gnome.Terminal.Legacy.Settings theme-variant 'dark'
+
+gsettings set org.gnome.desktop.interface monospace-font-name '文泉驿等宽微米黑 Bold 10'
+
+gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/saigepengkegirl.jpg'
+
+gsettings set org.gnome.desktop.screensaver picture-uri 'file:///usr/share/backgrounds/saigepengkegirl.jpg'
+
+gsettings set org.gnome.desktop.input-sources mru-sources "[('ibus', 'libpinyin'), ('xkb', 'us')]"
+
+gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'libpinyin')]"
+
+EOF
+
+chmod 777 ${LIVEUSB}/system/etc/haoos_defconf
+
+cat > ${LIVEUSB}/system/etc/systemd/system/hello.service << "EOF"
+# Simple service unit file to use for testing
+# startup configurations with systemd.
+# By David Both
+# Licensed under GPL V2
+#
+[Unit]
+Description=My hello shell script
+[Service]
+Type=oneshot
+ExecStart=/etc/haoos_defconf
+StandardOutput=journal+console
+[Install]
+WantedBy=multi-user.target
+EOF
+
+chroot ${LIVEUSB}/system systemctl enable hello.service
+
 rm -rf usr/src
 rm -rf lib/modules
 
