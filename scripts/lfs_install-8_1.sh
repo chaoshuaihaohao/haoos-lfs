@@ -401,6 +401,7 @@ ln -sfv ../../lib/$(readlink /usr/lib/libacl.so) /usr/lib/libacl.so
 popd
 
 #8.24. Libcap-2.48
+tar xf $LFS_SRC_DIR/libcap-2.48.tar.xz
 pushd libcap-2.48
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib
@@ -414,6 +415,7 @@ done
 popd
 
 #8.25. Shadow-4.8.1
+tar xf $LFS_SRC_DIR/shadow-4.8.1.tar.xz
 pushd shadow-4.8.1
 sed -i 's/groups$(EXEEXT) //' src/Makefile.in
 find man -name Makefile.in -exec sed -i 's/groups\.1 / /'   {} \;
@@ -519,7 +521,7 @@ rm -vf                     /usr/lib/libcursesw.so
 echo "INPUT(-lncursesw)" > /usr/lib/libcursesw.so
 ln -sfv libncurses.so      /usr/lib/libcurses.so
 rm -fv /usr/lib/libncurses++w.a
-mkdir -v       /usr/share/doc/ncurses-6.2
+mkdir -vp       /usr/share/doc/ncurses-6.2
 cp -v -R doc/* /usr/share/doc/ncurses-6.2
 popd
 
