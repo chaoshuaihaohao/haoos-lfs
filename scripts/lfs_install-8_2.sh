@@ -193,6 +193,8 @@ cp -vfr doc/* /usr/share/doc/openssl-1.1.1j
 popd
 
 #8.49. Python-3.9.2
+rm -rf Python-3.9.2
+tar xf $LFS_SRC_DIR/Python-3.9.2.tar.xz
 pushd Python-3.9.2
 ./configure --prefix=/usr       \
             --enable-shared     \
