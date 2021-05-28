@@ -97,7 +97,6 @@ unset script RED GREEN NORMAL
 
 # End /etc/profile
 EOF
-source /etc/profile
 
 install --directory --mode=0755 --owner=root --group=root /etc/profile.d
 
@@ -404,6 +403,7 @@ EOF
 
 
 #禁用位图字体
+mkdir -pv /etc/fonts/conf.d/
 cat > /etc/fonts/conf.d/70-no-bitmaps.conf << "EOF"
 <?xml version='1.0'?>
 <!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>

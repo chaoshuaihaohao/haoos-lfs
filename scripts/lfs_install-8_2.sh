@@ -252,10 +252,10 @@ FORCE_UNSAFE_CONFIGURE=1 ./configure \
             --prefix=/usr            \
             --enable-no-install-program=kill,uptime
 make
-make NON_ROOT_USERNAME=tester check-root
-echo "dummy:x:102:tester" >> /etc/group
-#chown -Rv tester . 
-#su tester -c "PATH=$PATH make RUN_EXPENSIVE_TESTS=yes check"
+make NON_ROOT_USERNAME=haoos check-root
+echo "dummy:x:102:haoos" >> /etc/group
+#chown -Rv haoos . 
+#su haoos -c "PATH=$PATH make RUN_EXPENSIVE_TESTS=yes check"
 sed -i '/dummy/d' /etc/group
 make install
 mv -v /usr/bin/{cat,chgrp,chmod,chown,cp,date,dd,df,echo} /bin
@@ -304,8 +304,8 @@ pushd findutils-4.8.0
 ./configure --prefix=/usr --localstatedir=/var/lib/locate
 make
 #To test the results, issue:
-#chown -Rv tester .
-#su tester -c "PATH=$PATH make check"
+#chown -Rv haoos .
+#su haoos -c "PATH=$PATH make check"
 make install
 mv -v /usr/bin/find /bin
 sed -i 's|find:=${BINDIR}|find:=/bin|' /usr/bin/updatedb
@@ -453,8 +453,8 @@ pushd vim-8.2.2433
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 ./configure --prefix=/usr
 make
-#chown -Rv tester .
-#su tester -c "LANG=en_US.UTF-8 make -j1 test" &> vim-test.log
+#chown -Rv haoos .
+#su haoos -c "LANG=en_US.UTF-8 make -j1 test" &> vim-test.log
 set +e
 make install
 set -e
@@ -581,8 +581,8 @@ pushd util-linux-2.36.2
             --without-systemdsystemunitdir \
             runstatedir=/run
 make
-#chown -Rv tester .
-#su tester -c "make -k check"
+#chown -Rv haoos .
+#su haoos -c "make -k check"
 make install
 popd
 

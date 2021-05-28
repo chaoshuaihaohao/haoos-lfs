@@ -11,6 +11,7 @@ source ~/.bash_profile
 echo $LFS
 
 #拷贝haoos-lfs文件
+mkdir -vp $LFS/haoos
 cp -a * $LFS/haoos/
 
 #7.2. 改变$LFS所有者
