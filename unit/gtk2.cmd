@@ -6,7 +6,7 @@ sed -e 's#l \(gtk-.*\).sgml#& -o \1#' \
 make
 
 
-make install
+make install -j1
 
 #Configuring GTK+ 2
 cat > ~/.gtkrc-2.0 << "EOF"

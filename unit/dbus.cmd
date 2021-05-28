@@ -18,12 +18,12 @@ ln -sfv ../../lib/$(readlink /usr/lib/libdbus-1.so) /usr/lib/libdbus-1.so
 
 
 
-make distclean                                    &&
-PYTHON=python3 ./configure --enable-tests         \
-                           --enable-asserts       \
-                           --disable-doxygen-docs \
-                           --disable-xml-docs     &&
-make                                              &&
+#make distclean                                    
+#PYTHON=python3 ./configure --enable-tests         \
+#                           --enable-asserts       \
+#                           --disable-doxygen-docs \
+#                           --disable-xml-docs     
+#make                                              
 #make check
 
 
