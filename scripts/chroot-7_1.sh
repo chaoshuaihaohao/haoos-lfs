@@ -78,8 +78,8 @@ nogroup:x:99:
 users:x:999:
 EOF
 
-echo "tester:x:$(ls -n $(tty) | cut -d" " -f3):101::/home/tester:/bin/bash" >> /etc/passwd
-echo "tester:x:101:" >> /etc/group
-install -o tester -d /home/tester
+echo "haoos:x:$(ls -n $(tty) | cut -d" " -f3):101::/home/haoos:/bin/bash" >> /etc/passwd
+echo "haoos:x:101:" >> /etc/group
+install -o haoos -d /home/haoos
 
 exec /bin/bash --login +h

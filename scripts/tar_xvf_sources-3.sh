@@ -13,6 +13,7 @@ tar xvf $LFS/sources.tar.xz
 pushd $LFS/sources
 tar xvf $LFS/sources/lfs-sources.tar.xz
 tar xvf $LFS/sources/blfs-sources.tar.xz
+tar xvf $LFS/sources/other-sources.tar.xz
 popd #$LFS/sources
 
 chmod -v a+wt $LFS/sources/lfs-sources

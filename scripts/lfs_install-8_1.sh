@@ -461,8 +461,8 @@ pushd       build
              --with-system-zlib
 make
 ulimit -s 32768
-#chown -Rv tester .
-#su tester -c "PATH=$PATH make -k check"
+#chown -Rv haoos .
+#su haoos -c "PATH=$PATH make -k check"
 #../contrib/test_summary
 make install
 rm -rf /usr/lib/gcc/$(gcc -dumpmachine)/10.2.0/include-fixed/bits/
@@ -531,8 +531,8 @@ pushd sed-4.8
 make
 make html
 
-#chown -Rv tester .
-#su tester -c "PATH=$PATH make check"
+#chown -Rv haoos .
+#su haoos -c "PATH=$PATH make check"
 
 make install
 install -d -m755           /usr/share/doc/sed-4.8
@@ -587,9 +587,9 @@ sed -i  '/^bashline.o:.*shmbchar.h/a bashline.o: ${DEFDIR}/builtext.h' Makefile.
             --without-bash-malloc            \
             --with-installed-readline
 make
-#run the tests as the tester user:
-#chown -Rv tester .
-#su tester << EOF
+#run the tests as the haoos user:
+#chown -Rv haoos .
+#su haoos << EOF
 #PATH=$PATH make tests < $(tty)
 #EOF
 make install

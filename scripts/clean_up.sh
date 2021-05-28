@@ -9,5 +9,5 @@ find /usr -depth -name $(uname -m)-lfs-linux-gnu\* | xargs rm -rf
 rm -rf /tools
 
 set +e
-userdel -rf tester
+userdel -rf haoos
 set -e

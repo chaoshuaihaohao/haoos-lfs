@@ -36,6 +36,7 @@ chroot-again:
 	./scripts/chroot_again.sh
 build-blfs:
 	./scripts/blfs_env_config.sh
+	source /etc/profile
 	./pkg-install -f example/list-latest
 	./scripts/other_install.sh
 symbol-clean:
