@@ -1,4 +1,4 @@
-mkdir /opt/rustc-1.47.0             &&
+mkdir -vp /opt/rustc-1.47.0             &&
 ln -svfin rustc-1.47.0 /opt/rustc
 
 cat << EOF > config.toml
