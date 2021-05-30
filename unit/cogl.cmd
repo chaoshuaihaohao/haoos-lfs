@@ -5,4 +5,4 @@
             --enable-wayland-egl-server              &&
 make
 #make check
-make install
+make install -j1

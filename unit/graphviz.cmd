@@ -6,6 +6,6 @@ autoreconf                &&
             PS2PDF=true   &&
 make
 
-make install
+make install -j1
 
 ln -svf /usr/share/graphviz/doc /usr/share/doc/graphviz-2.44.1

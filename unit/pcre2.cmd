@@ -10,4 +10,4 @@
             --disable-static                    &&
 make
 
-make install
+make install -j1

@@ -15,4 +15,4 @@ make
 #tar xf $BLFS_SRC_DIR/xmlts20130923.tar.gz -C /lfs
 #systemctl stop httpd.service
 
-make install
+make install -j1

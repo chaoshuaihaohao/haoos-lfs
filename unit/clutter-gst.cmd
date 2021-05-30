@@ -1,4 +1,4 @@
 ./configure --prefix=/usr &&
 make
 
-make install
+make install -j1

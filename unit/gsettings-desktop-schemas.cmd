@@ -5,5 +5,5 @@ pushd    build &&
 
 meson --prefix=/usr .. &&
 ninja
-ninja install
+ninja install -j1
 popd

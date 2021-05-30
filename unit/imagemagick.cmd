@@ -7,4 +7,4 @@
 make
 
 
-make DOCUMENTATION_PATH=/usr/share/doc/imagemagick-7.0.11 install
+make DOCUMENTATION_PATH=/usr/share/doc/imagemagick-7.0.11 install -j1

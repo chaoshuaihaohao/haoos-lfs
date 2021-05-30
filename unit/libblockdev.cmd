@@ -5,4 +5,4 @@
             --without-nvdimm  \
             --without-dm      &&
 make
-make install
+make install -j1

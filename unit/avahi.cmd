@@ -23,7 +23,7 @@ patch -Np1 -i $BLFS_SRC_DIR/avahi-0.8-ipv6_race_condition_fix-1.patch
             --with-systemdsystemunitdir=/lib/systemd/system &&
 make
 
-make install
+make install -j1
 
 systemctl enable avahi-daemon
 

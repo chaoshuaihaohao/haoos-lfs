@@ -8,4 +8,4 @@ xsltproc/xsltproc --nonet doc/xsltproc.xml -o doc/xsltproc.1
 
 #make check
 
-make install
+make install -j1

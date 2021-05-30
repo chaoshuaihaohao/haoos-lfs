@@ -11,4 +11,4 @@ autoconf &&
 make depend &&
 make
 
-make install
+make install -j1

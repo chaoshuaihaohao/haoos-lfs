@@ -9,4 +9,4 @@ ninja
 
 #ninja test
 
-ninja install
+ninja install -j1

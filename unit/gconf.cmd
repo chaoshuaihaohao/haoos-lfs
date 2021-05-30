@@ -4,5 +4,5 @@
             --disable-static &&
 make
 
-make install &&
+make install -j1
 ln -svf gconf.xml.defaults /etc/gconf/gconf.xml.system
