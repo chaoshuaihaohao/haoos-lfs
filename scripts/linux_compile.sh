@@ -12,8 +12,8 @@ export LFS_SRC_DIR=/sources/lfs-sources
 
 pushd /lfs
 #10.3. Linux-5.10.17
-#rm -rf linux-5.10.17
-#tar xf $LFS_SRC_DIR/linux-5.10.17.tar.xz
+rm -rf linux-5.10.17
+tar xf $LFS_SRC_DIR/linux-5.10.17.tar.xz
 pushd linux-5.10.17
 #make mrproper
 #need to copy a .config file from other place.
