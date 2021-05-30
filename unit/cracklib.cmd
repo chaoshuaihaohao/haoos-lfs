@@ -5,7 +5,7 @@ sed -i '/skipping/d' util/packer.c &&
             --with-default-dict=/lib/cracklib/pw_dict &&
 make
 
-make install                      &&
+make install -j1
 mv -v /usr/lib/libcrack.so.* /lib &&
 ln -sfv ../../lib/$(readlink /usr/lib/libcrack.so) /usr/lib/libcrack.so
 

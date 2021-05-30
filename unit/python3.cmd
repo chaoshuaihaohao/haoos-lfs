@@ -8,7 +8,7 @@ make
 
 #make check
 
-make install
+make install -j1
 
 #ln -svfn python-3.9.2 /usr/share/doc/python-3
 

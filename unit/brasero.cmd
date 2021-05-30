@@ -4,4 +4,4 @@
 make
 
 
-make install
+make install -j1

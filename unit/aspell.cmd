@@ -1,6 +1,6 @@
 ./configure --prefix=/usr &&
 make
-make install &&
+make install -j1
 ln -svfn aspell-0.60 /usr/lib/aspell &&
 
 install -v -m755 -d /usr/share/doc/aspell-0.60.8/aspell{,-dev}.html &&

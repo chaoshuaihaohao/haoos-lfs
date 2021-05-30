@@ -3,5 +3,5 @@
             --disable-guile \
             --with-default-trust-store-pkcs11="pkcs11:" &&
 make
-make install
+make install -j1
 make -C doc/reference install-data-local

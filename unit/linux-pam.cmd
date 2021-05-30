@@ -24,7 +24,7 @@ make check
 
 rm -fv /etc/pam.d/other
 
-make install &&
+make install -j1
 chmod -v 4755 /sbin/unix_chkpwd &&
 
 for file in pam pam_misc pamc

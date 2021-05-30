@@ -13,7 +13,7 @@ sed -i "s:/sys/fs/cgroup/systemd/:/sys:g" configure
             --with-os-type=LFS   &&
 make
 
-make install
+make install -j1
 
 cat > /etc/pam.d/polkit-1 << "EOF"
 # Begin /etc/pam.d/polkit-1

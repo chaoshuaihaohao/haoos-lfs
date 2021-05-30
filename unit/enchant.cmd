@@ -2,7 +2,7 @@
 make
 #make check
 
-make install                                   &&
+make install -j1
 rm -rf /usr/include/enchant                    &&
 ln -sfv enchant-2       /usr/include/enchant   &&
 ln -sfv enchant-2       /usr/bin/enchant       &&
