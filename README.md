@@ -101,8 +101,18 @@ root@virt-PC:/boot/efi# findmnt | grep vda
 #lfs账户配置，这一步会进入新创建的lfs账户目录。
 
 ```
-make lfs-env-build
+virt@virt-PC:~/haoos-lfs$ sudo make lfs-env-build
 ```
+
+按提示输入用来构建haoos系统的块设备，例如/dev/vdb
+
+注意：块设备不要设置成只读，否则无法构建。
+
+按提示输入存放source.tar.xz文件的电脑ssh ip，例如haoos@10.20.66.88
+
+注意：指定的source.tar.xz存放在~目录下。
+
+![image-20210527103626307](/home/uos/.config/Typora/typora-user-images/image-20210527103626307.png)
 
 ## 新建的lfs环境
 
@@ -114,6 +124,8 @@ make lfs-env-build
 lfs@virt-PC:~$ make build
 ```
 
+![image-20210527110152438](/home/uos/.config/Typora/typora-user-images/image-20210527110152438.png)
+
 ## 构建 LFS 系统
 
 ### 7. 1进入 Chroot，chroot到/mnt/lfs环境
@@ -122,23 +134,20 @@ lfs@virt-PC:~$ make build
 
 ```
 lfs@virt-PC:/home/virt/haoos-lfs$ logout
-bash: logout: 不是登录 shell: 使用 `exit'
-lfs@virt-PC:/home/virt/haoos-lfs$ exit
-exit
 virt@virt-PC:~/haoos-lfs$ 
 ```
 
 #chroot到/mnt/lfs
 
 ```
-root@virt-PC:/home/virt/haoos-lfs# make chroot
+virt@virt-PC:~/haoos-lfs$ sudo make chroot
 ```
 
 #执行完后是：(lfs chroot) I have no name!:/#
 #切换到haoos项目目录
 
 ```
-(lfs chroot) I have no name!:/#cd haoos && make chroot1
+(lfs chroot) I have no name!:/# cd haoos && make chroot1
 ```
 
 #执行完后是：bash-5.1#
@@ -158,9 +167,9 @@ bash-5.1# make chroot-do && make build-lfs
 首先退出当前的"bash-5.1#"环境到虚拟宿主机"virt@virt-PC:~/haoos-lfs$"
 
 ```
-logout
-logout
-logout
+bash-5.1# logout
+(lfs chroot) I have no name!:/# logout
+virt@virt-PC:~/haoos-lfs$
 ```
 
 进入chroot环境
@@ -172,8 +181,16 @@ virt@virt-PC:~/haoos-lfs$ sudo make chroot-again
 ## 8.2安装blfs软件包
 
 ```
-cd /haoos && make build-blfs
+(lfs chroot) root:/# cd /haoos && make build-blfs
 ```
+
+清除软件库symbol
+
+```
+make symbol_clean
+```
+
+
 
 ## 9.10. 使 LFS 系统可引导
 
@@ -597,6 +614,14 @@ Exception: Could not detect environment shell
 export SHELL=/bin/bash
 ```
 
+
+
+
+
+## libevent找不到qt5
+
+qt.cmd中的Makefile中的source不起作用，需要手动输入。
+
 # u盘刻制镜像方法
 
 找到U盘设备：
@@ -672,5 +697,29 @@ debian文件系统构建
 
 ```
 debootstrap --arch=amd64 stable ./ http://ftp2.cn.debian.org/debian
+```
+
+# gnome桌面组件
+
+终端：gnome-terminal
+
+文件管理器：nautilus
+
+
+
+
+
+要加入sudo和man的tab自动补全功能，只需在~/.bashrc中加入:
+
+\#Enabling tab-completion
+complete -cf sudo
+complete -cf man
+
+
+
+# bash -e中&&造成编译报错不退出
+
+```
+sed -i 's/&&//g' `grep -rl "&&" ./unit/`
 ```
 
