@@ -1,11 +1,11 @@
-mkdir build &&
-pushd    build &&
+mkdir build 
+pushd    build 
 
 meson  --prefix=/usr       \
        -Dbuildtype=release \
        -Dpackage-origin=http://www.linuxfromscratch.org/blfs/view/svn/ \
        -Dpackage-name="GStreamer 1.18.3 BLFS"    \
-       --wrap-mode=nodownload &&
+       --wrap-mode=nodownload 
 ninja
 #ninja test
 ninja install

@@ -1,5 +1,5 @@
 set +e
-groupadd -fg 27 polkitd &&
+groupadd -fg 27 polkitd 
 useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27 \
         -g polkitd -s /bin/false polkitd
 set -e
@@ -10,7 +10,7 @@ sed -i "s:/sys/fs/cgroup/systemd/:/sys:g" configure
             --sysconfdir=/etc    \
             --localstatedir=/var \
             --disable-static     \
-            --with-os-type=LFS   &&
+            --with-os-type=LFS   
 make
 
 make install -j1

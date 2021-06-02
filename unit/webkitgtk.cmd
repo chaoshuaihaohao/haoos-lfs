@@ -1,5 +1,5 @@
-mkdir -vp build &&
-pushd        build &&
+mkdir -vp build 
+pushd        build 
 
 cmake -DCMAKE_BUILD_TYPE=Release  \
       -DCMAKE_INSTALL_PREFIX=/usr \
@@ -15,9 +15,9 @@ cmake -DCMAKE_BUILD_TYPE=Release  \
 ninja
 ninja install
 
-install -vdm755 /usr/share/gtk-doc/html/webkit{2,dom}gtk-4.0 &&
+install -vdm755 /usr/share/gtk-doc/html/webkit{2,dom}gtk-4.0 
 install -vm644  ../Documentation/webkit2gtk-4.0/html/*   \
-                /usr/share/gtk-doc/html/webkit2gtk-4.0       &&
+                /usr/share/gtk-doc/html/webkit2gtk-4.0       
 install -vm644  ../Documentation/webkitdomgtk-4.0/html/* \
                 /usr/share/gtk-doc/html/webkitdomgtk-4.0
 

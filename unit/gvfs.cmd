@@ -1,5 +1,5 @@
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 
 meson --prefix=/usr     \
       -Dfuse=false      \
@@ -11,7 +11,7 @@ meson --prefix=/usr     \
       -Dsmb=false       \
       -Ddnssd=false     \
       -Dgoa=false       \
-      -Dgoogle=false    .. &&
+      -Dgoogle=false    .. 
 ninja
 
 ninja install

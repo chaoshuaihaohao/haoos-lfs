@@ -1,9 +1,9 @@
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
      
 cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DBUILD_STATIC=OFF          \
-      -Wno-dev ..                 &&
+      -Wno-dev ..                 
 make
 
 #make check

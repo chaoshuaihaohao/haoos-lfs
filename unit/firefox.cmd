@@ -99,17 +99,17 @@ echo "613364a7-9418-4c86-bcee-57e32fd70c23" > mozilla-key
 mountpoint -q /dev/shm || mount -t tmpfs devshm /dev/shm
 
 
-export CC=gcc CXX=g++ &&
-export MOZBUILD_STATE_PATH=${PWD}/mozbuild &&
-./mach configure                           &&
+export CC=gcc CXX=g++ 
+export MOZBUILD_STATE_PATH=${PWD}/mozbuild 
+./mach configure                           
 ./mach build
 
 
 
 
-./mach install                                                  &&
+./mach install                                                  
 
-mkdir -pv  /usr/lib/mozilla/plugins                             &&
+mkdir -pv  /usr/lib/mozilla/plugins                             
 ln    -sfv ../../mozilla/plugins /usr/lib/firefox/browser/
 
 
@@ -117,10 +117,10 @@ ln    -sfv ../../mozilla/plugins /usr/lib/firefox/browser/
 unset CC CXX MOZBUILD_STATE_PATH
 
 
-mkdir -pv /usr/share/applications &&
-mkdir -pv /usr/share/pixmaps &&
+mkdir -pv /usr/share/applications 
+mkdir -pv /usr/share/pixmaps 
 
-cat > /usr/share/applications/firefox.desktop << "EOF" &&
+cat > /usr/share/applications/firefox.desktop << "EOF" 
 [Desktop Entry]
 Encoding=UTF-8
 Name=Firefox Web Browser

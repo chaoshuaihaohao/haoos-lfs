@@ -1,8 +1,8 @@
-mkdir build &&
-pushd    build &&
+mkdir build 
+pushd    build 
 
 meson --prefix=/usr          \
-      -Dlibproxy=disabled .. &&
+      -Dlibproxy=disabled .. 
 ninja
 #ninja test
 ninja install

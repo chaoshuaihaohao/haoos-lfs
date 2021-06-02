@@ -3,7 +3,7 @@
             --docdir=/usr/share/doc/potrace-1.16 \
             --enable-a4                          \
             --enable-metric                      \
-            --with-libpotrace                    &&
+            --with-libpotrace                    
 make
 
 #make check

@@ -1,5 +1,5 @@
-./bootstrap                                &&
-./configure --prefix=/usr --disable-static &&
+./bootstrap                                
+./configure --prefix=/usr --disable-static 
 make
 #make check
 make install

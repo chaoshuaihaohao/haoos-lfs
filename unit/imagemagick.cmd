@@ -3,7 +3,7 @@
             --enable-hdri     \
             --with-modules    \
             --with-perl       \
-            --disable-static  &&
+            --disable-static  
 make
 
 

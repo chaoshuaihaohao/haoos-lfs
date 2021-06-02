@@ -1,25 +1,25 @@
-sed -i '/^udev/,$ s/^/#/' util/meson.build &&
+sed -i '/^udev/,$ s/^/#/' util/meson.build 
 
-mkdir build &&
-pushd    build &&
+mkdir build 
+pushd    build 
 
-meson --prefix=/usr .. &&
+meson --prefix=/usr .. 
 ninja
 
 #doxygen doc/Doxyfile
 
-ninja install                                             &&
+ninja install                                             
 
-mv -vf   /usr/lib/libfuse3.so.3*     /lib                 &&
-ln -sfvn ../../lib/libfuse3.so.3.10.2 /usr/lib/libfuse3.so &&
+mv -vf   /usr/lib/libfuse3.so.3*     /lib                 
+ln -sfvn ../../lib/libfuse3.so.3.10.2 /usr/lib/libfuse3.so 
 
-mv -vf /usr/bin/fusermount3  /bin         &&
-mv -vf /usr/sbin/mount.fuse3 /sbin        &&
-chmod u+s /bin/fusermount3                &&
+mv -vf /usr/bin/fusermount3  /bin         
+mv -vf /usr/sbin/mount.fuse3 /sbin        
+chmod u+s /bin/fusermount3                
 
-#install -v -m755 -d /usr/share/doc/fuse-3.10.2      &&
+#install -v -m755 -d /usr/share/doc/fuse-3.10.2      
 #install -v -m644    ../doc/{README.NFS,kernel.txt} \
-#                    /usr/share/doc/fuse-3.10.2      &&
+#                    /usr/share/doc/fuse-3.10.2      
 #cp -Rv ../doc/html  /usr/share/doc/fuse-3.10.2
 
 popd

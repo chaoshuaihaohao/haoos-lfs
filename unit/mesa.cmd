@@ -5,8 +5,8 @@ GALLIUM_DRV="i915,iris,nouveau,r600,radeonsi,svga,swrast,virgl"
 DRI_DRIVERS="i965,nouveau"
 
 
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 meson --prefix=$XORG_PREFIX          \
       -Dbuildtype=release            \
       -Ddri-drivers=$DRI_DRIVERS     \
@@ -16,11 +16,11 @@ meson --prefix=$XORG_PREFIX          \
       -Dosmesa=gallium               \
       -Dvalgrind=disabled            \
       -Dlibunwind=disabled           \
-      ..                             &&
-unset GALLIUM_DRV DRI_DRIVERS &&
+      ..                             
+unset GALLIUM_DRV DRI_DRIVERS 
 ninja
 
 ninja install
 
-install -v -dm755 /usr/share/doc/mesa-20.3.4 &&
+install -v -dm755 /usr/share/doc/mesa-20.3.4 
 cp -rfv ../docs/* /usr/share/doc/mesa-20.3.4

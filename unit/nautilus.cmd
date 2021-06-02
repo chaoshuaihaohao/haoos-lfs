@@ -1,10 +1,10 @@
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 
 meson --prefix=/usr      \
       -Dselinux=false    \
       -Dpackagekit=false \
-      .. &&
+      .. 
 
 ninja
 

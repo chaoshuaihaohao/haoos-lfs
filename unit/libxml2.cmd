@@ -9,7 +9,7 @@ sed -i 's/ TRUE/ true/' encoding.c
 ./configure --prefix=/usr    \
             --disable-static \
             --with-history   \
-            --with-python=/usr/bin/python3 &&
+            --with-python=/usr/bin/python3 
 make
 
 #tar xf $BLFS_SRC_DIR/xmlts20130923.tar.gz -C /lfs

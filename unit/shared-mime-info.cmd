@@ -1,7 +1,7 @@
-mkdir build &&
-pushd    build &&
+mkdir build 
+pushd    build 
 
-meson --prefix=/usr -Dupdate-mimedb=true .. &&
+meson --prefix=/usr -Dupdate-mimedb=true .. 
 ninja
 ninja install
 popd

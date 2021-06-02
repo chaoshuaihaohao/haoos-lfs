@@ -10,10 +10,10 @@ LDFLAGS="-ltirpc"                      \
     --with-pammodulesdir=/lib/security \
     --enable-fhs                       \
     --without-ad-dc                    \
-    --enable-selftest                  &&
+    --enable-selftest                  
 make
 
-mkdir -vp /run/lock &&
+mkdir -vp /run/lock 
 make install
 
 mv -v /usr/lib/libnss_win{s,bind}.so.*  /lib                       
@@ -34,5 +34,5 @@ install -v -m755    examples/LDAP/{get*,ol*} \
                     /etc/openldap/schema
 
 
-install -dvm 755 /usr/lib/cups/backend &&
+install -dvm 755 /usr/lib/cups/backend 
 ln -v -sf /usr/bin/smbspool /usr/lib/cups/backend/smb

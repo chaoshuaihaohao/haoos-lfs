@@ -1,4 +1,4 @@
-autoconf                  &&
-./configure --prefix=/usr &&
+autoconf                  
+./configure --prefix=/usr 
 make
 make install

@@ -1,8 +1,8 @@
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 
-meson --prefix=/usr -Dpackagekit=false .. &&
+meson --prefix=/usr -Dpackagekit=false .. 
 ninja
 
-ninja install &&
+ninja install 
 chmod -v 0755 /usr/libexec/file-roller/isoinfo.sh

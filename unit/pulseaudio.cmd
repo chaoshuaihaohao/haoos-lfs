@@ -1,7 +1,7 @@
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 
-meson  --prefix=/usr -Ddatabase=gdbm -Dbluez5=false &&
+meson  --prefix=/usr -Ddatabase=gdbm -Dbluez5=false 
 ninja
 #ninja test
 ninja install

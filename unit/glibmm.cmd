@@ -1,7 +1,7 @@
-mkdir bld &&
-cd    bld &&
+mkdir bld 
+cd    bld 
 
-meson --prefix=/usr .. &&
+meson --prefix=/usr .. 
 ninja
 
 #ninja test

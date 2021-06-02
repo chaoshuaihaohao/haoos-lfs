@@ -1,4 +1,4 @@
-sed -i 's/-lflite"/-lflite -lasound"/' configure &&
+sed -i 's/-lflite"/-lflite -lasound"/' configure 
 
 ./configure --prefix=/usr        \
             --enable-gpl         \
@@ -19,9 +19,9 @@ sed -i 's/-lflite"/-lflite -lasound"/' configure &&
             --enable-libx264     \
             --enable-libx265     \
             --enable-openssl     \
-            --docdir=/usr/share/doc/ffmpeg-4.3.2 &&
+            --docdir=/usr/share/doc/ffmpeg-4.3.2 
 
-make &&
+make
 
 gcc tools/qt-faststart.c -o tools/qt-faststart
 
@@ -29,37 +29,35 @@ gcc tools/qt-faststart.c -o tools/qt-faststart
 
 
 :<<eof
-pushd doc &&
+pushd doc 
 for DOCNAME in `basename -s .html *.html`
 do
-    texi2pdf -b $DOCNAME.texi &&
-    texi2dvi -b $DOCNAME.texi &&
+    texi2pdf -b $DOCNAME.texi 
+    texi2dvi -b $DOCNAME.texi 
 
     dvips    -o $DOCNAME.ps   \
                 $DOCNAME.dvi
-done &&
-popd &&
+done 
+popd 
 unset DOCNAME
 eof
 
 
 
 
-make install &&
+make install
 
-install -v -m755    tools/qt-faststart /usr/bin &&
-install -v -m755 -d           /usr/share/doc/ffmpeg-4.3.2 &&
+install -v -m755    tools/qt-faststart /usr/bin 
+install -v -m755 -d           /usr/share/doc/ffmpeg-4.3.2 
 install -v -m644    doc/*.txt /usr/share/doc/ffmpeg-4.3.2
 
 
-#install -v -m644 doc/*.pdf /usr/share/doc/ffmpeg-4.3.2 &&
+#install -v -m644 doc/*.pdf /usr/share/doc/ffmpeg-4.3.2 
 #install -v -m644 doc/*.ps  /usr/share/doc/ffmpeg-4.3.2
 
 
 
-#install -v -m755 -d /usr/share/doc/ffmpeg-4.3.2/api                     &&
-#cp -vr doc/doxy/html/* /usr/share/doc/ffmpeg-4.3.2/api                  &&
-#find /usr/share/doc/ffmpeg-4.3.2/api -type f -exec chmod -c 0644 \{} \; &&
+#install -v -m755 -d /usr/share/doc/ffmpeg-4.3.2/api                     
+#cp -vr doc/doxy/html/* /usr/share/doc/ffmpeg-4.3.2/api                  
+#find /usr/share/doc/ffmpeg-4.3.2/api -type f -exec chmod -c 0644 \{} \; 
 #find /usr/share/doc/ffmpeg-4.3.2/api -type d -exec chmod -c 0755 \{} \;
-
-

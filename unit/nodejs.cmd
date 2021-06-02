@@ -4,7 +4,7 @@
             --shared-openssl               \
             --shared-nghttp2               \
             --shared-zlib                  \
-            --with-intl=system-icu         &&
+            --with-intl=system-icu         
 make
 
 #make test-only

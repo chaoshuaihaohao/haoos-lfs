@@ -1,5 +1,5 @@
 LINKS="/usr/bin/links" \
-./configure --prefix=/usr &&
+./configure --prefix=/usr 
 
 make
 make install

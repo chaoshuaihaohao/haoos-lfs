@@ -1,4 +1,4 @@
-./configure --sysconfdir=/etc &&
+./configure --sysconfdir=/etc 
 make
 
 make install

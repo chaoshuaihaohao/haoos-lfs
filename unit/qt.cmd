@@ -13,7 +13,7 @@ ln -sfnv qt-5.15.2 /opt/qt5
             -system-sqlite                            \
             -nomake examples                          \
             -no-rpath                                 \
-            -skip qtwebengine                         &&
+            -skip qtwebengine                         
 make
 
 make install
@@ -24,21 +24,21 @@ find $QT5PREFIX/ -name \*.prl \
 
 QT5BINDIR=$QT5PREFIX/bin
 
-install -v -dm755 /usr/share/pixmaps/                  &&
+install -v -dm755 /usr/share/pixmaps/                  
 
 install -v -Dm644 qttools/src/assistant/assistant/images/assistant-128.png \
-                  /usr/share/pixmaps/assistant-qt5.png &&
+                  /usr/share/pixmaps/assistant-qt5.png 
 
 install -v -Dm644 qttools/src/designer/src/designer/images/designer.png \
-                  /usr/share/pixmaps/designer-qt5.png  &&
+                  /usr/share/pixmaps/designer-qt5.png  
 
 install -v -Dm644 qttools/src/linguist/linguist/images/icons/linguist-128-32.png \
-                  /usr/share/pixmaps/linguist-qt5.png  &&
+                  /usr/share/pixmaps/linguist-qt5.png  
 
 install -v -Dm644 qttools/src/qdbus/qdbusviewer/images/qdbusviewer-128.png \
-                  /usr/share/pixmaps/qdbusviewer-qt5.png &&
+                  /usr/share/pixmaps/qdbusviewer-qt5.png 
 
-install -dm755 /usr/share/applications &&
+install -dm755 /usr/share/applications 
 
 cat > /usr/share/applications/assistant-qt5.desktop << EOF
 [Desktop Entry]

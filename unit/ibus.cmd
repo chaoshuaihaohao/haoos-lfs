@@ -4,8 +4,8 @@ sed -i 's@/desktop/ibus@/org/freedesktop/ibus@g' \
 ./configure --prefix=/usr             \
             --sysconfdir=/etc         \
             --disable-unicode-dict    \
-            --disable-emoji-dict      &&
-rm -f tools/main.c                    &&
+            --disable-emoji-dict      
+rm -f tools/main.c                    
 make
 
 make install

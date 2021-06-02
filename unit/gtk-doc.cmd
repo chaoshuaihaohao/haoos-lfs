@@ -1,5 +1,5 @@
-autoreconf -fiv           &&
-./configure --prefix=/usr &&
+autoreconf -fiv           
+./configure --prefix=/usr 
 make
 
 

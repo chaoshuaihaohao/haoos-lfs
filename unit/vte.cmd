@@ -1,7 +1,7 @@
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 
-meson  --prefix=/usr -Dfribidi=false .. &&
+meson  --prefix=/usr -Dfribidi=false .. 
 ninja
 
 #ninja test

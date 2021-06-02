@@ -7,17 +7,17 @@ set -e
 
 sed -i 's#@CUPS_HTMLVIEW@#firefox#' desktop/cups.desktop.in
 
-sed -i '/stat.h/a #include <asm-generic/ioctls.h>' tools/ipptool.c   &&
+sed -i '/stat.h/a #include <asm-generic/ioctls.h>' tools/ipptool.c   
 
 CC=gcc CXX=g++ \
 ./configure --libdir=/usr/lib            \
             --with-rcdir=/tmp/cupsinit   \
             --with-system-groups=lpadmin \
-            --with-docdir=/usr/share/cups/doc-2.3.3 &&
+            --with-docdir=/usr/share/cups/doc-2.3.3 
 make
 
-make install &&
-rm -rf /tmp/cupsinit &&
+make install 
+rm -rf /tmp/cupsinit 
 ln -svnf ../cups/doc-2.3.3 /usr/share/doc/cups-2.3.3
 
 echo "ServerName /run/cups/cups.sock" > /etc/cups/client.conf

@@ -2,8 +2,8 @@ patch -Np1 -i $BLFS_SRC_DIR/systemd-247-upstream_fixes-1.patch
 
 sed -i 's/GROUP="render"/GROUP="video"/' rules.d/50-udev-default.rules.in
 
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 
 meson --prefix=/usr                 \
       -Dblkid=true                  \
@@ -24,7 +24,7 @@ meson --prefix=/usr                 \
       -Dmode=release                \
       -Dpamconfdir=/etc/pam.d       \
       -Ddocdir=/usr/share/doc/systemd-247 \
-      ..                            &&
+      ..                            
 
 ninja
 

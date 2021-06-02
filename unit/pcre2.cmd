@@ -7,7 +7,7 @@
             --enable-pcre2grep-libz             \
             --enable-pcre2grep-libbz2           \
             --enable-pcre2test-libreadline      \
-            --disable-static                    &&
+            --disable-static                    
 make
 
 make install -j1

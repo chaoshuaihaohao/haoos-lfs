@@ -1,15 +1,15 @@
-mkdir -v build &&
-pushd       build &&
+mkdir -v build 
+pushd       build 
 
 cmake -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=/usr \
-      -DBUILD_STATIC_LIBS=OFF .. &&
+      -DBUILD_STATIC_LIBS=OFF .. 
 make
 
-make install &&
+make install 
 popd
 
-pushd doc &&
+pushd doc 
   for man in man/man?/* ; do
       install -v -D -m 644 $man /usr/share/$man
   done 

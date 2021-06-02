@@ -1,4 +1,4 @@
 ./configure --prefix=/usr \
-            --bindir=/bin &&
+            --bindir=/bin 
 make
 make install

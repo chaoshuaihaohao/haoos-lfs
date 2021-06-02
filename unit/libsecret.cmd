@@ -1,7 +1,7 @@
-mkdir bld &&
-pushd bld &&
+mkdir bld 
+pushd bld 
 
-meson --prefix=/usr -Dgtk_doc=false .. &&
+meson --prefix=/usr -Dgtk_doc=false .. 
 ninja
 ninja install
 popd

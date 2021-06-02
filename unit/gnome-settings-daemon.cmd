@@ -1,9 +1,9 @@
 rm -v -f /usr/lib/systemd/user/gsd-*
 
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 
-meson --prefix=/usr .. &&
+meson --prefix=/usr .. 
 ninja
 
 #ninja test

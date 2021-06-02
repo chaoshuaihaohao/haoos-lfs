@@ -1,7 +1,7 @@
 rm -fv /usr/lib/systemd/user/evolution-*.service
 
-mkdir build &&
-pushd    build &&
+mkdir build 
+pushd    build 
 
 cmake -DCMAKE_INSTALL_PREFIX=/usr   \
       -DSYSCONF_INSTALL_DIR=/etc    \
@@ -12,7 +12,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr   \
       -DWITH_KRB5=OFF               \
       -DENABLE_INTROSPECTION=ON     \
       -DENABLE_GTK_DOC=OFF          \
-      .. &&
+      .. 
 make
 
 #make test

@@ -3,7 +3,7 @@
             --localstatedir=/var          \
             --with-systemd-journal        \
             --with-systemd-suspend-resume \
-            --disable-static &&
+            --disable-static 
 make
 #make check
 make install

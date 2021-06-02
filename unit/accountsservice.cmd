@@ -1,10 +1,10 @@
-mkdir build &&
-pushd build &&
+mkdir build 
+pushd build 
 
 meson --prefix=/usr           \
             -Dadmin_group=adm \
             -Dsystemd=true    \
-            .. &&
+            .. 
 ninja
 
 ninja install

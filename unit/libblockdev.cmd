@@ -3,6 +3,6 @@
             --with-python3    \
             --without-gtk-doc \
             --without-nvdimm  \
-            --without-dm      &&
+            --without-dm      
 make
 make install -j1

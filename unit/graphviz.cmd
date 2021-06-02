@@ -1,9 +1,9 @@
-sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac &&
+sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac 
 
-autoreconf                &&
+autoreconf                
 ./configure --prefix=/usr \
             --disable-php \
-            PS2PDF=true   &&
+            PS2PDF=true   
 make
 
 make install -j1

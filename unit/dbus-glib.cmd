@@ -1,6 +1,6 @@
 ./configure --prefix=/usr     \
             --sysconfdir=/etc \
-            --disable-static &&
+            --disable-static 
 make
 
 make install

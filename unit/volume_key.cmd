@@ -1,6 +1,6 @@
-autoreconf -fiv              &&
+autoreconf -fiv              
 ./configure --prefix=/usr    \
-            --without-python &&
+            --without-python 
 make
 
 make install

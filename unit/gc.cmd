@@ -1,7 +1,7 @@
 ./configure --prefix=/usr      \
             --enable-cplusplus \
             --disable-static   \
-            --docdir=/usr/share/doc/gc-8.0.4 &&
+            --docdir=/usr/share/doc/gc-8.0.4 
 make
 
 #make check

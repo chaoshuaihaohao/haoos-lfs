@@ -1,7 +1,7 @@
 ./configure --prefix=/usr        \
             --sysconfdir=/etc    \
             --localstatedir=/var \
-            --disable-static     &&
+            --disable-static     
 make
 
 make install

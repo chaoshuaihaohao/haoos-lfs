@@ -1,7 +1,7 @@
-mkdir build &&
-pushd    build &&
+mkdir build 
+pushd    build 
 
-meson --prefix=/usr -Dgtk_doc=false -Dalways_build_tests=false .. &&
+meson --prefix=/usr -Dgtk_doc=false -Dalways_build_tests=false .. 
 ninja
 ninja install
 

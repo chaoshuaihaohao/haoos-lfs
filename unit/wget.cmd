@@ -1,5 +1,5 @@
 ./configure --prefix=/usr      \
             --sysconfdir=/etc  \
-            --with-ssl=openssl &&
+            --with-ssl=openssl 
 make
 make install

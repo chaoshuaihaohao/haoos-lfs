@@ -8,10 +8,10 @@ sed -e 's/dummy elinks/dummy lynx/'                                    \
             --sysconfdir=/etc                \
             --libdir=/usr/lib                \
             --enable-securedir=/lib/security \
-            --docdir=/usr/share/doc/Linux-PAM-1.5.1 &&
+            --docdir=/usr/share/doc/Linux-PAM-1.5.1 
 make
 
-install -v -m755 -d /etc/pam.d &&
+install -v -m755 -d /etc/pam.d 
 
 cat > /etc/pam.d/other << "EOF"
 auth     required       pam_deny.so
@@ -25,11 +25,11 @@ make check
 rm -fv /etc/pam.d/other
 
 make install -j1
-chmod -v 4755 /sbin/unix_chkpwd &&
+chmod -v 4755 /sbin/unix_chkpwd 
 
 for file in pam pam_misc pamc
 do
-  mv -v /usr/lib/lib${file}.so.* /lib &&
+  mv -v /usr/lib/lib${file}.so.* /lib 
   ln -sfv ../../lib/$(readlink /usr/lib/lib${file}.so) /usr/lib/lib${file}.so
 done
 
@@ -37,8 +37,8 @@ done
 
 
 
-install -vdm755 /etc/pam.d &&
-cat > /etc/pam.d/system-account << "EOF" &&
+install -vdm755 /etc/pam.d 
+cat > /etc/pam.d/system-account << "EOF" 
 # Begin /etc/pam.d/system-account
 
 account   required    pam_unix.so
@@ -46,7 +46,7 @@ account   required    pam_unix.so
 # End /etc/pam.d/system-account
 EOF
 
-cat > /etc/pam.d/system-auth << "EOF" &&
+cat > /etc/pam.d/system-auth << "EOF" 
 # Begin /etc/pam.d/system-auth
 
 auth      required    pam_unix.so

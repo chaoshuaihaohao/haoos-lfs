@@ -1,3 +1,4 @@
 glib
 libgcrypt
 p11-kit
+gnupg

@@ -1,6 +1,6 @@
-autoreconf -fv              &&
+autoreconf -fv              
 ./configure --prefix=/usr    \
             --disable-static \
-            --enable-tee &&
+            --enable-tee 
 make
 make install

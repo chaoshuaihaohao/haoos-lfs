@@ -1,10 +1,10 @@
-mkdir bld &&
-cd    bld &&
+mkdir bld 
+cd    bld 
 
 meson --prefix=/usr       \
       -Dbuild-tests=true  \
       -Dboost-shared=true \
-      ..                  &&
+      ..                  
 ninja
 
 #ninja test

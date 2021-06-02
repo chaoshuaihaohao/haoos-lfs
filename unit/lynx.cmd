@@ -5,9 +5,9 @@
             --with-bzlib           \
             --with-ssl             \
             --with-screen=ncursesw \
-            --enable-locale-charset &&
+            --enable-locale-charset 
 make
-make install-full &&
+make install-full 
 chgrp -v -R root /usr/share/doc/lynx-2.8.9rel.1/lynx_doc
 #配置lynx
 sed -e '/#LOCALE/     a LOCALE_CHARSET:TRUE'     \

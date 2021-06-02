@@ -4,7 +4,7 @@
             --enable-libwebpdecoder \
             --enable-libwebpextras  \
             --enable-swap-16bit-csp \
-            --disable-static        &&
+            --disable-static        
 make
 
 make install

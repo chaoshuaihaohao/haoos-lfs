@@ -1,7 +1,7 @@
 #If Qt-5.15.2 is installed and the Qt based examples are desired, fix two meson.build files:
 sed -e 's/-qt4/-qt5/'              \
     -e 's/moc_location/host_bins/' \
-    -i examples/C/qt/meson.build   &&
+    -i examples/C/qt/meson.build   
 
 sed -e 's/Qt/&5/'                  \
     -i meson.build
@@ -10,8 +10,8 @@ sed '/initrd/d' -i src/core/meson.build
 
 grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
 
-mkdir build &&
-cd    build    &&
+mkdir build 
+cd    build    
 
 CXXFLAGS+="-O2 -fPIC"            \
 meson --prefix /usr              \
@@ -26,11 +26,11 @@ meson --prefix /usr              \
       -Dsession_tracking=systemd \
       -Dmodem_manager=false      \
       -Dsystemdsystemunitdir=/lib/systemd/system \
-      .. &&
+      .. 
 ninja
 
 
-ninja install &&
+ninja install 
 rm -rf /usr/share/doc/NetworkManager-1.30.0
 mv -v /usr/share/doc/NetworkManager{,-1.30.0}
 
@@ -56,12 +56,12 @@ dns=none
 EOF
 
 :<<!
-groupadd -fg 86 netdev &&
+groupadd -fg 86 netdev 
 /usr/sbin/usermod -a -G netdev <username>
 
 cat > /usr/share/polkit-1/rules.d/org.freedesktop.NetworkManager.rules << "EOF"
 polkit.addRule(function(action, subject) {
-    if (action.id.indexOf("org.freedesktop.NetworkManager.") == 0 && subject.isInGroup("netdev")) {
+    if (action.id.indexOf("org.freedesktop.NetworkManager.") == 0  subject.isInGroup("netdev")) {
         return polkit.Result.YES;
     }
 });

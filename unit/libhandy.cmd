@@ -1,6 +1,6 @@
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 
-meson --prefix=/usr .. &&
+meson --prefix=/usr .. 
 ninja
 ninja install

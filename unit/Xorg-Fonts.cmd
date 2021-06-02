@@ -10,10 +10,10 @@ bfb2593d2102585f45daa960f43cb3c4  font-ibm-type1-1.0.3.tar.bz2
 3eeb3fb44690b477d510bbd8f86cf5aa  font-xfree86-type1-1.0.4.tar.bz2
 EOF
 
-mkdir font &&
-pushd font &&
+mkdir font 
+pushd font 
 #grep -v '^#' ../font-7.md5 | awk '{print $2}' | wget -i- -c \
-#    -B https://www.x.org/pub/individual/font/ &&
+#    -B https://www.x.org/pub/individual/font/ 
 #md5sum -c ../font-7.md5
 
 for package in $(grep -v '^#' ../font-7.md5 | awk '{print $2}')

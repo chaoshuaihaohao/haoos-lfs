@@ -1,7 +1,7 @@
-mkdir build &&
-pushd    build &&
+mkdir build 
+pushd    build 
 
-meson --prefix=/usr -Ddocs=false .. &&
+meson --prefix=/usr -Ddocs=false .. 
 ninja
 #ninja test
 ninja install
