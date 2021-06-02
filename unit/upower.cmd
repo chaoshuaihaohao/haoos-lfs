@@ -2,7 +2,7 @@
             --sysconfdir=/etc    \
             --localstatedir=/var \
             --enable-deprecated  \
-            --disable-static     &&
+            --disable-static     
 make
 #make check
 make install

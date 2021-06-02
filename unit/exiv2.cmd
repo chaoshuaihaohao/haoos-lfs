@@ -1,5 +1,5 @@
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 
 cmake -DCMAKE_INSTALL_PREFIX=/usr  \
       -DCMAKE_BUILD_TYPE=Release   \
@@ -7,7 +7,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr  \
       -DEXIV2_ENABLE_WEBREADY=yes  \
       -DEXIV2_ENABLE_CURL=yes      \
       -DEXIV2_BUILD_SAMPLES=no     \
-      -G "Unix Makefiles" .. &&
+      -G "Unix Makefiles" .. 
 make
 
 make install

@@ -3,7 +3,7 @@ CXX="/usr/bin/g++"              \
             --enable-shared     \
             --with-system-expat \
             --with-system-ffi   \
-            --with-ensurepip=yes &&
+            --with-ensurepip=yes 
 make
 
 #make check

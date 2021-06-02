@@ -1,12 +1,12 @@
-./configure --prefix=/usr &&
+./configure --prefix=/usr 
 make
 make install -j1
-ln -svfn aspell-0.60 /usr/lib/aspell &&
+ln -svfn aspell-0.60 /usr/lib/aspell 
 
-install -v -m755 -d /usr/share/doc/aspell-0.60.8/aspell{,-dev}.html &&
+install -v -m755 -d /usr/share/doc/aspell-0.60.8/aspell{,-dev}.html 
 
 install -v -m644 manual/aspell.html/* \
-    /usr/share/doc/aspell-0.60.8/aspell.html &&
+    /usr/share/doc/aspell-0.60.8/aspell.html 
 
 install -v -m644 manual/aspell-dev.html/* \
     /usr/share/doc/aspell-0.60.8/aspell-dev.html

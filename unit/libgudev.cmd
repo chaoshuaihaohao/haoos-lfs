@@ -1,4 +1,4 @@
-./configure --prefix=/usr --disable-umockdev &&
+./configure --prefix=/usr --disable-umockdev 
 make
 
 make install

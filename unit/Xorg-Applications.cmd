@@ -41,10 +41,10 @@ if [ -h /usr/lib/X11 ];then
   rm /usr/lib/X11
 fi
 
-mkdir app &&
-pushd app &&
+mkdir app 
+pushd app 
 #grep -v '^#' ../app-7.md5 | awk '{print $2}' | wget -i- -c \
-#    -B https://www.x.org/pub/individual/app/ &&
+#    -B https://www.x.org/pub/individual/app/ 
 #md5sum -c ../app-7.md5
 
 for package in $(grep -v '^#' ../app-7.md5 | awk '{print $2}')

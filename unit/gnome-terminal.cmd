@@ -1,5 +1,5 @@
 ./configure --prefix=/usr       \
-            --disable-static    &&
+            --disable-static    
 make
 
 make install

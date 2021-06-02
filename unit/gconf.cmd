@@ -1,7 +1,7 @@
 ./configure --prefix=/usr \
             --sysconfdir=/etc \
             --disable-orbit \
-            --disable-static &&
+            --disable-static 
 make
 
 make install -j1

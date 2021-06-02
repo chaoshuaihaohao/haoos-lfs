@@ -1,7 +1,8 @@
+source /etc/profile.d/rustc.sh
 mountpoint -q /dev/shm || mount -t tmpfs devshm /dev/shm
 
-mkdir obj &&
-pushd    obj &&
+mkdir obj 
+cd    obj 
 
 CC=gcc CXX=g++ \
 ../js/src/configure --prefix=/usr            \
@@ -10,13 +11,11 @@ CC=gcc CXX=g++ \
                     --with-system-icu        \
                     --disable-jemalloc       \
                     --disable-debug-symbols  \
-                    --enable-readline        &&
+                    --enable-readline        
 make
 
-#rm -fv /usr/lib/libmozjs-78.so
+rm -fv /usr/lib/libmozjs-78.so
 
-make install &&
-rm -v /usr/lib/libjs_static.ajs &&
+make install
+rm -v /usr/lib/libjs_static.ajs
 sed -i '/@NSPR_CFLAGS@/d' /usr/bin/js78-config
-
-popd

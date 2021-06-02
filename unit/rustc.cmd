@@ -1,4 +1,4 @@
-mkdir -vp /opt/rustc-1.47.0             &&
+mkdir -vp /opt/rustc-1.47.0             
 ln -svfn rustc-1.47.0 /opt/rustc
 
 cat << EOF > config.toml
@@ -44,16 +44,16 @@ llvm-config = "/usr/bin/llvm-config"
 
 EOF
 
-export RUSTFLAGS="$RUSTFLAGS -C link-args=-lffi" &&
+export RUSTFLAGS="$RUSTFLAGS -C link-args=-lffi" 
 python3 ./x.py build --exclude src/tools/miri
 
 #grep '^test result:' rustc-testlog | awk  '{ sum += $6 } END { print sum }'
 
-export LIBSSH2_SYS_USE_PKG_CONFIG=1 &&
-DESTDIR=${PWD}/install python3 ./x.py install &&
+export LIBSSH2_SYS_USE_PKG_CONFIG=1 
+DESTDIR=${PWD}/install python3 ./x.py install 
 unset LIBSSH2_SYS_USE_PKG_CONFIG
 
-chown -R root:root install &&
+chown -R root:root install 
 cp -a install/* /
 
 #配置Rust

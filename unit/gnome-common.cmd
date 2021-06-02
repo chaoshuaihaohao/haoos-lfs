@@ -1,3 +1,3 @@
-./autogen.sh --prefix=/usr &&
+./autogen.sh --prefix=/usr 
 make
 make install

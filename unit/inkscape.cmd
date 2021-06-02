@@ -1,9 +1,9 @@
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 
 cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DCMAKE_BUILD_TYPE=Release  \
-      ..                          &&
+      ..                          
 make
 
 

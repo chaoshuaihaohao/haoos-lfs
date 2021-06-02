@@ -1,17 +1,17 @@
-./configure --prefix=/usr --disable-static &&
-make &&
+./configure --prefix=/usr --disable-static 
+make 
 
-make -C doc html                                       &&
-makeinfo --html      -o doc/html       doc/parted.texi &&
+make -C doc html                                       
+makeinfo --html      -o doc/html       doc/parted.texi 
 makeinfo --plaintext -o doc/parted.txt doc/parted.texi
 
 
 #make check
 
-make install &&
-install -v -m755 -d /usr/share/doc/parted-3.4/html &&
+make install 
+install -v -m755 -d /usr/share/doc/parted-3.4/html 
 install -v -m644    doc/html/* \
-                    /usr/share/doc/parted-3.4/html &&
+                    /usr/share/doc/parted-3.4/html 
 install -v -m644    doc/{FAT,API,parted.{txt,html}} \
                     /usr/share/doc/parted-3.4
 

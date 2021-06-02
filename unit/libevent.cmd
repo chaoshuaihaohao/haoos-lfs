@@ -1,4 +1,4 @@
-./configure --prefix=/usr --disable-static &&
+./configure --prefix=/usr --disable-static 
 make
 
 doxygen Doxyfile
@@ -7,6 +7,6 @@ doxygen Doxyfile
 
 make install
 
-#install -v -m755 -d /usr/share/doc/libevent-2.1.12/api &&
+#install -v -m755 -d /usr/share/doc/libevent-2.1.12/api 
 #cp      -v -R       doxygen/html/* \
 #                    /usr/share/doc/libevent-2.1.12/api

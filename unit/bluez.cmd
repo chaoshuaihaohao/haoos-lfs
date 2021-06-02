@@ -3,16 +3,16 @@ patch -Np1 -i $BLFS_SRC_DIR/bluez-5.55-upstream_fixes-1.patch
 ./configure --prefix=/usr         \
             --sysconfdir=/etc     \
             --localstatedir=/var  \
-            --enable-library      &&
+            --enable-library      
 make
 
 make install
 ln -svf ../libexec/bluetooth/bluetoothd /usr/sbin
 
-install -v -dm755 /etc/bluetooth &&
+install -v -dm755 /etc/bluetooth 
 install -v -m644 src/main.conf /etc/bluetooth/main.conf
 
-install -v -dm755 /usr/share/doc/bluez-5.55 &&
+install -v -dm755 /usr/share/doc/bluez-5.55 
 install -v -m644 doc/*.txt /usr/share/doc/bluez-5.55
 
 

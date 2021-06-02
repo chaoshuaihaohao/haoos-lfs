@@ -1,4 +1,4 @@
-sh autogen.sh                              &&
-./configure --prefix=/usr --disable-static &&
+sh autogen.sh                              
+./configure --prefix=/usr --disable-static 
 make 
 make install

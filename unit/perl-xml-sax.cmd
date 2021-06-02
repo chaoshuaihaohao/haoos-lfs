@@ -1,5 +1,5 @@
-yes | perl Makefile.PL &&
-make             &&
+yes | perl Makefile.PL 
+make             
 make test
 
 make install

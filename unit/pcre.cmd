@@ -6,9 +6,9 @@
             --enable-pcregrep-libz            \
             --enable-pcregrep-libbz2          \
             --enable-pcretest-libreadline     \
-            --disable-static                 &&
+            --disable-static                 
 make
 #make check
 make install -j1
-mv -v /usr/lib/libpcre.so.* /lib &&
+mv -v /usr/lib/libpcre.so.* /lib 
 ln -sfv ../../lib/$(readlink /usr/lib/libpcre.so) /usr/lib/libpcre.so

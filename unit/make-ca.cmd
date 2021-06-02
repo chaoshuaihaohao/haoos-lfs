@@ -1,17 +1,17 @@
-make install &&
+make install 
 install -vdm755 /etc/ssl/local
 /usr/sbin/make-ca -g
 systemctl enable update-pki.timer
 
 
-wget http://www.cacert.org/certs/root.crt &&
-wget http://www.cacert.org/certs/class3.crt &&
+wget http://www.cacert.org/certs/root.crt 
+wget http://www.cacert.org/certs/class3.crt 
 openssl x509 -in root.crt -text -fingerprint -setalias "CAcert Class 1 root" \
         -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
-        > /etc/ssl/local/CAcert_Class_1_root.pem &&
+        > /etc/ssl/local/CAcert_Class_1_root.pem 
 openssl x509 -in class3.crt -text -fingerprint -setalias "CAcert Class 3 root" \
         -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
-        > /etc/ssl/local/CAcert_Class_3_root.pem &&
+        > /etc/ssl/local/CAcert_Class_3_root.pem 
 /usr/sbin/make-ca -r -f
 
 :<<eof
@@ -22,6 +22,6 @@ openssl x509 -in /etc/ssl/certs/Makebelieve_CA_Root.pem \
              -addreject serverAuth \
              -addreject emailProtection \
              -addreject codeSigning \
-       > /etc/ssl/local/Disabled_Makebelieve_CA_Root.pem &&
+       > /etc/ssl/local/Disabled_Makebelieve_CA_Root.pem 
 /usr/sbin/make-ca -r -f
 eof

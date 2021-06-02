@@ -33,10 +33,10 @@ dd7e1e946def674e78c0efbc5c7d5b3b  libxkbfile-1.1.0.tar.bz2
 42dda8016943dc12aff2c03a036e0937  libxshmfence-1.3.tar.bz2
 EOF
 
-mkdir lib &&
-pushd lib &&
+mkdir lib 
+pushd lib 
 #grep -v '^#' ../lib-7.md5 | awk '{print $2}' | wget -i- -c \
-#    -B https://www.x.org/pub/individual/lib/ &&
+#    -B https://www.x.org/pub/individual/lib/ 
 #md5sum -c ../lib-7.md5
 
 
@@ -73,7 +73,7 @@ do
 done
 
 
-ln -sfv $XORG_PREFIX/lib/X11 /usr/lib/X11 &&
+ln -sfv $XORG_PREFIX/lib/X11 /usr/lib/X11 
 ln -sfv $XORG_PREFIX/include/X11 /usr/include/X11
 
 popd  #lib

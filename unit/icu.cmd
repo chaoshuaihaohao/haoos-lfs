@@ -1,6 +1,6 @@
-pushd source                                    &&
+pushd source                                    
 
-./configure --prefix=/usr                    &&
+./configure --prefix=/usr                    
 make
 
 #make check

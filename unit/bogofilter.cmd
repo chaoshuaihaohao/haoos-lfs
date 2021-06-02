@@ -1,4 +1,4 @@
-./configure --prefix=/usr --sysconfdir=/etc/bogofilter &&
+./configure --prefix=/usr --sysconfdir=/etc/bogofilter 
 make
 
 #make check

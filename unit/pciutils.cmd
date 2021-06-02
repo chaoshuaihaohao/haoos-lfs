@@ -5,12 +5,12 @@ make PREFIX=/usr                \
 make PREFIX=/usr                \
      SHAREDIR=/usr/share/hwdata \
      SHARED=yes                 \
-     install install-lib        &&
+     install install-lib        
 
 chmod -v 755 /usr/lib/libpci.so
 update-pciids
 
-cat > /lib/systemd/system/update-pciids.service << "EOF" &&
+cat > /lib/systemd/system/update-pciids.service << "EOF" 
 [Unit]
 Description=Update pci.ids file
 Documentation=man:update-pciids(8)
@@ -23,7 +23,7 @@ Type=oneshot
 RemainAfterExit=yes
 ExecStart=/usr/sbin/update-pciids
 EOF
-cat > /lib/systemd/system/update-pciids.timer << "EOF" &&
+cat > /lib/systemd/system/update-pciids.timer << "EOF" 
 [Unit]
 Description=Update pci.ids file weekly
 

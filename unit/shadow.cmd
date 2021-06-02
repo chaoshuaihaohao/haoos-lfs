@@ -1,16 +1,16 @@
-sed -i 's/groups$(EXEEXT) //' src/Makefile.in &&
+sed -i 's/groups$(EXEEXT) //' src/Makefile.in 
 
-find man -name Makefile.in -exec sed -i 's/groups\.1 / /'   {} \; &&
-find man -name Makefile.in -exec sed -i 's/getspnam\.3 / /' {} \; &&
-find man -name Makefile.in -exec sed -i 's/passwd\.5 / /'   {} \; &&
+find man -name Makefile.in -exec sed -i 's/groups\.1 / /'   {} \; 
+find man -name Makefile.in -exec sed -i 's/getspnam\.3 / /' {} \; 
+find man -name Makefile.in -exec sed -i 's/passwd\.5 / /'   {} \; 
 
 sed -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' \
     -e 's@/var/spool/mail@/var/mail@'                 \
-    -i etc/login.defs                                 &&
+    -i etc/login.defs                                 
 
-sed -i 's/1000/999/' etc/useradd                      &&
+sed -i 's/1000/999/' etc/useradd                      
 
-./configure --sysconfdir=/etc --with-group-name-max-length=32 &&
+./configure --sysconfdir=/etc --with-group-name-max-length=32 
 make
 
 
@@ -20,7 +20,7 @@ make install
 sed -i 's/yes/no/' /etc/default/useradd
 
 
-install -v -m644 /etc/login.defs /etc/login.defs.orig &&
+install -v -m644 /etc/login.defs /etc/login.defs.orig 
 for FUNCTION in FAIL_DELAY               \
                 FAILLOG_ENAB             \
                 LASTLOG_ENAB             \
@@ -166,7 +166,7 @@ done
 cp /etc/pam.d/system-password /etc/pam.d/chpasswd
 
 set +e
-[ -f /etc/login.access ] && mv -v /etc/login.access{,.NOUSE}
+[ -f /etc/login.access ]  mv -v /etc/login.access{,.NOUSE}
 
-[ -f /etc/limits ] && mv -v /etc/limits{,.NOUSE}
+[ -f /etc/limits ]  mv -v /etc/limits{,.NOUSE}
 set -e

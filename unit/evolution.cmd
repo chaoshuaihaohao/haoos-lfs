@@ -1,5 +1,5 @@
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 
 cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DSYSCONF_INSTALL_DIR=/etc  \
@@ -7,7 +7,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DENABLE_PST_IMPORT=OFF     \
       -DENABLE_YTNEF=OFF          \
       -DENABLE_CONTACT_MAPS=OFF   \
-      -G Ninja .. &&
+      -G Ninja .. 
 ninja
 
 ninja install

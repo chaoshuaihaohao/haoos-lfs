@@ -1,8 +1,8 @@
-mkdir gtkmm3-build &&
-cd    gtkmm3-build &&
+mkdir gtkmm3-build 
+cd    gtkmm3-build 
 
 meson --prefix=/usr \
-      ..           &&
+      ..           
 
 ninja
 

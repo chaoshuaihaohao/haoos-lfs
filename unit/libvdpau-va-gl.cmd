@@ -1,7 +1,7 @@
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$XORG_PREFIX .. &&
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$XORG_PREFIX .. 
 make
 
 #make check

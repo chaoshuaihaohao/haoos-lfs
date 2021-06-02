@@ -1,15 +1,15 @@
 ./configure --prefix=/usr                  \
             --disable-static               \
             --with-securedir=/lib/security \
-            --with-python-binary=python3 &&
+            --with-python-binary=python3 
 make
 
-make install                          &&
+make install                          
 
-mv -v /usr/lib/libpwquality.so.* /lib &&
+mv -v /usr/lib/libpwquality.so.* /lib 
 ln -sfv ../../lib/$(readlink /usr/lib/libpwquality.so) /usr/lib/libpwquality.so
 
-mv /etc/pam.d/system-password{,.orig} &&
+mv /etc/pam.d/system-password{,.orig} 
 cat > /etc/pam.d/system-password << "EOF"
 # Begin /etc/pam.d/system-password
 

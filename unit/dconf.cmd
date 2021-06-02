@@ -1,19 +1,19 @@
-mkdir build &&
-pushd    build &&
+mkdir build 
+pushd    build 
 
-meson --prefix=/usr -Dbash_completion=false .. &&
+meson --prefix=/usr -Dbash_completion=false .. 
 ninja
 #ninja test
 ninja install
 
-popd   #build           &&
-tar -xf $BLFS_SRC_DIR/dconf-editor-3.38.2.tar.xz &&
-pushd dconf-editor-3.38.2                &&
+popd   #build           
+tar -xf $BLFS_SRC_DIR/dconf-editor-3.38.2.tar.xz 
+pushd dconf-editor-3.38.2                
 
-mkdir build &&
-pushd    build &&
+mkdir build 
+pushd    build 
 
-meson --prefix=/usr .. &&
+meson --prefix=/usr .. 
 ninja
 
 ninja install

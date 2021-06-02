@@ -1,7 +1,7 @@
-mkdir build &&
-cd    build &&
+mkdir build 
+cd    build 
 
-meson --prefix=$XORG_PREFIX .. &&
+meson --prefix=$XORG_PREFIX .. 
 ninja
 
 #ninja test
