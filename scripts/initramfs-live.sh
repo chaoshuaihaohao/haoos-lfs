@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
-LIVEUSB=/haoos/liveusb
-TMP_DIR=${LIVEUSB}/tmpfs/tmp
+RELEASE=/haoos/release
+TMP_DIR=${RELEASE}/initramfs
 
 pushd $TMP_DIR
 
 mkdir -vp ${TMP_DIR}/sbin &&
 cat > ${TMP_DIR}/sbin/mkinitramfs << "EOF"
 #!/bin/bash
-# This file based in part on the mkinitramfs script for the LFS LiveUSB
+# This file based in part on the mkinitramfs script for the LFS Live
 # written by Alexander E. Patrakov and Jeremy Huntwork.
 
 copy()
@@ -68,7 +68,7 @@ if [ -x /sbin/lvm ] ; then sbinfiles="$sbinfiles lvm dmsetup"; fi
 
 unsorted=$(mktemp /tmp/unsorted.XXXXXXXXXX)
 
-DATADIR=/haoos/liveusb/tmpfs/tmp/usr/share/mkinitramfs
+DATADIR=/haoos/release/initramfs/usr/share/mkinitramfs
 INITIN=init.in
 
 # Create a temporary working directory
@@ -293,34 +293,46 @@ do_mount_root()
 }
 
 export SYSTEM=/SYSTEM
-do_mount_root_liveusb()
+do_mount_root_live()
 {
 #为Live系统准备目录
 mkdir -p ${SYSTEM} /mnt
 mount -t tmpfs tmpfs /mnt
-mkdir -p /mnt/{usb,system}
+mkdir -p /mnt/{ISO,system}
+
+#搜索Livecd所在的U盘设备
+for i in $(cat /proc/sys/dev/cdrom/info | grep "drive name" \
+	| sed 's@drive name:@@g')
+do
+	LABEL=$(dd if=/dev/${i} bs=1 skip=32808 count=32 2>/dev/null)
+	LABEL=$(echo "${LABEL}" | grep -o "[^ ]\+\(\+[^ ]\+\)*")
+	if [ "${LABEL}" = "mylive" ]; then
+		mount -t iso9660 /dev/${i} /mnt/ISO
+		break 2;
+	fi
+done
 
 #设置等待U盘时间
 DELAY=$(cat /proc/cmdline | awk -F'rootdelay=' '{print $2}' \
 	| awk -F' ' '{print $1}')
 if [ "${DELAY}" = "" ];then
-	sleep 10
+	sleep 3
 else
 	sleep ${DELAY}
 fi
 
-#搜索LiveUSB所在的U盘设备
+#搜索RELEASE所在的U盘设备
 #（1）UUID编号识别。
 #UUID=$(cat /proc/cmdline | awk -F'UUID=' '{print $2}' \
 #	| awk -F'"' '{print $1}')
 #if [ "${UUID}" = "" ];then
-#	LiveUSB=$(cat /proc/cmdline | awk -F'root=' '{print $2}' \
+#	RELEASE=$(cat /proc/cmdline | awk -F'root=' '{print $2}' \
 #		| awk '{print $1}')
 #else
-#	LiveUSB=$(blkid -U ${UUID})
+#	RELEASE=$(blkid -U ${UUID})
 #fi
-#if [ "${LiveUSB}" != "" ]; then
-#	mount ${LiveUSB} /mnt/usb
+#if [ "${RELEASE}" != "" ]; then
+#	mount ${RELEASE} /mnt/ISO
 #else
 #	exit
 #fi
@@ -331,21 +343,21 @@ do
   if [ "${REMOVEABLE}" = "1" ];then
     for j in $(blkid /dev/$(basename $i)* -o device)
     do
-      mount $j /mnt/usb 2>/dev/null
+      mount $j /mnt/ISO 2>/dev/null
       if test $? = 0;then
-        if [ -f /mnt/usb/LABEL ];then
-	  if grep -q "HaoOS's LiveUSB" /mnt/usb/LABEL;then
+        if [ -f /mnt/ISO/LABEL ];then
+	  if grep -q "HaoOS's RELEASE" /mnt/ISO/LABEL;then
 	    break 2;
 	  fi
 	fi
-	umount /mnt/usb
+	umount /mnt/ISO
       fi
     done
   fi
 done
 
 mount -t tmpfs tmpfs ${SYSTEM}
-mount -o loop -t squashfs /mnt/usb/SYSTEM.img /mnt/system
+mount -o loop -t squashfs /mnt/ISO/squashfs.img /mnt/system
 mount -t aufs -o dirs=${SYSTEM}=rw:mnt/system=ro aufs ${SYSTEM}
 mkdir -p ${SYSTEM}/{dev,proc,sys,tmp,mnt,initrd,home}
 
@@ -382,7 +394,7 @@ device=
 resume=
 noresume=false
 
-#加载USB到PCI的总线，从而udev可以检测到usb设备，否则系统不会检测到USB设备而启动失败
+#加载USB到PCI的总线，从而udev可以检测到ISO设备，否则系统不会检测到USB设备而启动失败
 modprobe xhci-pci
 
 #挂载必要的文件系统
@@ -404,7 +416,7 @@ for param in $cmdline ; do
     noresume    ) noresume=true                   ;;
     ro          ) ro="ro"                         ;;
     rw          ) ro="rw"                         ;;
-    initramfs   ) echo "Go to initramfs mode..." ; exec sh ;;
+    initramfs   ) echo "Go to initramfs mode..." ; sh ;;
   esac
 done
 
@@ -430,7 +442,7 @@ if [ -n "$rootdelay"    ] ; then sleep "$rootdelay"              ; fi
 
 #do_try_resume # This function will not return if resuming from disk
 #do_mount_root
-do_mount_root_liveusb
+do_mount_root_live
 
 killall -w ${UDEVD##*/}
 
@@ -442,7 +454,7 @@ exec switch_root ${SYSTEM} /sbin/init
 EOF
 
 ${TMP_DIR}/sbin/mkinitramfs 5.10.17
-mv -v initrd.img-5.10.17 ${LIVEUSB}/usb/live/liveusb-initramfs.img
+mv -v initrd.img-5.10.17 ${RELEASE}/ISO/live/live-initramfs.img
 rm -rf ${TMP_DIR}/*
 
 popd

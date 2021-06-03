@@ -37,8 +37,10 @@ chroot-again:
 build-blfs:
 	./scripts/blfs_env_config.sh
 	source /etc/profile
+	./scripts/source.sh
 	./pkg-install -f example/list-latest
 	./scripts/other_install.sh
+
 symbol-clean:
 	./scripts/clean_up.sh
 	./scripts/lfs_symbol_clean.sh
@@ -54,7 +56,6 @@ end:
 ramfs:
 	./scripts/ramfsdisk-10_1.sh
 
-
 unload-chroot:
 	./scripts/unload-chroot.sh
 
@@ -64,11 +65,8 @@ clean:
 	@-umount /dev/sdb
 	@-umount /dev/sdc
 
-
-livecd:
-	./scripts/livecd.sh
-live-usb:
-	./scripts/liveusb.sh
+iso:
+	./scripts/live.sh
 
 backup:
 	./scripts/backup_sources.sh
