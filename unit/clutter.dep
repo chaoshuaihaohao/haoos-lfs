@@ -2,7 +2,7 @@ atk
 cogl
 json-glib
 gobject-introspection
-gtk
+gtk3
 libgudev
 libinput
 libxkbcommon

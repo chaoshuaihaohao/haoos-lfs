@@ -1,5 +1,5 @@
 colord
-gtk
+gtk3
 gobject-introspection
 vala
 gtk2

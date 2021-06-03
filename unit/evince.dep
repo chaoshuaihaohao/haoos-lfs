@@ -1,6 +1,6 @@
 adwaita-icon-theme
 gsettings-desktop-schemas
-gtk
+gtk3
 itstool
 libxml2
 openjpeg

@@ -1,7 +1,7 @@
 glib
 gobject-introspection
 gtk2
-gtk
+gtk3
 libdaemon
 libglade
 qt

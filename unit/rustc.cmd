@@ -55,24 +55,3 @@ unset LIBSSH2_SYS_USE_PKG_CONFIG
 
 chown -R root:root install 
 cp -a install/* /
-
-#配置Rust
-cat >> /etc/ld.so.conf << EOF
-# Begin rustc addition
-
-/opt/rustc/lib
-
-# End rustc addition
-EOF
-
-ldconfig
-
-cat > /etc/profile.d/rustc.sh << "EOF"
-# Begin /etc/profile.d/rustc.sh
-
-pathprepend /opt/rustc/bin           PATH
-
-# End /etc/profile.d/rustc.sh
-EOF
-
-source /etc/profile.d/rustc.sh

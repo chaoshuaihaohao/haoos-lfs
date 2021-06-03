@@ -1,7 +1,7 @@
 autoconf
 cbindgen
 dbus-glib
-gtk
+gtk3
 libnotify
 llvm
 nodejs

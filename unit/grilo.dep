@@ -1,7 +1,7 @@
 glib
 libxml2
 gobject-introspection
-gtk
+gtk3
 libsoup
 totem-pl-parser
 vala

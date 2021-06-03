@@ -8,7 +8,7 @@ libsoup
 json-glib
 gnome-online-accounts
 gobject-introspection
-gtk
+gtk3
 icu
 libcanberra
 libgdata

@@ -1,5 +1,5 @@
 gobject-introspection
-gtk
+gtk3
 
 
 libxml2

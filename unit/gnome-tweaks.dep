@@ -1,4 +1,4 @@
-gtk
+gtk3
 gsettings-desktop-schemas
 libhandy
 pygobject

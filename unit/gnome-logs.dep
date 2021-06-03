@@ -1,9 +1,9 @@
-gtk
+gtk3
 gsettings-desktop-schemas
 itstool
 
 
 desktop-file-utils
 docbook-xml
-docbook-xsl
+docbook-xsl-nons
 libxslt

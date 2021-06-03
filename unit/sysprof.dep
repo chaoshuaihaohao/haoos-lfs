@@ -1,4 +1,4 @@
-gtk
+gtk3
 libdazzle
 polkit
 desktop-file-utils
