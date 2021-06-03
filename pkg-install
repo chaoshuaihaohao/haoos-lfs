@@ -50,7 +50,7 @@ if [ -e $PKG_PATH/$1.dep ];then
 	for depend_pkg in `cat $PKG_PATH/$1.dep`
 	do
 		set +e
-		grep -w $depend_pkg /haoos/LIST > /dev/null
+		grep -w "^$depend_pkg$" /haoos/LIST > /dev/null
 		if [ $? != 0 ];then
 			set -e
 			install-pkg $depend_pkg
