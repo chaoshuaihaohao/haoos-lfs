@@ -1,4 +1,4 @@
 libevdev
 mtdev
-gtk
+gtk3
 libwacom

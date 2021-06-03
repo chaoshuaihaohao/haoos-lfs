@@ -1,4 +1,3 @@
-source /etc/profile.d/rustc.sh
 mountpoint -q /dev/shm || mount -t tmpfs devshm /dev/shm
 
 mkdir obj 

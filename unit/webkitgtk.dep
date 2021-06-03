@@ -2,7 +2,7 @@ cairo
 cmake
 gst-plugins-base
 gst-plugins-bad
-gtk
+gtk3
 icu
 libgudev
 libsecret

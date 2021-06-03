@@ -8,4 +8,4 @@ gconf
 xmlto
 libxslt
 docbook-xml
-docbook-xsl
+docbook-xsl-nons

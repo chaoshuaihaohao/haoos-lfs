@@ -4,7 +4,7 @@ libusb
 libsecret
 libsoup
 gcr
-gtk
+gtk3
 libcdio
 libgdata
 libgudev

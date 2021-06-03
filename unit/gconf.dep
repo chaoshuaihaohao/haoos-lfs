@@ -1,6 +1,6 @@
 dbus-glib
 libxml2
 gobject-introspection
-gtk
+gtk3
 polkit
 openldap

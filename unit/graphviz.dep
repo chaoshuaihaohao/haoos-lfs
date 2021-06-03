@@ -3,6 +3,6 @@ cairo
 Xorg-Libraries
 fontconfig
 libpng
-gtk
+gtk3
 libjpeg-turbo 
 libwebp
