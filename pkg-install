@@ -61,7 +61,7 @@ fi
 
 #如果已经安装过，则无需再次安装
 set +e
-grep -w $1 /haoos/LIST > /dev/null
+grep -w "^$1$" /haoos/LIST > /dev/null
 if [ $? != 0 ];then
 	set -e
 
