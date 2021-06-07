@@ -6,7 +6,7 @@ pushd    build
 meson --prefix=/usr -Dvapi=enabled -Dgssapi=disabled .. 
 ninja
 
-ninja test
+#ninja test
 
 ninja install
 
