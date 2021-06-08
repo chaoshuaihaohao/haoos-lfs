@@ -180,6 +180,18 @@ virt@virt-PC:~/haoos-lfs$ sudo make chroot-again
 
 ## 8.2安装blfs软件包
 
+配置环境
+
+```
+./scripts/blfs_env_config.sh
+./scripts/source.sh
+source /etc/profile
+source /etc/profile.d/rustc.sh
+source /etc/profile.d/qt5.sh
+```
+
+编译blfs软件包
+
 ```
 (lfs chroot) root:/# cd /haoos && make build-blfs
 ```
@@ -187,7 +199,7 @@ virt@virt-PC:~/haoos-lfs$ sudo make chroot-again
 清除软件库symbol
 
 ```
-make symbol_clean
+make symbol-clean
 ```
 
 
