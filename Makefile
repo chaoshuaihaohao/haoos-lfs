@@ -18,7 +18,6 @@ build:
 	./scripts/build-5.sh
 	./scripts/build-6.sh
 
-#chroot
 chroot:
 	./scripts/chroot-7.sh
 chroot1:

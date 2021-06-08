@@ -3,3 +3,4 @@ libsoup
 modemmanager
 vala
 avahi
+libnotify
