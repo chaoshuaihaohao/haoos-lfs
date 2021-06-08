@@ -11,3 +11,5 @@ desktop-file-utils
 gobject-introspection
 sysprof
 startup-notification
+
+libinput
