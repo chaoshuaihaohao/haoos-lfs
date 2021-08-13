@@ -10,9 +10,9 @@ haoos搭配自研的包安装器pkg-install，将软件包适配拆分为三部�
 
 当前该文件包含了要安装的软件包的下载链接地址。
 
-可通过`dpkg-install -d <软件包名>`命令下载软件包到/sources/blfs-sources目录。
+可通过`pkg-install -d <软件包名>`命令下载软件包到/sources/blfs-sources目录。
 
-可通过`dpkg-install -i <软件包名>`命令安装软件包。
+可通过`pkg-install -i <软件包名>`命令安装软件包。
 
 ## *.dep文件
 
@@ -35,7 +35,7 @@ Download: http://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05-xdoc.ta
 
 Download:后面需要跟空格‘　’，当前是根据空格作为分隔符来获取软件包的下载链接地址。
 
-第一行是主软件包，第二行是文档压缩包。pkg-install会根据第一行的主软件包下载链接来转换ｐｕｓｈｄ目录，从而执行安装命令。
+第一行是主软件包，第二行是文档压缩包。pkg-install会根据第一行的主软件包下载链接来转换pushd目录，从而执行安装命令。
 
 #### nasm.dep文件
 
