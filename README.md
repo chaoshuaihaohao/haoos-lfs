@@ -2,7 +2,7 @@
 
 
 
-# <img src="PICTURE/log.gif" alt="log" style="zoom: 33%;" />
+# <img src="PICTURE/log.gif" alt="log" style="zoom: 33%;" width="300" height="300"/>
 
 # HAOOS桌面操作系统发行版
 
