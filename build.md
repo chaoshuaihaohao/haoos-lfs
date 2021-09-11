@@ -16,11 +16,13 @@
 
 https://ubuntu.com/download/desktop/thank-you/?version=20.10&architecture=amd64
 
-虚拟机需要新增一块磁盘/dev/vdb用于lfs构建，建议**大小为40G+**（越大越好），linux内核编译比较耗费空间(20多G) 。
+虚拟机配置两块磁盘,一块安装ubuntu系统,一块用来构建lfs系统.
+磁盘/dev/vdb用于lfs构建，建议**大小为40G+**（越大越好），linux内核编译比较耗费空间(20多G) 。
 
-磁盘分区规划为grub分区 300M, 交换分区2G, 其余的作为lfs构建分区。
+安装ubuntu系统,可以使用最小安装节省安装时间.
 
-虚拟机中查看是否有vdb设备：
+#磁盘分区规划为grub分区 300M, 交换分区2G, 其余的作为lfs构建分区。
+虚拟机安装完成后,查看虚拟机中是否有vdb设备：
 
 ```
 ls /dev/vdb
@@ -30,7 +32,7 @@ ls /dev/vdb
 
 ## 2. 准备虚拟机宿主环境
 
-#安装工具
+#虚拟机ubuntu系统中安装如下工具
 
 ```
 sudo apt update && sudo apt install git make vim -y
@@ -184,10 +186,11 @@ virt@virt-PC:~/haoos-lfs$ sudo make chroot-again
 
 ```
 ./scripts/blfs_env_config.sh
-./scripts/source.sh
+
 source /etc/profile
+./scripts/source.sh   //line 3: pathprepend: command not found
 source /etc/profile.d/rustc.sh
-source /etc/profile.d/qt5.sh
+source /etc/profile.d/qt5.sh	//No such file or directory
 ```
 
 编译blfs软件包
