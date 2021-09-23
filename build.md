@@ -209,13 +209,13 @@ make symbol-clean
 
 ## 9.10. 使 LFS 系统可引导
 
-创建 `/etc/fstab` 文件，
+1)创建 `/etc/fstab` 文件;
 
-为新的 LFS 系统构建内核，
+2)为新的 LFS 系统构建linux内核(linux内核是处理过的，添加了aufs文件系统支持和x86_desktop_defconfig编译配置文件);
 
-制作initramfs.img
+3)制作initramfs.img;
 
-以及安装 GRUB 引导加载器，(需要fdisk /dev/vdb1分区为)
+4)以及安装 GRUB 引导加载器，(需要fdisk /dev/vdb1分区为);
 
 使得系统引导时可以选择进入 LFS 系统。
 
@@ -249,27 +249,22 @@ logout
 root@virt-PC:/home/virt/haoos-lfs# update-grub
 ```
 
-# ISO制作
+# LIVEUSB制作
 
-## LIVECD制作
-
-在make chroot-again环境中执行：
-
-```
-root [ /haoos ]# make livecd
-```
-
-![image-20210413160936269](/home/uos/.config/Typora/typora-user-images/image-20210413160936269.png)
-
-## LIVEUSB制作
+## ISO制作
 
 在make chroot-again环境中执行：
 
 ```
-root [ /haoos ]# make live-usb
+root [ / ]# cd /haoos
+root [ /haoos ]# make iso
 ```
 
 之后会在/haoos/liveusb目录下生成haoos-liveusb.iso文件。
+
+![image-20210413160936269](/home/uos/.config/Typora/typora-user-images/image-20210413160936269.png)
+
+## usb启动盘制作
 
 使用iso-boot-maker.exe制作usb启动盘即可。
 
@@ -278,8 +273,6 @@ root [ /haoos ]# make live-usb
 当前启动后，桌面起不来，需要组合按键CRTL+ALT+F2,CRTL+ALT+F1后才能启动桌面，原因未知。
 
 通过重新编译accountsservice和gnome-online-accounts软件包，再次制作ISO后，可以直接进入桌面登录环境。应该是重新命令行删除然后创建了haoos账户，结果账户信息没有添加到accountsservice某些配置文件中导致。
-
-
 
 # 软件包适配
 
