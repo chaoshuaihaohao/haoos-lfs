@@ -31,11 +31,15 @@ system-conf:
 build-lfs1:
 	./scripts/lfs_install-8_2.sh
 	./scripts/clean_up.sh
+
+#begin 构建blfs系统包
 chroot-again:
 	./scripts/chroot_again.sh
 build-blfs:
-	./pkg-install -f example/list-latest
+	./scripts/source.sh
+	./pkg-install -i all
 	./scripts/other_install.sh
+#end 构建blfs系统包
 
 symbol-clean:
 	./scripts/clean_up.sh
