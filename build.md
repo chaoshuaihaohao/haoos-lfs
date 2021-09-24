@@ -448,6 +448,19 @@ ath10k/QCA988X/hw2.0/firmware-2.bin
 
 # 其他
 
+## Q:无法启动虚拟网络“default”
+
+无法启动虚拟网络“default”: internal error: Child process (VIR_BRIDGE_NAME=virbr0 /sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/lib/libvirt/libvirt_leaseshelper) unexpected exit status 5:
+dnsmasq: failed to create inotify: Too many open files
+
+A:
+
+```
+echo 256 > /proc/sys/fs/inotify/max_user_instances
+```
+
+
+
 貌似内核必须支持initrd/initramfs.img。
 
 
