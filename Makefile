@@ -13,8 +13,7 @@ lfs-env-build:
 
 build:
 	#源码包安装
-	./scripts/build-5.sh
-	./scripts/build-6.sh
+	./scripts/build-5_6.sh
 
 chroot:
 	./scripts/chroot-7.sh

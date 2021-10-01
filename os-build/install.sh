@@ -15,7 +15,7 @@ install_pkg()
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@build
 #获取本地软件压缩包路径
 url=$(grep -A 3 -i "^$1" $PACKAGES_PATH | grep Download)
-if [ -z $url ];then echo "Error: No '$1' url found in $PACKAGES_PATH!"; exit; fi
+if [ -z "$url" ];then echo Error: No "$1" url found in $PACKAGES_PATH!; exit; fi
 tar_pkg=$(echo $url | awk -F '/' '{print $NF}')
 #echo $tar_pkg
 #pkg_dir=$(echo $tar_pkg | awk -F '.tar.gz' '{print $1}')
@@ -50,13 +50,18 @@ case $1 in
 			#忽略-list文件中'#'开头的行
 			echo $pkg | grep "^#"
 			if [ $? -eq 0 ];then continue; fi
-			#fix包名，如binutils-pass1修复成binutils.源码包都一样，只是.cmd安装脚本不一样
-			pkg_name=$(basename -s -pass1 $pkg)
-			pkg_name=$(basename -s -pass2 $pkg_name)
 			#pkg_name：对应源码压缩包;pkg：对应.cmd文件名
 			case $pkg in
 			linux-headers)
 				pkg_name=linux
+				;;
+			libstdc++)
+				pkg_name=gcc
+				;;
+			*)
+			#fix包名，如binutils-pass1修复成binutils.源码包都一样，只是.cmd安装脚本不一样
+				pkg_name=$(basename -s -pass1 $pkg)
+				pkg_name=$(basename -s -pass2 $pkg_name)
 				;;
 			esac
 			install_pkg $pkg_name;
