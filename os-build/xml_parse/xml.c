@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <getopt.h>
+#include <unistd.h>
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -48,8 +51,30 @@ enum {
 } xmlParserOption;
 #endif
 
+char *const short_options = "t:n:";     //有参数的需要跟':'。
+struct option long_options[] = {
+	{ "node type", 1, NULL, 't' },
+	{ "node name", 1, NULL, 'n' },
+	{ 0, 0, 0, 0 },
+};
+
+static void usage()
+{
+	printf("Usage:\n"
+	       "	./xml -n <cmd|pkg>\n"
+	       "	cmd:解析.cmd内容\n"
+	       "	pkg:解析.pkg内容\n"
+	       );
+
+}
+
 int main(int argc, char **argv)
 {
+	if (argc <= 2) {
+		usage();
+		return -1;
+	}
+
 	xmlDocPtr pdoc = NULL;
 	xmlNodePtr proot = NULL, pcur = NULL, node = NULL, tmp = NULL;
 
@@ -63,9 +88,9 @@ int main(int argc, char **argv)
 	    XML_PARSE_NSCLEAN | XML_PARSE_NOCDATA | XML_PARSE_COMPACT |
 	    XML_PARSE_OLD10 | XML_PARSE_OLDSAX | XML_PARSE_HUGE |
 	    XML_PARSE_BIG_LINES;
-	pdoc = xmlReadFile(argv[1], "ISO-8859-1", options);	//libxml只能解析UTF-8格式数据
+	pdoc = xmlReadFile(argv[argc - 1], "ISO-8859-1", options);	//libxml只能解析UTF-8格式数据
 	if (pdoc == NULL) {
-		printf("error:can't open file!\n");
+		printf("Error:can't open file!\n");
 		exit(1);
 	}
 
@@ -75,8 +100,26 @@ int main(int argc, char **argv)
 		printf("error: file is empty!\n");
 		exit(1);
 	}
-//      printf("proot name:%s\n", (char *)proot->name);
+	DEBUG("proot name:%s\n", (char *)proot->name);
 
+	int c;
+	char *name;
+	char *type;
+
+          while ((c =                                                                                                                                                     
+                  getopt_long(argc, argv, short_options, long_options,                                                                                                    
+                              NULL)) != -1) {                                                                                                                             
+                  switch (c) {                                                                                                                                            
+                  case 't':                                                                                                                                               
+			  type = optarg;
+                          DEBUG("type name is %s\n", type);                                                                                                                     
+                          break;                                                                                                                                          
+                  case 'n':
+			  name = optarg;
+                          DEBUG("name is %s\n", name);                                                                                                                    
+                          break;                                                                                                                                          
+                  }                                                                                                                                                       
+          }                                                                                                                                                               
 /*****************遍历所有node of xml tree********************/
 //先遍历node的所有child node,如果全遍历完了,再遍历上一级的next node.
 //1--->
@@ -96,39 +139,63 @@ int main(int argc, char **argv)
 //例如xmlMalloc是动态分配内存的函数；xmlFree是配套的释放内存函数；xmlStrcmp是字符串比较函数等。
 //对于char* ch="book", xmlChar* xch=BAD_CAST(ch)或者xmlChar* xch=(const xmlChar *)(ch)
 //对于xmlChar* xch=BAD_CAST("book")，char* ch=(char *)(xch)
-		if (!xmlStrcmp(node->name, BAD_CAST("userinput"))) {
-			printf("%s\n", ((char *)
-					XML_GET_CONTENT(node->xmlChildrenNode)));	//userinput的子节点就是我们所需要的TEXT。
+
+		if (!strcmp(name, "cmd")) {
+			if (!xmlStrcmp(node->name, BAD_CAST("userinput")) &&
+			    !xmlStrcmp(node->parent->name, BAD_CAST("screen")))
+				printf("%s\n", ((char *)
+						XML_GET_CONTENT(node->xmlChildrenNode)));
+			if (!xmlStrcmp(node->name, BAD_CAST("literal")) &&
+			    !xmlStrcmp(node->parent->name, BAD_CAST("userinput"))) {
+				printf("%s\n", ((char *)
+						XML_GET_CONTENT(node->xmlChildrenNode)));
+				if (node->next)
+					printf("%s\n", ((char *)
+							XML_GET_CONTENT(node->next)));
+			}
+		}
+
+		if (!strcmp(name, "pkg")) {
+			if (!xmlStrcmp(node->parent->name, BAD_CAST("listitem")) &&
+			    !xmlStrcmp(node->name, BAD_CAST("para"))) {
+				printf("%s", ((char *)
+						XML_GET_CONTENT(node->xmlChildrenNode)));	//para的子节点就是我们所需要的TEXT。
+			}
+			if (!xmlStrcmp(node->name, BAD_CAST("literal"))) {
+				printf("%s\n", ((char *)
+						XML_GET_CONTENT(node->xmlChildrenNode)));
+			}
+			if (!xmlStrcmp(node->name, BAD_CAST("ulink"))) {
+				printf("%s\n", ((char *)
+						XML_GET_CONTENT(node->properties->children)));
+			}
 		}
 #endif
-		//如果子节点为空，就解析当前节点的下一个节点
-		//      如果下一个节点还是为空，则读当前节点的父节点的下一个节点（父节点不能是proot节点）
 		//如果子节点不为空，继续解析子节点
+		//如果子节点为空，就解析当前节点的下一个节点
+		//      如果下一个节点还是为空，说明读到底了；
+		//      则读当前节点的父节点的下一个节点（父节点不能是proot节点）
 		//以TEXT节点为例
-		if (!node->xmlChildrenNode) {	// proot->next=proot?
-			if (node->next)
-				node = node->next;
-			else if (node->parent->next)
-				node = node->parent->next;
-			else {	//一直往上找,直到parent->next非空为止,或parent->next为空且parent=proot为止
-				while (1) {
-					node = node->parent;
-					if (node->next) {
-						node = node->next;
-						break;
-					} else {
-						if (node->parent == proot) {
-							node = NULL;
-							break;
-						}
-					}
+		if (node->xmlChildrenNode)
+			node = node->xmlChildrenNode;
+		else if (node->next)
+			node = node->next;
+		else {	//一直往上找,直到parent->next非空为止,或parent->next为空且parent=proot为止
+			for (node = node->parent; node != proot; node = node->parent)
+			{
+				if (node->next) {
+					node = node->next;
+					break;
 				}
 			}
-		} else {
-			node = node->xmlChildrenNode;
+			if (node == proot) {
+				node = NULL;
+				goto __out;
+			}
 		}
 	}
 
+__out:
 /*****************释放资源********************/
 	xmlFreeDoc(pdoc);
 	xmlCleanupParser();
