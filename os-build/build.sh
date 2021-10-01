@@ -1,5 +1,6 @@
 #!/bin/bash
-LFS_PATH=/home/uos/Backup/github/lfs-git/
+HAOOS_PATH=~/Backup/github/haoos-lfs
+LFS_PATH=$HAOOS_PATH/lfs-git
 OS_BUILD_PATH=$(readlink -f .)/os-build
 XML_PATH=$OS_BUILD_PATH/xml_parse
 XML_PARSE=$XML_PATH/xml
