@@ -5,6 +5,7 @@ if [ `id -u` != 0 ];then
 fi
 
 DEP_PACKETS="\
+	expect \
 	automake \
 	texinfo \
 	g++ \

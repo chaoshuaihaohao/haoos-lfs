@@ -5,6 +5,7 @@ if [ `id -u` != 0 ];then
         exit
 fi
 
+[ ! -e /etc/bash.bashrc ] || mv -v /etc/bash.bashrc /etc/bash.bashrc.NOUSE
 echo "export LFS=/mnt/lfs" >  ~/.bash_profile
 source ~/.bash_profile
 
