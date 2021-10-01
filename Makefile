@@ -8,9 +8,7 @@ dep-install:
 lfs-env-build:
 	#挂载lfs分区和swap分区
 	./scripts/mount_lfs_swap-2_2.sh
-	#解压缩获取源代码
-	./scripts/tar_xvf_sources-3.sh
-	#lfs账户配置
+	#lfs账户配置/拷贝haoos-lfs到/home/lfs目录
 	./scripts/adduser_lfs-4.sh
 
 build:

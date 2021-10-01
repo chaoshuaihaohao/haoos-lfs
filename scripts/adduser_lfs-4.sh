@@ -35,8 +35,7 @@ case $(uname -m) in
 esac
 
 #copy object compile file to lfs account
-mkdir -vp /home/lfs/scripts
-cp -r `pwd`/* /home/lfs/
+cp -r ../haoos-lfs /home/lfs/
 
 #change the owner and group of /home/lfs from root to lfs.
 chown -v -R lfs /home/lfs
