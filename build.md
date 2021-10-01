@@ -2,14 +2,6 @@
 
 # 构建步骤
 
-## 下载lfs-sources.tar.gz源码压缩包
-
-百度网盘下载地址：
-
-链接: https://pan.baidu.com/s/1lybURDdTHm5wu5Q9k9etZQ  密码: gvc1
-
-下载到物理机的～目录下。
-
 ## 安装虚拟机
 
 推荐使用ubuntu作为虚拟机iso镜像。iso下载地址：
@@ -41,18 +33,47 @@ sudo apt update && sudo apt install git make vim -y
 #下载haoos仓库
 
 ```
+cd ~
 git clone https://github.com/chaoshuaihaohao/haoos-lfs.git
+```
+
+#下载关联仓库
+
+```
+git clone git://git.linuxfromscratch.org/lfs.git lfs-git
+```
+
+如果要构建blfs系统，下载如下仓库
+
+```
+git clone git://git.linuxfromscratch.org/blfs.git blfs-git
+```
+
+#os-build解析并下载相关软件包
+
+```
+./os-build/build.sh
+#生成build目录并下载所需的各个软件包源码和patch
 ```
 
 #检查宿主机器的环境，针对结果安装不同的包
 
 ```
-make check
+bash -e ./build/cmd/hostreqs.cmd
 ```
 
-#安装依赖的软件包
+#todo:新增脚本对bash -e ./build/cmd/hostreqs.cmd的输出进行检测，然后下载所需的依赖包
 
 ```
+
+```
+
+
+
+#安装依赖的软件包（TODO这个后续去掉/修改）
+
+```
+cd ~/haoos-lfs/
 sudo make dep-install
 ```
 
@@ -96,11 +117,13 @@ root@virt-PC:/boot/efi# findmnt | grep vda
 
 ### 创建lfs账户
 
-#解压缩获取lfs应用程序源代码
+#解压缩获取lfs应用程序源代码(TODO：删除。后续不通过压缩包发布)
 
 #修改/mnt/lfs和/home/lfs下的文件owner和group为lfs
 
 #lfs账户配置，这一步会进入新创建的lfs账户目录。
+
+#拷贝build.sh下载的lfs应用程序源代码
 
 ```
 virt@virt-PC:~/haoos-lfs$ sudo make lfs-env-build
@@ -109,10 +132,6 @@ virt@virt-PC:~/haoos-lfs$ sudo make lfs-env-build
 按提示输入用来构建haoos系统的块设备，例如/dev/vdb
 
 注意：块设备不要设置成只读，否则无法构建。
-
-按提示输入存放source.tar.xz文件的电脑ssh ip，例如haoos@10.20.66.88
-
-注意：指定的source.tar.xz存放在~目录下。
 
 ![image-20210527103626307](/home/uos/.config/Typora/typora-user-images/image-20210527103626307.png)
 
