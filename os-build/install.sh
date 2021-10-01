@@ -14,7 +14,7 @@ install_pkg()
 {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@build
 #获取本地软件压缩包路径
-url=$(grep $1 $PACKAGES_PATH)
+url=$(grep -A 3 -i "^$1" $PACKAGES_PATH | grep Download)
 if [ -z $url ];then echo "Error: No '$1' url found in $PACKAGES_PATH!"; exit; fi
 tar_pkg=$(echo $url | awk -F '/' '{print $NF}')
 #echo $tar_pkg
