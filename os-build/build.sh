@@ -1,6 +1,9 @@
 #!/bin/bash
 LFS_PATH=/home/uos/Backup/github/lfs-git/
-BUILD_PATH=./build
+OS_BUILD_PATH=$(readlink -f .)/os-build
+XML_PATH=$OS_BUILD_PATH/xml_parse
+XML_PARSE=$XML_PATH/xml
+BUILD_PATH=$(readlink -f .)/build
 CMD_PATH=$BUILD_PATH/cmd
 PKG_PATH=$BUILD_PATH/pkg
 SRC_PATH=$BUILD_PATH/
@@ -14,6 +17,7 @@ Usage()
 	echo "-i" "安装软件包"
 		echo "      1.all;2.指定"
 	echo "-f <file>" "安装文件列表中的软件包"
+	echo "-h" "显示该帮助信息"
 }
 
 #找到包含软件包下载信息的文件
@@ -64,8 +68,7 @@ done
 case $1 in
 	-x)
 		if [ -z $2 ];then	Usage;exit;	fi
-		make -C ./xml_parse
-		XML_PARSE=./xml_parse/xml
+		make -C $XML_PATH
 		case $2 in
 		all)
 			CUR_PATH=$(dirname $(readlink -f "$0"))
@@ -135,6 +138,9 @@ case $1 in
 		;;
 	-f)
 		if [ -z $2 ];then	Usage;exit;	fi
+		;;
+	-h)
+		Usage;exit;
 		;;
 	*)
 		$0 -x all
