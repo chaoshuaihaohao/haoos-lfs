@@ -47,6 +47,9 @@ case $1 in
 
 		for pkg in `cat $2`
 		do
+			#忽略-list文件中'#'开头的行
+			echo $pkg | grep "^#"
+			if [ $? -eq 0 ];then continue; fi
 			#fix包名，如binutils-pass1修复成binutils.源码包都一样，只是.cmd安装脚本不一样
 			pkg_name=$(basename -s -pass1 $pkg)
 			pkg_name=$(basename -s -pass2 $pkg_name)
