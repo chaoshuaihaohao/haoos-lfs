@@ -158,7 +158,7 @@ int main(int argc, char **argv)
 		if (!strcmp(name, "pkg")) {
 			if (!xmlStrcmp(node->parent->name, BAD_CAST("varlistentry")) &&
 			    !xmlStrcmp(node->name, BAD_CAST("term"))) {
-				printf("%s", ((char *)
+				printf("%s\n", ((char *)
 						XML_GET_CONTENT(node->xmlChildrenNode)));
 			}
 			if (!xmlStrcmp(node->parent->name, BAD_CAST("listitem")) &&
