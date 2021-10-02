@@ -7,7 +7,8 @@ XML_PARSE=$XML_PATH/xml
 BUILD_PATH=$(readlink -f .)/build
 CMD_PATH=$BUILD_PATH/cmd
 PKG_PATH=$BUILD_PATH/pkg
-SRC_PATH=$BUILD_PATH/
+#下载的源码包和patch的存放位置，需要在.cmd文件的上级目录
+SRC_PATH=$BUILD_PATH/cmd
 
 Usage()
 {
@@ -80,19 +81,21 @@ case $1 in
 			mkdir -pv $BUILD_PATH
 
 			#生成.cmd文件
-			rm -rf $CMD_PATH
-			mkdir -pv $CMD_PATH
+			if [ ! -d $CMD_PATH ];then mkdir -pv $CMD_PATH; fi
+			find $CMD_PATH -name *.cmd -delete
 			for file in $XML_FILE_SET
 			do
 				XML_NAME=$(basename $file)
+				CHAPTER=$(echo $file | awk -F '/' '{print $(NF-1)}')
 				BASENAME=$(basename -s .xml $XML_NAME)
+				if [ ! -d $CMD_PATH/$CHAPTER ];then mkdir -pv $CMD_PATH/$CHAPTER; fi
+				CMD_FILE_PATH=$CMD_PATH/$CHAPTER/$BASENAME.cmd
 				echo parsing $file
-				$XML_PARSE -n cmd $file > $CMD_PATH/$BASENAME.cmd
-				if [ ! -s $CMD_PATH/$BASENAME.cmd ]
+				$XML_PARSE -n cmd $file > $CMD_FILE_PATH
+				if [ ! -s $CMD_FILE_PATH ]
 				then
-					rm $CMD_PATH/$BASENAME.cmd
+					rm $CMD_FILE_PATH
 				fi
-
 			done
 
 			#生成.pkg文件,包含包的信息
