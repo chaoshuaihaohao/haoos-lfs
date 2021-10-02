@@ -31,7 +31,7 @@ get_packages()
 {
 #获取安装包
 PACKAGES=`grep -r Download $PKG_PATH/$(basename -s .xml $PKG_FILE).pkg | awk -F ': ' '{print $2}'`
-if [ -z $PACKAGES ];then echo "No packages url found!"; exit; fi
+if [ -z "$PACKAGES" ];then echo "No packages url found!"; exit; fi
 for pkg in $PACKAGES
 do
 	if [ -z "$1" ];then
@@ -52,6 +52,7 @@ get_patches()
 {
 #获取patch
 PACKAGES=`grep -r Download $PKG_PATH/$(basename -s .xml $PATCH_FILE).pkg | awk -F ': ' '{print $2}'`
+if [ -z "$PACKAGES" ];then echo "No patches url found!"; exit; fi
 for pkg in $PACKAGES
 do
 	if [ -z "$1" ];then
@@ -136,7 +137,7 @@ case $1 in
 		*)
 			get_packages $2
 			get_patches $2
-			Usage;exit;
+			exit;
 		esac
 		exit;
 		;;
