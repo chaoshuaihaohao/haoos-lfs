@@ -29,7 +29,7 @@ tar -xf $tar_pkg
 pushd $pkg_dir
 #执行软件包安装命令
 bash -e ../$CHAPTER/$pkg.cmd
-if [ $? -ne 0 ];then echo "Error: exec '$pkg.cmd' failed!";exit; fi
+if [ $? -ne 0 ];then echo "Error: exec '$CHAPTER/$pkg.cmd' failed!";exit; fi
 popd
 #清除软件包目录
 rm -rf $pkg_dir
