@@ -1,6 +1,6 @@
 # haoos-lfs
 
-# 构建步骤
+# 前期环境准备
 
 ## 安装虚拟机
 
@@ -108,7 +108,9 @@ root@virt-PC:/boot/efi# findmnt | grep vda
 
 ​	本人的物理机上，/boot目录是单独作为一个分区的，grub安装在其中。虚拟机中，chroot到/mnt/lfs后，/dev/vdb1类型为BIOS boot时，grub-install 才会成功。
 
-### 创建lfs账户
+# 正片开始
+
+## 创建lfs账户
 
 #修改/mnt/lfs和/home/lfs下的文件owner和group为lfs
 
@@ -126,7 +128,7 @@ virt@virt-PC:~/haoos-lfs$ sudo make lfs-env-build
 
 注意：块设备不要设置成只读，否则无法构建。
 
-![image-20210527103626307](/home/uos/.config/Typora/typora-user-images/image-20210527103626307.png)
+![image-20211002194641775](/home/uos/.config/Typora/typora-user-images/image-20211002194641775.png)
 
 ## 新建的lfs环境
 
@@ -137,10 +139,10 @@ virt@virt-PC:~/haoos-lfs$ sudo make lfs-env-build
 /home/lfs账户中运行，生成的文件会安装到/mnt/lfs目录下
 
 ```
-lfs@virt-PC:~$ cd haoos-lfs
+-bash-5.0$ cd haoos-lfs/
 #4.4
-lfs@virt-PC:~$ . ./build/cmd/settingenviron.cmd
-lfs@virt-PC:~$ make mnt-lfs-build
+-bash-5.0$ . ./build/cmd/chapter04/settingenviron.cmd
+lfs:~/haoos-lfs$ make mnt-lfs-build
 ```
 
 ![image-20210527110152438](/home/uos/.config/Typora/typora-user-images/image-20210527110152438.png)
@@ -294,20 +296,6 @@ root [ /haoos ]# make iso
 # 软件包适配
 
 参见Documentation/unit-adaptor.md文档
-
-
-
-#5.5build/cmd/glibc.cmd去掉如下内容。找不到../lib/ld-linux-x86-64.so.2
-
-case $(uname -m) in                                                         
-    i?86)   ln -sfv ld-linux.so.2 $LFS/lib/ld-lsb.so.3                      
-    ;;                                                                      
-    x86_64) ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64                  
-            ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64/ld-lsb-x86-64.so.
-    ;;                                                                      
-esac
-
-
 
 # 参考文献
 
