@@ -16,6 +16,8 @@ DEP_PACKETS="\
 	libiberty-dev \
 	gawk \
 	libisl-dev \
+	libxslt-dev \
+	gcc
 	"
 for i in $DEP_PACKETS
 do

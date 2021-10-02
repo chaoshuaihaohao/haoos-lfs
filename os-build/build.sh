@@ -72,6 +72,8 @@ case $1 in
 	-x)
 		if [ -z $2 ];then	Usage;exit;	fi
 		make -C $XML_PATH
+		if [ $? -ne 0 ];then echo "Error: make xml failed!";exit; fi
+
 		case $2 in
 		all)
 			CUR_PATH=$(dirname $(readlink -f "$0"))
