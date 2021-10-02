@@ -1,6 +1,3 @@
-[submodule "lfs"]
-	path = lfs
-	url = git://git.linuxfromscratch.org/lfs.git
 [submodule "lfs-git"]
 	path = lfs-git
 	url = git://git.linuxfromscratch.org/lfs.git
