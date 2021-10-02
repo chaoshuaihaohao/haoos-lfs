@@ -11,8 +11,8 @@ lfs-env-build:
 	#lfs账户配置/拷贝haoos-lfs到/home/lfs目录
 	./scripts/adduser_lfs-4.sh
 
-build:
-	#源码包安装
+mnt-lfs-build:
+	#源码包安装,生成的文件在/mnt/lfs/tools目录下
 	./scripts/build-5_6.sh
 
 chroot:

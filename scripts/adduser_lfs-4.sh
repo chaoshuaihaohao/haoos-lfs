@@ -6,8 +6,7 @@ if [ `id -u` != 0 ];then
 fi
 
 [ ! -e /etc/bash.bashrc ] || mv -v /etc/bash.bashrc /etc/bash.bashrc.NOUSE
-echo "export LFS=/mnt/lfs" >  ~/.bash_profile
-source ~/.bash_profile
+export LFS=/mnt/lfs
 
 #4.2. 在 LFS 文件系统中创建有限目录布局
 mkdir -pv $LFS/{bin,etc,lib,sbin,usr,var}
