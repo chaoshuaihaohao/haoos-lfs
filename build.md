@@ -33,19 +33,20 @@ sudo apt update && sudo apt install git make vim -y
 #下载haoos仓库
 
 ```
-cd ~
 git clone https://github.com/chaoshuaihaohao/haoos-lfs.git
 ```
 
-#下载关联仓库
+#下载关联的lfs仓库
 
 ```
+cd ~/haoos-lfs/
 git clone git://git.linuxfromscratch.org/lfs.git lfs-git
 ```
 
 如果要构建blfs系统，下载如下仓库
 
 ```
+cd ~/haoos-lfs/
 git clone git://git.linuxfromscratch.org/blfs.git blfs-git
 ```
 
@@ -56,19 +57,11 @@ git clone git://git.linuxfromscratch.org/blfs.git blfs-git
 #生成build目录并下载所需的各个软件包源码和patch
 ```
 
-#检查宿主机器的环境，针对结果安装不同的包
+#检查宿主机器的环境，针对结果安装不同的包#todo:新增脚本对bash -e ./build/cmd/hostreqs.cmd的输出进行检测，然后下载所需的依赖包
 
 ```
 bash -e ./build/cmd/hostreqs.cmd
 ```
-
-#todo:新增脚本对bash -e ./build/cmd/hostreqs.cmd的输出进行检测，然后下载所需的依赖包
-
-```
-
-```
-
-
 
 #安装依赖的软件包（TODO这个后续去掉/修改）
 
@@ -117,13 +110,13 @@ root@virt-PC:/boot/efi# findmnt | grep vda
 
 ### 创建lfs账户
 
-#解压缩获取lfs应用程序源代码(TODO：删除。后续不通过压缩包发布)
-
 #修改/mnt/lfs和/home/lfs下的文件owner和group为lfs
 
 #lfs账户配置，这一步会进入新创建的lfs账户目录。
 
 #拷贝build.sh下载的lfs应用程序源代码
+
+#su - lfs切换到lfs账户
 
 ```
 virt@virt-PC:~/haoos-lfs$ sudo make lfs-env-build
@@ -141,8 +134,13 @@ virt@virt-PC:~/haoos-lfs$ sudo make lfs-env-build
 
 ## 5. 编译交叉工具链 && 6. 交叉编译临时工具
 
+/home/lfs账户中运行，生成的文件会安装到/mnt/lfs目录下
+
 ```
-lfs@virt-PC:~$ make build
+lfs@virt-PC:~$ cd haoos-lfs
+#4.4
+lfs@virt-PC:~$ . ./build/cmd/settingenviron.cmd
+lfs@virt-PC:~$ make mnt-lfs-build
 ```
 
 ![image-20210527110152438](/home/uos/.config/Typora/typora-user-images/image-20210527110152438.png)
@@ -165,10 +163,10 @@ virt@virt-PC:~/haoos-lfs$ sudo make chroot
 ```
 
 #执行完后是：(lfs chroot) I have no name!:/#
-#切换到haoos项目目录
+#切换到haoos-lfs项目目录
 
 ```
-(lfs chroot) I have no name!:/# cd haoos && make chroot1
+(lfs chroot) I have no name!:/# cd haoos-lfs && make chroot1
 ```
 
 #执行完后是：bash-5.1#
@@ -296,6 +294,20 @@ root [ /haoos ]# make iso
 # 软件包适配
 
 参见Documentation/unit-adaptor.md文档
+
+
+
+#5.5build/cmd/glibc.cmd去掉如下内容。找不到../lib/ld-linux-x86-64.so.2
+
+case $(uname -m) in                                                         
+    i?86)   ln -sfv ld-linux.so.2 $LFS/lib/ld-lsb.so.3                      
+    ;;                                                                      
+    x86_64) ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64                  
+            ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64/ld-lsb-x86-64.so.
+    ;;                                                                      
+esac
+
+
 
 # 参考文献
 

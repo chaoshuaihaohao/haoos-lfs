@@ -21,14 +21,14 @@ tar_pkg=$(echo $url | awk -F '/' '{print $NF}')
 #pkg_dir=$(echo $tar_pkg | awk -F '.tar.gz' '{print $1}')
 pkg_dir=$(echo $tar_pkg | awk -F '.tar' '{print $1}')
 
-pushd ./build
+pushd ./build/cmd
 #清除软件包目录,防止上次构建的残留造成影响。可以做成一个选项
 rm -rf $pkg_dir
 #解压软件包
 tar -xf $tar_pkg
 pushd $pkg_dir
 #执行软件包安装命令
-bash -e ../cmd/$pkg.cmd
+bash -e ../$CHAPTER/$pkg.cmd
 if [ $? -ne 0 ];then echo "Error: exec '$pkg.cmd' failed!";exit; fi
 popd
 #清除软件包目录
@@ -45,6 +45,10 @@ case $1 in
 			echo "		从文件获取软件包安装列表"
 			exit
 		fi
+		#$2格式是lfs-list-chapter05这种
+		CHAPTER=$(echo $2 | awk -F '-' '{printf $NF}')
+		echo $CHAPTER | grep ^chapter
+		if [ $? -ne 0 ];then echo "Error: lfs-list-chapter* file name not right!"; exit; fi
 
 		for pkg in `cat $2`
 		do
