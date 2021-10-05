@@ -11,14 +11,21 @@ export LFS=/mnt/lfs
 . build/cmd/chapter04/creatingminlayout.cmd
 
 #4.3. 添加 LFS 用户
-#echo "Please set the new account lfs's password:"
-#passwd lfs
-#echo lfs:1 | chpasswd
 getent group | grep lfs
 if [ $? -eq 0 ];then
 	userdel lfs
 	groupdel lfs
-	rm /home/lfs -rf
+	rm /home/lfs/* -rf
 fi
+#拷贝haoos-lfs到/home/lfs目录
+mkdir -pv /home/lfs
+cp -a ../haoos-lfs /home/lfs/
+#change the owner and group of /home/lfs from root to lfs.
+groupadd lfs
+useradd -s /bin/bash -g lfs -m -k /dev/null lfs
+chown -v -R lfs:lfs /home/lfs
+#chown -v -R lfs /home/lfs
+#chgrp -v -R lfs /home/lfs
+
 sed -i 's/passwd lfs/echo lfs:1 | chpasswd/g' build/cmd/chapter04/addinguser.cmd
 . build/cmd/chapter04/addinguser.cmd
