@@ -55,6 +55,11 @@ git clone git://git.linuxfromscratch.org/blfs.git blfs-git
 ```
 ./os-build/build.sh
 #生成build目录并下载所需的各个软件包源码和patch
+#打补丁
+find ./build -name *.cmd | xargs sed -i 's/make check/#make check/g'
+find ./build -name *.cmd | xargs sed -i 's/make -j1 check/#make -j1 check/g'
+find ./build -name *.cmd | xargs sed -i 's/make -j4 check/#make -j4 check/g'
+find ./build -name *.cmd | xargs sed -i 's/make test/#make test/g'
 ```
 
 #检查宿主机器的环境，针对结果安装不同的包#todo:新增脚本对bash -e ./build/cmd/hostreqs.cmd的输出进行检测，然后下载所需的依赖包
@@ -110,7 +115,7 @@ root@virt-PC:/boot/efi# findmnt | grep vda
 
 # 正片开始
 
-## 创建lfs账户
+## 4.创建lfs账户
 
 #修改/mnt/lfs和/home/lfs下的文件owner和group为lfs
 
@@ -130,7 +135,7 @@ virt@virt-PC:~/haoos-lfs$ sudo make lfs-env-build
 
 ![image-20211002194641775](/home/uos/.config/Typora/typora-user-images/image-20211002194641775.png)
 
-## 新建的lfs环境
+
 
 #在lfs账户目录下执行，源码包安装
 
