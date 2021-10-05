@@ -143,9 +143,11 @@ int main(int argc, char **argv)
 		if (!strcmp(name, "cmd")) {
 			if (!xmlStrcmp(node->name, BAD_CAST("userinput")) &&
 			    !xmlStrcmp(node->parent->name, BAD_CAST("screen")) &&
-			    !xmlStrcmp(node->children->name, BAD_CAST("text")))
-				printf("%s\n", ((char *)
-						XML_GET_CONTENT(node->xmlChildrenNode)));
+			    !xmlStrcmp(node->children->name, BAD_CAST("text"))) {
+				if (!node->properties || xmlStrcmp(node->properties->children->content, BAD_CAST("test")))
+					printf("%s\n", ((char *)
+							XML_GET_CONTENT(node->xmlChildrenNode)));
+			}
 			if (!xmlStrcmp(node->name, BAD_CAST("literal")) &&
 			    !xmlStrcmp(node->parent->name, BAD_CAST("userinput"))) {
 				printf("%s\n", ((char *)
