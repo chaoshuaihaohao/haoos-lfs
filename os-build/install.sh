@@ -53,8 +53,8 @@ case $1 in
 			echo "		从文件获取软件包安装列表"
 			exit
 		fi
-		#$2格式是lfs-list-chapter05这种
-		CHAPTER=$(echo $2 | awk -F '-' '{printf $NF}')
+		#$2格式是lfs-list-chapter05-part01这种
+		CHAPTER=$(echo $2 | awk -F '-' '{printf $3}')
 		echo $CHAPTER | grep ^chapter
 		if [ $? -ne 0 ];then echo "Error: lfs-list-chapter* file name not right!"; exit; fi
 
@@ -76,6 +76,9 @@ case $1 in
 				;;
 			xz)
 				pkg_name="Xz Utils"
+				;;
+			pkgconfig)
+				pkg_name="pkg-config"
 				;;
 			*)
 				;;

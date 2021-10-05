@@ -9,7 +9,7 @@ if [ -n $JOBS ];then
 fi
 export MAKEFLAGS=-j$JOBS
 
-./os-build/install.sh -f ./os-build/lfs-list-chapter08
+./os-build/install.sh -f ./os-build/lfs-list-chapter08-part1
 #8.3. Man-pages-5.10
 #执行新编译的 bash 程序 (替换当前正在执行的版本)：
 #exec /bin/bash --login +h -c "cd /haoos && make system-conf && make build-lfs1"

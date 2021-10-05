@@ -9,7 +9,7 @@ if [ -n $JOBS ];then
 fi
 export MAKEFLAGS=-j$JOBS
 
-./os-build/install.sh -f ./os-build/lfs-list-chapter09
+./os-build/install.sh -f ./os-build/lfs-list-chapter08-part2
 #8.35. Libtool-2.4.6
 #8.36. GDBM-1.19
 #8.37. Gperf-3.1
