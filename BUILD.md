@@ -302,6 +302,25 @@ root [ /haoos ]# make iso
 
 参见Documentation/unit-adaptor.md文档
 
+修改build/cmd/chapter04/settingenviron.cmd
+
+```
+cat > ~/.bashrc << "EOF"
+set +h
+umask 022
+LFS=/mnt/lfs
+LC_ALL=POSIX
+LFS_TGT=$(uname -m)-lfs-linux-gnu
+PATH=/usr/bin			//PATH=/usr/bin:/usr/sbin		@@添加PATH路径
+if [ ! -L /bin ]; then PATH=/bin:$PATH; fi
+PATH=$LFS/tools/bin:$PATH
+CONFIG_SITE=$LFS/usr/share/config.site
+export LFS LC_ALL LFS_TGT PATH CONFIG_SITE                                                                                                                     
+EOF
+```
+
+
+
 # 参考文献
 
 [Linux From Scratch Version 10.1-systemd Published March 1st, 2021]

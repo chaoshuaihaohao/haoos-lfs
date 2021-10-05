@@ -108,12 +108,6 @@ case $1 in
 			$XML_PARSE -n pkg $PKG_FILE > $PKG_PATH/$(basename -s .xml $PKG_FILE).pkg
 			$XML_PARSE -n pkg $PATCH_FILE > $PKG_PATH/$(basename -s .xml $PATCH_FILE).pkg
 
-			#去掉check和test操作，这些检测操作非常耗时并且和bash -e冲突
-			find ./build -name *.cmd | xargs sed -i 's/make check/#make check/g'
-			find ./build -name *.cmd | xargs sed -i 's/make -j1 check/#make -j1 check/g'
-			find ./build -name *.cmd | xargs sed -i 's/make -j4 check/#make -j4 check/g'
-			find ./build -name *.cmd | xargs sed -i 's/make test/#make test/g'
-
 			exit;
 			;;
 		*)
