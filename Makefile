@@ -27,7 +27,7 @@ system-conf:
 	./scripts/system_config.sh
 build-lfs1:
 	./scripts/lfs_install-8_2.sh
-	./scripts/clean_up.sh
+#	./scripts/clean_up.sh
 
 #begin 构建blfs系统包
 chroot-again:
