@@ -144,7 +144,10 @@ int main(int argc, char **argv)
 			if (!xmlStrcmp(node->name, BAD_CAST("userinput")) &&
 			    !xmlStrcmp(node->parent->name, BAD_CAST("screen")) &&
 			    !xmlStrcmp(node->children->name, BAD_CAST("text"))) {
-				if (!node->properties || xmlStrcmp(node->properties->children->content, BAD_CAST("test")))
+				if ((!node->properties ||
+				    xmlStrcmp(node->properties->children->content, BAD_CAST("test"))) &&
+				    (!node->parent->properties ||
+				    xmlStrcmp(node->parent->properties->children->content, BAD_CAST("sysv"))))
 					printf("%s\n", ((char *)
 							XML_GET_CONTENT(node->xmlChildrenNode)));
 			}
