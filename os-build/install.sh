@@ -15,7 +15,7 @@ install_pkg()
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@build
 #获取本地软件压缩包路径
 #对于python这样的有doc压缩包，匹配不精确会有两个下载链接
-url=$(grep -A 3 -i "^$1 (" $PACKAGES_PATH | grep Download | head -1)
+url=$(grep -A 3 -i "^$1" $PACKAGES_PATH | grep Download | head -1)
 if [ -z "$url" ];then echo Error: No "$1" url found in $PACKAGES_PATH!; exit; fi
 
 tar_pkg=$(echo $url | awk -F '/' '{print $NF}')
@@ -32,6 +32,12 @@ tar -xf $tar_pkg
 case "$pkg_dir" in
 tcl8.6.11-src)
 	pkg_dir="tcl8.6.11"
+	;;
+vim-8.2.3458)
+	pkg_dir="vim-tags-v8.2.3458"
+	;;
+procps-ng-3.3.17)
+	pkg_dir="procps-3.3.17"
 	;;
 esac
 pushd $pkg_dir
@@ -54,9 +60,9 @@ case $1 in
 			exit
 		fi
 		#$2格式是lfs-list-chapter05-part01这种
-		CHAPTER=$(echo $2 | awk -F '-' '{printf $3}')
+		CHAPTER=$(echo $2 | awk -F '-' '{printf $4}')
 		echo $CHAPTER | grep ^chapter
-		if [ $? -ne 0 ];then echo "Error: lfs-list-chapter* file name not right!"; exit; fi
+		if [ $? -ne 0 ];then echo "Error: "$2" file name not right(lfs-list-chapter08-part2)!"; exit; fi
 
 		for pkg in `cat $2`
 		do
@@ -79,6 +85,12 @@ case $1 in
 				;;
 			pkgconfig)
 				pkg_name="pkg-config"
+				;;
+			libelf)
+				pkg_name="Elfutils"
+				;;
+			dbus)
+				pkg_name="D-Bus"
 				;;
 			*)
 				;;
