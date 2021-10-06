@@ -319,6 +319,22 @@ export LFS LC_ALL LFS_TGT PATH CONFIG_SITE
 EOF
 ```
 
+#屏蔽chapter08/gcc.cmd中的测试
+
+chapter08/groff.html
+
+```
+PAGE=<paper_size> ./configure --prefix=/usr
+修改为
+PAGE=A4 ./configure --prefix=/usr
+```
+
+lfs-git/chapter08/util-linux.xml
+
+去掉bash tests/run.sh --srcdir=$PWD --builddir=$PWD
+
+
+
 
 
 # 参考文献
