@@ -23,11 +23,11 @@ chroot-do:
 	./scripts/chroot_do-7_6.sh
 build-lfs:
 	./scripts/lfs_install-8_1.sh
-system-conf:
-	./scripts/system_config.sh
 build-lfs1:
 	./scripts/lfs_install-8_2.sh
 #	./scripts/clean_up.sh
+system-conf:
+	./scripts/system_config.sh
 
 #begin 构建blfs系统包
 chroot-again:
