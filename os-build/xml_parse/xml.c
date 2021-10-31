@@ -90,7 +90,7 @@ int main(int argc, char **argv)
 	    XML_PARSE_BIG_LINES;
 	pdoc = xmlReadFile(argv[argc - 1], "ISO-8859-1", options);	//libxml只能解析UTF-8格式数据
 	if (pdoc == NULL) {
-		printf("Error:can't open file!\n");
+		printf("Error:can't open file: (%s)!\n", argv[argc - 1]);
 		exit(1);
 	}
 
