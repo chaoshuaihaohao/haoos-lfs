@@ -20,6 +20,7 @@ Usage()
 		echo "      1.all;2.指定"
 	echo "-f <file>" "安装文件列表中的软件包"
 	echo "-h" "显示该帮助信息"
+	echo "You can os-build/build.sh -x all and os-build/build.sh -d all to make the repo"
 }
 
 #找到包含软件包下载信息的文件
@@ -151,8 +152,7 @@ case $1 in
 		Usage;exit;
 		;;
 	*)
-		$0 -x all
-		$0 -d all
+		Usage;exit;
 		exit;
 esac
 
