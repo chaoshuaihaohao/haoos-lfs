@@ -1,13 +1,6 @@
 #!/bin/bash
 set -e
 #Chapter 10. Making the LFS System Bootable
-if [ -n $JOBS ];then
-        JOBS=`grep -c ^processor /proc/cpuinfo 2>/dev/null`
-        if [ ! $JOBS ];then
-                JOBS="1"
-        fi
-fi
-export MAKEFLAGS=-j$JOBS
 
 #10.2. Creating the /etc/fstab File
 cat > /etc/fstab << "EOF"

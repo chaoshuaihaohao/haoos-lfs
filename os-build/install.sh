@@ -10,6 +10,15 @@ export MAKEFLAGS=-j$JOBS
 PACKAGES_PATH=build/pkg/packages.pkg
 if [ -z $PACKAGES_PATH ];then echo "Error: No packages.pkg file!" ;exit; fi
 
+pre_install()
+{
+	if [ `basename $1` = kernel.cmd ];
+	then
+		sed -i 's/-lfs-//' $1		
+		echo "to do kernel.cmd hook"
+	fi
+}
+
 install_pkg()
 {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@build
@@ -41,6 +50,8 @@ procps-ng-3.3.17)
 	;;
 esac
 pushd $pkg_dir
+#pre-install hook
+pre_install ../$CHAPTER/$pkg.cmd
 #执行软件包安装命令
 bash -e ../$CHAPTER/$pkg.cmd
 if [ $? -ne 0 ];then echo "Error: exec '$CHAPTER/$pkg.cmd' failed!";exit; fi
