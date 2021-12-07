@@ -161,10 +161,6 @@ root@virt-PC:/boot/efi# findmnt | grep vda
 
 
 
-
-
-
-
 ##### 4.创建lfs账户
 
 #修改/mnt/lfs和/home/lfs下的文件owner和group为lfs
@@ -301,6 +297,64 @@ root[ / ]# cd /haoos && make bootable
 
 ​	initrd.img-`uname -r`和linux内核匹配的时候，grub-mkconfig生成的grug.cfg文件才会添加initrd部分。并且“root=”也是使用UUID而不是/dev/vdb。
 
+对应脚本
+
+    ./scripts/linux_compile.sh
+    ./scripts/bootable-10.sh
+    ./scripts/ramfsdisk-10_1.sh
+    ./scripts/update-grub-10_2.sh
+
+### #linux内核制作
+
+​	aufs文件系统适配
+
+​		http://aufs.sourceforge.net/
+
+先切到对应linux版本的aufs分支，打上aufs补丁。
+
+自制x86_64_desktop_defconfig内核编译配置文件。
+
+编译安装内核
+
+### #initramfs制作
+
+作用是：提供基本的虚拟内存文件系统。包含各种必须的系统文件依赖库和init启动脚本文件。
+
+init.in启动脚本文件
+
+```
+为live系统准备挂载目录
+搜索livecd所在的U盘设备
+挂载U盘设备
+挂载根文件系统squashfs
+加载必要的内核模块
+挂载必要的文件系统
+切换到根文件系统目录下运行/sbin/init从而启动systemd进入系统。
+```
+
+mkinitramfs.sh脚本,用来制作initramfs.img-kernel_version文件
+
+```
+制作mkinitramfs可执行文件
+拷贝必要的binfiles/sbinfiles命令和对应的依赖库文件
+拷贝必要的内核模块,如键盘\显卡驱动
+拷贝必要的firmware文件
+创建必要的设备节点
+拷贝init.in文件为init
+```
+
+### #grub相关文件制作
+
+efi识别的grub界面文件
+
+grub.cfg文件制作
+
+下载并安装grub主题和title选项
+
+scripts/update-grub-10_2.sh
+
+
+
 ## 11. 尾声
 
 创建一个 `/etc/haoos-release` 文件。
@@ -323,9 +377,33 @@ logout
 root@virt-PC:/home/virt/haoos-lfs# update-grub
 ```
 
-# LIVEUSB制作
+## LIVEUSB制作
 
-## ISO制作
+目录架构
+
+release
+
+​	initramfs:存放initrd.img文件
+
+​	squashfs根文件系统,从编译的根目录拷贝文件进行构建
+
+​	ISO:live镜像相关
+
+​		boot:grub启动相关
+
+​		live:live目录存放内核及辅助系统文件等。包括最终系统镜像文件
+
+
+
+### ISO制作
+
+对应脚本./scripts/live.sh
+
+```
+拷贝内核文件
+拷贝initramfs.img文件
+拷贝
+```
 
 在make chroot-again环境中执行：
 
@@ -338,7 +416,7 @@ root [ /haoos ]# make iso
 
 ![image-20210413160936269](/home/uos/.config/Typora/typora-user-images/image-20210413160936269.png)
 
-## usb启动盘制作
+### usb启动盘制作
 
 使用iso-boot-maker.exe制作usb启动盘即可。
 
@@ -347,6 +425,30 @@ root [ /haoos ]# make iso
 当前启动后，桌面起不来，需要组合按键CRTL+ALT+F2,CRTL+ALT+F1后才能启动桌面，原因未知。
 
 通过重新编译accountsservice和gnome-online-accounts软件包，再次制作ISO后，可以直接进入桌面登录环境。应该是重新命令行删除然后创建了haoos账户，结果账户信息没有添加到accountsservice某些配置文件中导致。
+
+
+
+# xml解析器设计
+
+包安装命令解析成.cmd文件
+
+包信息(下载地址)解析成.pkg文件
+
+
+
+# 包安装器设计
+
+pre_intall:针对动态的配置，修改.cmd文件
+
+install .cmd文件
+
+end_install:预留，暂不使用
+
+
+
+
+
+
 
 # 软件包适配
 
@@ -365,7 +467,7 @@ PATH=/usr/bin			//PATH=/usr/bin:/usr/sbin		@@添加PATH路径
 if [ ! -L /bin ]; then PATH=/bin:$PATH; fi
 PATH=$LFS/tools/bin:$PATH
 CONFIG_SITE=$LFS/usr/share/config.site
-export LFS LC_ALL LFS_TGT PATH CONFIG_SITE                                                                                                                     
+export LFS LC_ALL LFS_TGT PATH CONFIG_SITE                         
 EOF
 ```
 
@@ -682,13 +784,17 @@ Size of boot image is 256 sectors -> genisoimage: Error - boot image 'iso/boot/l
 
 修改
 
+```
 mkisofs -R -boot-info-table -b boot/livecd.img -V "mylivecd" \
         -o mylivecd.iso iso
+```
 
 为
 
+```
 mkisofs -R -boot-info-table -no-emul-boot -boot-load-size 4 -b boot/livecd.img -V "mylivecd" \
         -o mylivecd.iso iso
+```
 
 
 
@@ -700,9 +806,11 @@ mkisofs -R -boot-info-table -no-emul-boot -boot-load-size 4 -b boot/livecd.img -
 
 为BLFS.html
 
+```
 grep -r "Download (HTTP)" Beyond-Linux-From-Scratch-systemd-Edition.html  | awk -F '["]' '{ print $4 }' >blfs-wget-list
 
 wget -i blfs-wget-list
+```
 
 
 
