@@ -1,7 +1,0 @@
-cairo
-gdk-pixbuf
-glu
-mesa
-pango
-wayland
-gobject-introspection

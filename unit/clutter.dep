@@ -1,9 +1,0 @@
-atk
-cogl
-json-glib
-gobject-introspection
-gtk3
-libgudev
-libinput
-libxkbcommon
-wayland
