@@ -312,9 +312,36 @@ root[ / ]# cd /haoos && make bootable
 
 先切到对应linux版本的aufs分支，打上aufs补丁。
 
-自制x86_64_desktop_defconfig内核编译配置文件。
+```
+patch -Np1 < ~/aufs5-standalone/aufs5-kbuild.patch
+patch -Np1 < ~/aufs5-standalone/aufs5-base.patch
+patch -Np1 < ~/aufs5-standalone/aufs5-mmap.patch
+patch -Np1 < ~/aufs5-standalone/aufs5-standalone.patch
+```
+
+```
+#拷贝aufs文件到内核源码树中
+cp ~/aufs5-standalone/{Documentation,fs,include} . -a
+```
+
+拷贝自制x86_64_desktop_defconfig内核编译配置文件。
+
+```
+cp scripts/x86_64_desktop_defconfig ./linux-***/arch/x86/config/
+```
+
+#选上CONFIG_AUFS_FS配置
 
 编译安装内核
+
+```
+make
+make install
+```
+
+
+
+
 
 ### #initramfs制作
 
@@ -1892,7 +1919,7 @@ phy#3
 
 
 
-    
+
     #查看连接信号质量和速率
     uos@uos-PC:~$ iw dev wlan0 link
     Connected to 68:77:24:31:9e:d8 (on wlan0)			#链接的AP　MAC地址
