@@ -1,9 +1,0 @@
-glib
-gobject-introspection
-gtk2
-gtk3
-libdaemon
-libglade
-qt
-libevent
-doxygen

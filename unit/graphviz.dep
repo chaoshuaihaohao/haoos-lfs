@@ -1,8 +1,0 @@
-pango
-cairo
-Xorg-Libraries
-fontconfig
-libpng
-gtk3
-libjpeg-turbo 
-libwebp
