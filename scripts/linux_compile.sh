@@ -8,16 +8,11 @@ if [ -n $JOBS ];then
         fi
 fi
 export MAKEFLAGS=-j$JOBS
-export LFS_SRC_DIR=/sources/lfs-sources
 
 #执行kernel.cmd
 ./os-build/install.sh -f ./os-build/lfs-list-chapter10
 
-rm -rf linux-firmware-20210315
-tar xf $LFS_SRC_DIR/linux-firmware-20210315.tar.xz
-pushd linux-firmware-20210315
+rm -rf linux-firmware-20211027
+wget https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-20211027.tar.gz
+tar xvf linux-firmware-20211027.tar.gz
 make install
-popd
-rm -rf linux-firmware-20210315
-
-popd #/lfs

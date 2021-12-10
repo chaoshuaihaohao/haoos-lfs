@@ -418,6 +418,20 @@ mkinitramfs.sh脚本,用来制作initramfs.img-kernel_version文件
 拷贝init.in文件为init
 ```
 
+```
+${TMP_DIR}/sbin/mkinitramfs 5.14.8
+```
+
+url=$(grep -A 3 -i "^$1" $PACKAGES_PATH | grep Download | head -1)
+
+if [ -z "$url" ];then echo Error: No "$1" url found in $PACKAGES_PATH!; exit; fi
+
+tar_pkg=$(echo $url | awk -F '/' '{print $NF}')
+
+uncompress_name=$(echo $tar_pkg | awk -F '.tar' '{print $1}')
+
+
+
 ### #grub相关文件制作
 
 efi识别的grub界面文件
