@@ -453,6 +453,9 @@ exec switch_root ${SYSTEM} /sbin/init
 
 EOF
 
+#获取内核版本号
+grep -A 3 -i "^Linux" ./build/pkg/packages.pkg | head -1 | awk -F '[()]' '{print $2}'
+
 ${TMP_DIR}/sbin/mkinitramfs 5.10.17
 mv -v initrd.img-5.10.17 ${RELEASE}/ISO/live/live-initramfs.img
 rm -rf ${TMP_DIR}/*
