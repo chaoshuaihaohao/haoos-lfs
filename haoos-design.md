@@ -440,6 +440,27 @@ grub.cfg文件制作
 
 下载并安装grub主题和title选项
 
+```
+wget -c https://www.gnome-look.org/p/1429443/startdownload?file_id=1610800674&file_name=Cyberpunk-Theme-v0.5-1080.zip&file_type=application/zip&file_size=2683464
+mkdir /boot/grub/themes
+$sudo tar -xf 主题包 
+$sudo cp 主题包名 /boot/grub/themes/
+$sudo vim /etc/grub.d/00_header
+loadfont ($root)/boot/grub/themes/Cyberpunk/Blender_Pro_Book_12.pf2                     
+loadfont ($root)/boot/grub/themes/Cyberpunk/Blender_Pro_Book_14.pf2                     
+loadfont ($root)/boot/grub/themes/Cyberpunk/Blender_Pro_Book_16.pf2                     
+loadfont ($root)/boot/grub/themes/Cyberpunk/Blender_Pro_Book_24.pf2                     
+loadfont ($root)/boot/grub/themes/Cyberpunk/Blender_Pro_Book_32.pf2                     
+loadfont ($root)/boot/grub/themes/Cyberpunk/Blender_Pro_Book_48.pf2                     
+loadfont ($root)/boot/grub/themes/Cyberpunk/terminus-12.pf2                             
+loadfont ($root)/boot/grub/themes/Cyberpunk/terminus-14.pf2                             
+loadfont ($root)/boot/grub/themes/Cyberpunk/terminus-16.pf2                             
+loadfont ($root)/boot/grub/themes/Cyberpunk/terminus-18.pf2                             
+insmod png                                                                              
+set theme=($root)/boot/grub/themes/Cyberpunk/theme.txt                                  
+export theme
+```
+
 scripts/update-grub-10_2.sh
 
 
@@ -487,6 +508,15 @@ release
 ### ISO制作
 
 对应脚本./scripts/live.sh
+
+需要安装mksquashfs
+
+```
+https://sourceforge.net/projects/squashfs/files/squashfs/squashfs4.5/squashfs4.5.tar.gz/download
+需要修改src/Makefile,让INSTALL_DIR = /usr/bin
+```
+
+
 
 ```
 拷贝内核文件
