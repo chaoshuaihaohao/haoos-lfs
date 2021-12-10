@@ -14,9 +14,11 @@ Usage()
 {
 	echo "-x" "解析xml文件内容并导出到文件:1.cmd内容;2.pkg内容"
 		echo "解析所有xml文件内容并导出到文件;2.解析指定的xml文件内容并导出到文件"
-	echo "-d" "下载文件:1.软件包文件+2.patch文件"
-		echo "      1.all;2.指定;3.packages;4.patches"
-	echo "-i" "安装软件包"
+	echo "-d [all|packages|patches]"
+		echo "        all     :下载lfs仓库所有的packages和patches;"
+		echo "        packages:下载所有package文件;"
+		echo "        patches :下载所有patch文件;"
+	echo "-i [all|指定]" "安装软件包"
 		echo "      1.all;2.指定"
 	echo "-f <file>" "安装文件列表中的软件包"
 	echo "-h" "显示该帮助信息"
@@ -25,8 +27,10 @@ Usage()
 
 #找到包含软件包下载信息的文件
 PKG_FILE=`find $LFS_PATH -name packages.xml`
+#echo $PKG_FILE
 #找到包含patches下载信息的文件
 PATCH_FILE=`find $LFS_PATH -name patches.xml`
+#echo $PATCH_FILE
 
 get_packages()
 {
@@ -35,12 +39,16 @@ PACKAGES=`grep -r Download $PKG_PATH/$(basename -s .xml $PKG_FILE).pkg | awk -F 
 if [ -z "$PACKAGES" ];then echo "No packages url found!"; exit; fi
 for pkg in $PACKAGES
 do
+	#echo $pkg
 	if [ -z "$1" ];then
-		#-N:只获取比本地文件新的文件,避免重复下载
 		#下载所有软件包
+		#-N:只获取比本地文件新的文件,避免重复下载
 		wget -N -c $pkg -P $SRC_PATH
 	else
-		#下载指定的单个软件包
+		#下载指定的单个软件包,比如https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-29.tar.xz
+		#os-build/build.sh -d kmod
+		#像https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.14.8.tar.xz，
+		#os-build/build.sh -d v5.x,这种会难以理解.TODO:优化
 		pkg_name=$(echo $pkg | awk -F '/' '{print $(NF-1)}')
 		if [ $pkg_name = "$1" ];then
 			wget -N -c $pkg -P $SRC_PATH
@@ -57,7 +65,7 @@ if [ -z "$PACKAGES" ];then echo "No patches url found!"; exit; fi
 for pkg in $PACKAGES
 do
 	if [ -z "$1" ];then
-			echo download all packages
+		echo download all packages
 		#-N:只获取比本地文件新的文件,避免重复下载
 		wget -N -c $pkg -P $SRC_PATH
 	else
@@ -156,9 +164,6 @@ case $1 in
 		exit;
 esac
 
-
-
-
 #rm -rf $PKG_PATH
 #rm -rf $CMD_PATH
 #rm -rf $BUILD_PATH
@@ -166,7 +171,3 @@ make -C ./xml_parse clean
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@build
 #解压/安装软件包
-
-
-
-

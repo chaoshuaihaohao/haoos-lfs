@@ -306,7 +306,23 @@ root[ / ]# cd /haoos && make bootable
 
 ### #linux内核制作
 
-​	aufs文件系统适配
+​	#安装cpio，内核编译依赖这个工具
+
+```
+type -a cpio
+stat kernel/gen_kheaders.sh
+```
+
+```
+wget https://ftp.gnu.org/gnu/cpio/cpio-2.13.tar.gz
+./configure
+make
+make install prefix=/usr
+```
+
+
+
+​	#aufs文件系统适配
 
 ​		http://aufs.sourceforge.net/
 
@@ -327,7 +343,7 @@ cp ~/aufs5-standalone/{Documentation,fs,include} . -a
 拷贝自制x86_64_desktop_defconfig内核编译配置文件。
 
 ```
-cp scripts/x86_64_desktop_defconfig ./linux-***/arch/x86/config/
+cp ~/Backup/github/haoos-lfs/scripts/x86_64_desktop_defconfig ./arch/x86/configs/
 ```
 
 #选上CONFIG_AUFS_FS配置
@@ -336,10 +352,42 @@ cp scripts/x86_64_desktop_defconfig ./linux-***/arch/x86/config/
 
 ```
 make
-make install
+make INSTALL_MOD_STRIP=1 modules_install
+
+mount --bind /boot /mnt/lfs/boot
+cp -iv arch/x86/boot/bzImage /boot/vmlinuz-5.14.8
+cp -iv System.map /boot/System.map-5.14.8
+cp -iv .config /boot/config-5.14.8
+install -d /usr/share/doc/linux-5.14.8
+cp -r Documentation/* /usr/share/doc/linux-5.14.8
+install -v -m755 -d /etc/modprobe.d
+cat > /etc/modprobe.d/usb.conf << "EOF"
+
+# Begin /etc/modprobe.d/usb.conf
+install ohci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i ohci_hcd ; true
+install uhci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true
+# End /etc/modprobe.d/usb.conf
+
+EOF
+```
+
+```
+sed 's/make modules_install/make INSTALL_MOD_STRIP=1 modules_install/' ./kernel.cmd
+sed 's/-lfs-//' ./kernel.cmd
+sed 's/make mrproper//' ./kernel.cmd
+sed 's/make menuconfig//' ./kernel.cmd
+sed -i '1s/^/make x86_64_desktop_defconfig/' ./kernel.cmd
 ```
 
 
+
+#安装linux-firmware
+
+```
+wget https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-20211027.tar.gz
+tar xvf linux-firmware-20211027.tar.gz
+make install
+```
 
 
 
@@ -463,15 +511,102 @@ root [ /haoos ]# make iso
 
 
 
+# 包下载器设计
+
+软件包名称的由来:
+
+lfs-git/chapter03/chapter03.xml经过xml解析成build/pkg/packages.pkg，其中有下载链接url：
+
+```
+Libtool (2.4.6) -
+Home page: https://www.gnu.org/software/libtool/
+Download: https://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.xz
+MD5 sum: 1bfb9b923f2c1339b4d2ce1807064aa5
+Linux (5.14.8) -
+Home page: https://www.kernel.org/
+Download: https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.14.8.tar.xz
+MD5 sum: ce6434b646ade20e292fb28c1aacde58
+```
+
+
+
+首先cat lfs-list-chapter*文件，通过for循环获取各个标识，然后去build/pkg/packages.pkg中匹配内容，找到对应的下载url，从而通过wget下载软件包。
+
+
+
 # 包安装器设计
 
-pre_intall:针对动态的配置，修改.cmd文件
+各个chaptor的包安装命令被解析到build/cmd/chapter*对应的目录下。如build/cmd/chapter10/kernel.cmd是linux内核的安装命令。
 
-install .cmd文件
+我们根据kernel作为开头的名字作为特定软件包的标识，在对应各个章节编号的lfs-list-chapter*文件中包含该标识。从而通过
 
+os-build/install.sh lfs-list-chapter*文件，执行build/cmd/chapter10/kernel.cmd，从而达到安装软件包的目的。
+
+但是xml解析出的build/cmd/chapter10/kernel.cmd不一定能直接执行，因为有些命令是需要人为配置的，所以将执行分为三个阶段：
+
+```
+install_pkg()
+{
+	#删除压缩包
+	#解压缩包并切换到解压后的目录
+pre_intall:针对动态的配置，通过sed命令修改.cmd文件(该步骤应该在项目根目录下执行.这里面的一些预执行指令又需要在第二步执行cmd前可用.所以需要进行一个目录路径的转换,和步骤二的目录路径保持一致)
+	
+bash .cmd文件(该步骤需要在解压后的源码包目录中执行)
+	
 end_install:预留，暂不使用
+}
+```
+
+执行是需要先找到对应的软件压缩包进行解压缩，
+
+直接通过kernel标识是找不到对应的压缩包的，所以需要进行一步转换：
+
+**将kernel转换为build/pkg/packages.pkg对应的Linux标志**，
+
+```
+#parse os-build/install.sh lfs-list-chapter*文件，转换.cmd名为pkg url 标志名。
+case "cmd_flag" in
+kernel)
+	pkg_flag = Linux
+	;;
+esac
+
+#解压缩软件包,
+uncompress_pkg $pkg_flag
+```
+
+```
+#pkg_flag = Linux标志对应的压缩包为linux-5.14.8.tar.xz,所以这里又需要一步转换
+#解压后的包也不一定和linux-5.14.8匹配,所以也要加一层hook进行转换
+uncompress_pkg()
+{
+	#通过$pkg_flag找到pkg url.方法是通过grep命令进行过滤
+	
+	#转换包目录名
+	case $uncompress_name in
+	linux-5.14.8)
+		dir_name="linux-5.14.8"
+	*)
+    	dir_name=$uncompress_name
+
+	#解压包.先删除目录,再重新解压,避免多次编译造成影响
+	
+	#进入解压后的目录
+	pushd $dir_name
 
 
+
+	#执行安装步骤
+	install_pkg $cmd_flag.cmd
+
+	#退出解压后的目录
+	popd $dir_name
+}
+```
+
+
+
+build/cmd/chapter10/kernel.cmd
 
 
 

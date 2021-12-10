@@ -12,53 +12,77 @@ if [ -z $PACKAGES_PATH ];then echo "Error: No packages.pkg file!" ;exit; fi
 
 pre_install()
 {
+	#current in uncompress_name dir path
+	#hook for linux kernel
 	if [ `basename $1` = kernel.cmd ];
 	then
+		#TODO:adaptor aufs auto
+		cp -v ../../../scripts/x86_64_desktop_defconfig arch/x86/configs/
 		sed -i 's/-lfs-//' $1		
-		echo "to do kernel.cmd hook"
+		sed -i 's/make modules_install/make INSTALL_MOD_STRIP=1 modules_install/' $1
+		sed -i 's/-lfs-//' $1
+		sed -i 's/make mrproper//' $1
+		sed -i 's/make menuconfig//' $1
+		grep -r x86_64_desktop_defconfig $1
+		if [ $? -ne 0 ];then
+			sed '1s/^/make x86_64_desktop_defconfig&/g' $1
+		fi
+		make x86_64_desktop_defconfig
 	fi
 }
 
 install_pkg()
 {
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@build
+pushd ./build/cmd
+#解压包.先删除目录,再重新解压,避免多次编译造成影响
+#清除软件包目录,防止上次构建的残留造成影响。可以做成一个选项
+rm -rf $uncompress_name
+#解压软件包
+tar -xf $tar_pkg
+#进入解压后的目录
+pushd $uncompress_name
+#pre-install hook
+pre_install ../$CHAPTER/$1
+
+#执行软件包安装命令
+bash -e ../$CHAPTER/$1
+if [ $? -ne 0 ];then echo "Error: exec '$CHAPTER/$pkg.cmd' failed!";exit; fi
+popd #$uncompress_name
+
+#清除软件包目录
+rm -rf $uncompress_name
+popd #./build/cmd
+}
+
+uncompress_pkg()
+{
+#通过$pkg_flag找到pkg url.方法是通过grep命令进行过滤
 #获取本地软件压缩包路径
 #对于python这样的有doc压缩包，匹配不精确会有两个下载链接
 url=$(grep -A 3 -i "^$1" $PACKAGES_PATH | grep Download | head -1)
 if [ -z "$url" ];then echo Error: No "$1" url found in $PACKAGES_PATH!; exit; fi
 
+#根据url获取压缩包名
 tar_pkg=$(echo $url | awk -F '/' '{print $NF}')
 #echo $tar_pkg
 #pkg_dir=$(echo $tar_pkg | awk -F '.tar.gz' '{print $1}')
-pkg_dir=$(echo $tar_pkg | awk -F '.tar' '{print $1}')
-
-pushd ./build/cmd
-#清除软件包目录,防止上次构建的残留造成影响。可以做成一个选项
-rm -rf $pkg_dir
-#解压软件包
-tar -xf $tar_pkg
+#转换压缩后的包目录名
+uncompress_name=$(echo $tar_pkg | awk -F '.tar' '{print $1}')
 #解压缩后的包名hook
-case "$pkg_dir" in
+case "$uncompress_name" in
 tcl8.6.11-src)
-	pkg_dir="tcl8.6.11"
+	uncompress_name="tcl8.6.11"
 	;;
 vim-8.2.3458)
-	pkg_dir="vim-tags-v8.2.3458"
+	uncompress_name="vim-tags-v8.2.3458"
 	;;
 procps-ng-3.3.17)
-	pkg_dir="procps-3.3.17"
+	uncompress_name="procps-3.3.17"
 	;;
 esac
-pushd $pkg_dir
-#pre-install hook
-pre_install ../$CHAPTER/$pkg.cmd
-#执行软件包安装命令
-bash -e ../$CHAPTER/$pkg.cmd
-if [ $? -ne 0 ];then echo "Error: exec '$CHAPTER/$pkg.cmd' failed!";exit; fi
-popd
-#清除软件包目录
-rm -rf $pkg_dir
-pushd 
+
+#执行安装步骤
+install_pkg $cmd_flag.cmd
 }
 
 case $1 in
@@ -75,39 +99,42 @@ case $1 in
 		echo $CHAPTER | grep ^chapter
 		if [ $? -ne 0 ];then echo "Error: "$2" file name not right(lfs-list-chapter08-part2)!"; exit; fi
 
-		for pkg in `cat $2`
+		#lfs-list-chapter文件中包含.cmd文件对应的文件名cmd_flag,也是html网页地址的名称
+		for cmd_flag in `cat $2`
 		do
 			#忽略-list文件中'#'开头的行
-			echo $pkg | grep "^#"
+			echo $cmd_flag | grep "^#"
 			if [ $? -eq 0 ];then continue; fi
 			#fix包名，如binutils-pass1修复成binutils.源码包都一样，只是.cmd安装脚本不一样
-			pkg_name=$(basename -s -pass1 $pkg)
-			pkg_name=$(basename -s -pass2 $pkg_name)
-			#pkg_name：对应url源码压缩包;pkg：对应.cmd文件名
-			case $pkg_name in
+			cmd_flag=$(basename -s -pass1 $cmd_flag)
+			cmd_flag=$(basename -s -pass2 $cmd_flag)
+			case $cmd_flag in
 			linux-headers)
-				pkg_name=linux
+				pkg_flag=linux
 				;;
 			libstdc++)
-				pkg_name=gcc
+				pkg_flag=gcc
 				;;
 			xz)
-				pkg_name="Xz Utils"
+				pkg_flag="Xz Utils"
 				;;
 			pkgconfig)
-				pkg_name="pkg-config"
+				pkg_flag="pkg-config"
 				;;
 			libelf)
-				pkg_name="Elfutils"
+				pkg_flag="Elfutils"
 				;;
 			dbus)
-				pkg_name="D-Bus"
+				pkg_flag="D-Bus"
+				;;
+			kernel)
+				pkg_flag="Linux"
 				;;
 			*)
 				;;
 			esac
 			#没有“”,xz utils入参会被判定为两个,$1=xz,$2=utils,报错
-			install_pkg "$pkg_name";
+			uncompress_pkg "$pkg_flag";
 		done
 		;;
 esac
