@@ -41,7 +41,7 @@ ROOT_DIR="bin lib lib32 lib64 libx32 sbin"
 for root_dir in $ROOT_DIR
 do
 if [ -d /$root_dir ];then
-	cp -a /$root_dir ./usr/
+#	cp -a /$root_dir ./usr/
 	ln -svf usr/$root_dir ./
 fi
 done
@@ -49,13 +49,13 @@ done
 mkdir -vp media mnt proc root srv sys home tmp
 #创建默认用户haoos和root，密码为1
 set +e
-chroot ${RELEASE}/squashfs rm -rf haoos
-chroot ${RELEASE}/squashfs userdel haoos
-chroot ${RELEASE}/squashfs groupdel haoos
-chroot ${RELEASE}/squashfs groupadd haoos
-chroot ${RELEASE}/squashfs useradd -m -s /bin/bash  -g haoos haoos
-echo "root:1" | chroot ${RELEASE}/squashfs/ chpasswd
-echo "haoos:1" | chroot ${RELEASE}/squashfs/ chpasswd
+#chroot ${RELEASE}/squashfs rm -rf haoos
+#chroot ${RELEASE}/squashfs userdel haoos
+#chroot ${RELEASE}/squashfs groupdel haoos
+#chroot ${RELEASE}/squashfs groupadd haoos
+#chroot ${RELEASE}/squashfs useradd -m -s /bin/bash  -g haoos haoos
+#echo "root:1" | chroot ${RELEASE}/squashfs/ chpasswd
+#echo "haoos:1" | chroot ${RELEASE}/squashfs/ chpasswd
 set -e
 
 cat > ${RELEASE}/squashfs/etc/haoos_defconf << "EOF"
@@ -92,13 +92,13 @@ StandardOutput=journal+console
 WantedBy=multi-user.target
 EOF
 
-chroot ${RELEASE}/squashfs systemctl enable hello.service
+#chroot ${RELEASE}/squashfs systemctl enable hello.service
 
-rm -rf usr/src
-rm -rf lib/modules
+#rm -rf usr/src
+#rm -rf lib/modules
 
-rm -rf lib/udev/write_*
-rm -f etc/udev/rules.d/70*
+#rm -rf lib/udev/write_*
+#rm -f etc/udev/rules.d/70*
 
 rm -f ${RELEASE}/squashfs/etc/fstab
 cat > ${RELEASE}/squashfs/etc/fstab << EOF
@@ -116,20 +116,20 @@ devpts	/dev/pts	devpts	gid=4,mode=620	0	0
 EOF
 
 #build RELEASE kernel
-pushd /lfs/linux-5.10.17
+#pushd /lfs/linux-5.10.17
 #拷贝内核文件到live目录
-cp -av arch/x86/boot/bzImage ${RELEASE}/ISO/live/live-kernel
+#cp -av arch/x86/boot/bzImage ${RELEASE}/ISO/live/live-kernel
 #安装内核到文件系统
-make INSTALL_MOD_PATH=${RELEASE}/squashfs/ INSTALL_MOD_STRIP=1 modules_install
+#make INSTALL_MOD_PATH=${RELEASE}/squashfs/ INSTALL_MOD_STRIP=1 modules_install
 
-popd #linux-5.10.17
+#popd #linux-5.10.17
 #done
 
-popd #${RELEASE}/squashfs
+#popd #${RELEASE}/squashfs
 
 #build RELEASE initramfs
-CURRENT_DIR=`dirname $0`
-. $CURRENT_DIR/initramfs-live.sh
+#CURRENT_DIR=`dirname $0`
+#. $CURRENT_DIR/initramfs-live.sh
 #done
 
 #创建live启动盘识别标签

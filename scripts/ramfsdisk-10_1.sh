@@ -361,5 +361,7 @@ exec switch_root /.root "$init" "$@"
 
 EOF
 
-mkinitramfs 5.10.17
-mv -v initrd.img-5.10.17 /boot/initrd.img-5.10.17
+kernel_version=`ls /lib/modules`
+
+mkinitramfs $kernel_version
+mv -v initrd.img-$kernel_version /boot/
