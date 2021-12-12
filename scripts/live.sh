@@ -145,7 +145,15 @@ pushd ${RELEASE}/ISO
 #1
 #mkdir -p boot/grub
 #2安装grub2的模块文件,这里从lfs系统拷贝，squashfs没有字体文件。
-cp -av /boot/grub boot/
+#cp -av /boot/grub boot/
+cp -av /boot .
+kernel_version=`ls /lib/modules`
+
+mv -av ./boot/vmlinuz-$kernel_version ${RELEASE}/ISO/live/live-kernel
+mv -av ./boot/initrd.img-$kernel_version ${RELEASE}/ISO/live/live-initramfs.img
+
+
+
 
 #3创建GRUB-2的启动配置文件
 cat > ${RELEASE}/ISO/boot/grub/grub.cfg << "EOF"
@@ -176,7 +184,7 @@ set theme=($root)/boot/grub/themes/Cyberpunk/theme.txt
 export theme
 menuentry "HaoOS's RELEASE" {
 	set gfxpayload=keep
-	echo    '载入 Linux 5.10.17 ...'
+	echo    '载入 Linu ...'
 	linux	/live/live-kernel
 	echo    '载入初始化内存盘...'
 	initrd	/live/live-initramfs.img
@@ -201,7 +209,7 @@ cat /usr/lib/grub/i386-pc/cdboot.img ${RELEASE}/core.img \
 popd #${RELEASE}/ISO
 
 #添加UEFI启动支持
-tar xf /sources/other-sources/EFI.tar.xz -C ${RELEASE}/ISO/
+tar xf /haoos-lfs/build/cmd/EFI.tar.xz -C ${RELEASE}/ISO/
 
 #generate iso file
 pushd ${RELEASE}
