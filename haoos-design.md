@@ -465,6 +465,28 @@ scripts/update-grub-10_2.sh
 
 
 
+#grub-mkrescue依赖xorriso
+
+```
+https://www.linuxfromscratch.org/blfs/view/systemd/multimedia/libburn.html
+https://www.linuxfromscratch.org/blfs/view/systemd/multimedia/libisofs.html
+https://www.linuxfromscratch.org/blfs/view/systemd/multimedia/libisoburn.html
+./configure --prefix=/usr
+make install
+```
+
+//TODO:安装blfs的libisoburn,依赖libburn和libisofs
+
+#安装unzip解压grub主题zip文件
+
+```
+https://downloads.sourceforge.net/infozip/unzip60.tar.gz
+```
+
+
+
+
+
 ## 11. 尾声
 
 创建一个 `/etc/haoos-release` 文件。
@@ -514,6 +536,13 @@ release
 ```
 https://sourceforge.net/projects/squashfs/files/squashfs/squashfs4.5/squashfs4.5.tar.gz/download
 需要修改src/Makefile,让INSTALL_DIR = /usr/bin
+```
+
+安装mkisofs(cdrtools包)
+
+```
+https://www.linuxfromscratch.org/blfs/view/systemd/multimedia/alsa-lib.html
+https://www.linuxfromscratch.org/blfs/view/systemd/multimedia/cdrtools.html
 ```
 
 
