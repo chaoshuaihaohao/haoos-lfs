@@ -80,6 +80,7 @@ mkdir -p $WDIR/etc/{modprobe.d,udev/rules.d}
 touch $WDIR/etc/modprobe.d/modprobe.conf
 ln -s lib $WDIR/lib64
 ln -s ../bin $WDIR/usr/bin
+ln -s ../lib $WDIR/usr/lib
 
 # Create necessary device nodes
 mknod -m 640 $WDIR/dev/console c 5 1
@@ -454,8 +455,6 @@ exec switch_root ${SYSTEM} /sbin/init
 EOF
 
 #获取内核版本号
-grep -A 3 -i "^Linux" ./build/pkg/packages.pkg | head -1 | awk -F '[()]' '{print $2}'
-
 kernel_version=`ls /lib/modules`
 
 ${TMP_DIR}/sbin/mkinitramfs $kernel_version
