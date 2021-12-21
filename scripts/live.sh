@@ -38,6 +38,7 @@ cp -a /{dev,etc,run,usr,var,opt} ./
 #如果主系统存在/lib64目录，则把/lib64内容移动到/squashfs/usr/lib64下，并创建
 #/squashfs/lib64软链接指向/squashfs/usr/lib64.
 ROOT_DIR="bin lib lib32 lib64 libx32 sbin"
+cp -a /lib64 .
 for root_dir in $ROOT_DIR
 do
 if [ -d /$root_dir ];then
@@ -129,7 +130,7 @@ EOF
 
 #build RELEASE initramfs
 #CURRENT_DIR=`dirname $0`
-#. $CURRENT_DIR/initramfs-live.sh
+. $CURRENT_DIR/initramfs-live.sh
 #done
 
 #创建live启动盘识别标签
