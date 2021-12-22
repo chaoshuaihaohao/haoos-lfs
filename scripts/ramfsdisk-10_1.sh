@@ -1,4 +1,5 @@
 #!/bin/bash
+#这个是给/mnt/lfs系统做的initramfs文件
 set -e
 
 cat > /sbin/mkinitramfs << "EOF"

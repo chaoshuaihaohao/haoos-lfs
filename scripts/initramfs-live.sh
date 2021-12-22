@@ -1,4 +1,5 @@
 #!/bin/bash
+#这个是给OS livecd系统做的initramfs文件
 set -e
 RELEASE=/haoos/release
 TMP_DIR=${RELEASE}/initramfs
