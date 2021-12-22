@@ -422,13 +422,12 @@ mkinitramfs.sh脚本,用来制作initramfs.img-kernel_version文件
 ${TMP_DIR}/sbin/mkinitramfs 5.14.8
 ```
 
+```
 url=$(grep -A 3 -i "^$1" $PACKAGES_PATH | grep Download | head -1)
-
 if [ -z "$url" ];then echo Error: No "$1" url found in $PACKAGES_PATH!; exit; fi
-
 tar_pkg=$(echo $url | awk -F '/' '{print $NF}')
-
 uncompress_name=$(echo $tar_pkg | awk -F '.tar' '{print $1}')
+```
 
 
 
@@ -3021,7 +3020,132 @@ xrandr --output HDMI-0（根据当前连接情况修改） --auto
 
 
 
-问题记录:
+# OS问题分类分析及记录:
+
+## 提单部分
+
+#问题描述
+
+在线升级出现的问题？
+
+​	公司的升级源
+
+​	自己部署的升级源
+
+
+
+定制镜像出现的问题？
+
+​	定制了哪些内容
+
+
+
+其他镜像是否也有问题？（非必填，比如1032有问题，1040是否也有问题）
+
+
+
+是否是特殊的应用场景？
+
+​	虚拟机
+
+​	桌面云
+
+​	外接了其他硬件设备并添加了核外驱动？
+
+
+
+#问题复现的操作步骤
+
+
+
+日志：
+
+设备信息
+
+系统内核相关问题，是否有/var/log日志
+
+桌面相关问题，是否有DDE日志
+
+
+
+
+
+
+
+
+
+## 单台机器问题
+
+优先考虑是硬件问题。现场替换主板或相关硬件进行排查。
+
+
+
+
+
+## 屏幕不亮问题
+
+显卡型号
+
+​	景嘉微：
+
+```
+需安装核外驱动.应用商搜索 景美 安装。命令行安装方法:sudo apt install com.jingjiamicro.mwv206
+```
+
+​	英伟达：
+
+```
+Nvidia显卡建议安装闭源驱动。
+可以使用以下命令安装仓库里的驱动：sudo apt install nvidia-driver。
+部分整机厂商有从显卡厂商那获取的更新版的闭源驱动，也可以按照其安装指南安装。
+
+有些客户现场安装的安全软件 北信源 会导致更新initramfs失败，从而无法切换到闭源驱动。建议卸载nvidia闭源驱动后再重新安装，先暂时退出 安全软件 北信源 后再进行操作，卸载方法如下：
+    sudo apt autoremove nvidia-*
+    sudo apt-get --purge remove "*nvidia*"
+    sudo nvidia-installer --uninstall
+```
+
+
+
+
+
+
+
+
+
+## 工作中死机问题
+
+能切终端tty
+
+​	非内核卡死
+
+能ssh登陆终端
+
+​	非内核卡死
+
+鼠标键盘不能动，指示灯不亮
+
+​	内核卡死（/var/log/kern.log日志是否有"call trace"关键字日志，有的话转研发分析，没有的话需要收集主板串口日志【4pin串口线收集日志】）
+
+## 待机休眠死机问题
+
+能切终端tty
+
+​	非内核卡死
+
+能ssh登陆终端
+
+​	非内核卡死
+
+鼠标键盘不能动，指示灯不亮
+
+​	内核卡死（提供/var/log日志，转研发分析）
+
+
+
+
+
+
 
 笔记本高温自动关机(ACPI相关)
 
