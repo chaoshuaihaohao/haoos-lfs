@@ -33,18 +33,18 @@ pushd ${RELEASE}/squashfs
 echo "copying the files to squashfs..."
 #cp -a /{bin,dev,etc,home,lib,lib64,run,sbin,tmp,usr,var} ./
 #cp -a /{bin,dev,etc,lib,lib64,run,sbin,tmp,usr,var,opt} ./
-cp -a /{dev,etc,run,usr,var,opt} ./
+cp -a /{dev,etc,run,usr,lib64,var,opt} ./
 
 #如果主系统存在/lib64目录，则把/lib64内容移动到/squashfs/usr/lib64下，并创建
 #/squashfs/lib64软链接指向/squashfs/usr/lib64.
-ROOT_DIR="bin lib lib32 lib64 libx32 sbin"
-cp -a /lib64 .
+#ROOT_DIR="bin lib lib32 lib64 libx32 sbin"
+ROOT_DIR="bin lib lib32 libx32 sbin"
 for root_dir in $ROOT_DIR
 do
-if [ -d /$root_dir ];then
-#	cp -a /$root_dir ./usr/
-	ln -svf usr/$root_dir ./
+if [ -d $root_dir ];then
+	cp -a $root_dir ./usr/
 fi
+ln -svf usr/$root_dir ./
 done
 
 mkdir -vp media mnt proc root srv sys home tmp
@@ -126,10 +126,10 @@ EOF
 #popd #linux-5.10.17
 #done
 
-#popd #${RELEASE}/squashfs
+popd #${RELEASE}/squashfs
 
 #build RELEASE initramfs
-#CURRENT_DIR=`dirname $0`
+CURRENT_DIR=`dirname $0`
 . $CURRENT_DIR/initramfs-live.sh
 #done
 
@@ -150,11 +150,7 @@ pushd ${RELEASE}/ISO
 cp -av /boot .
 kernel_version=`ls /lib/modules`
 
-mv -av ./boot/vmlinuz-$kernel_version ${RELEASE}/ISO/live/live-kernel
-mv -av ./boot/initrd.img-$kernel_version ${RELEASE}/ISO/live/live-initramfs.img
-
-
-
+cp -av ./boot/vmlinuz-$kernel_version ${RELEASE}/ISO/live/live-kernel
 
 #3创建GRUB-2的启动配置文件
 cat > ${RELEASE}/ISO/boot/grub/grub.cfg << "EOF"

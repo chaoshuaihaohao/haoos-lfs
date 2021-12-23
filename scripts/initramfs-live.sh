@@ -397,6 +397,10 @@ resume=
 noresume=false
 
 #加载USB到PCI的总线，从而udev可以检测到ISO设备，否则系统不会检测到USB设备而启动失败
+modprobe usb_storage
+modprobe xhci_hcd
+modprobe uhci_hcd
+modprobe ohci_hcd
 modprobe xhci-pci
 
 #挂载必要的文件系统
