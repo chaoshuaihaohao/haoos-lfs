@@ -5,10 +5,10 @@ OS_BUILD_PATH=$(readlink -f .)/os-build
 XML_PATH=$OS_BUILD_PATH/xml_parse
 XML_PARSE=$XML_PATH/xml
 BUILD_PATH=$(readlink -f .)/build
-CMD_PATH=$BUILD_PATH/cmd
-PKG_PATH=$BUILD_PATH/pkg
-#下载的源码包和patch的存放位置，需要在.cmd文件的上级目录
-SRC_PATH=$BUILD_PATH/cmd
+CMD_PATH=$BUILD_PATH/cmd/lfs
+PKG_PATH=$BUILD_PATH/pkg/lfs
+#下载的源码包和patch的存放位置
+SRC_PATH=$BUILD_PATH/src/lfs
 
 Usage()
 {

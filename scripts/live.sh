@@ -206,7 +206,7 @@ cat /usr/lib/grub/i386-pc/cdboot.img ${RELEASE}/core.img \
 popd #${RELEASE}/ISO
 
 #添加UEFI启动支持
-tar xf /haoos-lfs/build/cmd/EFI.tar.xz -C ${RELEASE}/ISO/
+tar xf /haoos-lfs/build/src/lfs/EFI.tar.xz -C ${RELEASE}/ISO/
 
 #generate iso file
 pushd ${RELEASE}

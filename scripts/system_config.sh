@@ -85,14 +85,14 @@ ff02::2 ip6-allrouters
 EOF
 
 #9.8. Creating the /etc/inputrc File
-. ./build/cmd/chapter09/inputrc.cmd
+. ./build/cmd/lfs/chapter09/inputrc.cmd
 
 #9.9. Creating the /etc/shells File
-. ./build/cmd/chapter09/etcshells.cmd
+. ./build/cmd/lfs/chapter09/etcshells.cmd
 
 #9.10.2. Disabling Screen Clearing at Boot Time
 
 #9.10.3. Disabling tmpfs for /tmp
-#. ./build/cmd/chapter09/systemd-custom.cmd
+#. ./build/cmd/lfs/chapter09/systemd-custom.cmd
 
 

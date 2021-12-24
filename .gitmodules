@@ -1,6 +1,9 @@
 [submodule "lfs-git"]
 	path = lfs-git
 	url = git://git.linuxfromscratch.org/lfs.git
+[submodule "blfs"]
+	path = blfs-git
+	url = git://git.linuxfromscratch.org/blfs.git
 [submodule "blfs-git"]
 	path = blfs-git
-	url = ./blfs-git
+	url = git://git.linuxfromscratch.org/blfs.git

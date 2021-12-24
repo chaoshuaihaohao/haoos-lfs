@@ -8,7 +8,7 @@ fi
 export LFS=/mnt/lfs
 
 #4.2. 在 LFS 文件系统中创建有限目录布局
-. build/cmd/chapter04/creatingminlayout.cmd
+. build/cmd/lfs/chapter04/creatingminlayout.cmd
 
 #4.3. 添加 LFS 用户
 getent group | grep lfs
@@ -27,5 +27,5 @@ chown -v -R lfs:lfs /home/lfs
 #chown -v -R lfs /home/lfs
 #chgrp -v -R lfs /home/lfs
 
-sed -i 's/passwd lfs/echo lfs:1 | chpasswd/g' build/cmd/chapter04/addinguser.cmd
-. build/cmd/chapter04/addinguser.cmd
+sed -i 's/passwd lfs/echo lfs:1 | chpasswd/g' build/cmd/lfs/chapter04/addinguser.cmd
+. build/cmd/lfs/chapter04/addinguser.cmd
