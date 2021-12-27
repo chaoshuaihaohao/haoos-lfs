@@ -7,7 +7,15 @@ if [ -n $JOBS ];then
 fi
 export MAKEFLAGS=-j$JOBS
 
-PACKAGES_PATH=build/pkg/packages.pkg
+Usage()
+{
+	echo "Usage: -f <file>"
+	echo "		从文件获取软件包安装列表"
+	echo "       -p <package>"
+	echo "		安装指定的package"
+}
+
+PACKAGES_PATH=build/pkg/lfs/packages.pkg
 if [ -z $PACKAGES_PATH ];then echo "Error: No packages.pkg file!" ;exit; fi
 
 pre_install()
@@ -17,7 +25,9 @@ pre_install()
 	if [ `basename $1` = kernel.cmd ];
 	then
 		#TODO:adaptor aufs auto
-		cp -v ../../../scripts/x86_64_desktop_defconfig arch/x86/configs/
+		#current path is in ./build/src/lfs/$uncompress_name
+		pwd
+		cp -v ../../../../scripts/x86_64_desktop_defconfig arch/x86/configs/
 		sed -i 's/-lfs-//' $1		
 		sed -i 's/make modules_install/make INSTALL_MOD_STRIP=1 modules_install/' $1
 		sed -i 's/-lfs-//' $1
@@ -33,7 +43,8 @@ pre_install()
 
 install_pkg()
 {
-pushd ./build/cmd
+#切换到源码压缩包所在目录
+pushd ./build/src/lfs
 #解压包.先删除目录,再重新解压,避免多次编译造成影响
 #清除软件包目录,防止上次构建的残留造成影响。可以做成一个选项
 rm -rf $uncompress_name
@@ -42,10 +53,10 @@ tar -xf $tar_pkg
 #进入解压后的目录
 pushd $uncompress_name
 #pre-install hook
-pre_install ../$CHAPTER/$1
+pre_install ../../../../$CMD_FILE_PATH
 
 #执行软件包安装命令
-bash -e ../$CHAPTER/$1
+bash -e ../../../../$CMD_FILE_PATH
 if [ $? -ne 0 ];then echo "Error: exec '$CHAPTER/$pkg.cmd' failed!";exit; fi
 popd #$uncompress_name
 
@@ -85,57 +96,76 @@ esac
 install_pkg $cmd_flag.cmd
 }
 
+trans_name()
+{
+	#忽略-list文件中'#'开头的行
+	echo $1 | grep "^#"
+	if [ $? -eq 0 ];then continue; fi
+	CMD_FILE_PATH=$(find -name $1.cmd | grep lfs)
+	CHAPTER=$(echo "$CMD_FILE_PATH" | awk -F '/' '{print $(NF-1)}')
+	#fix包名，如binutils-pass1修复成binutils.源码包都一样，只是.cmd安装脚本不一样
+	cmd_flag=$(basename -s -pass1 $1)
+	cmd_flag=$(basename -s -pass2 $cmd_flag)
+	case $cmd_flag in
+	linux-headers)
+		pkg_flag=linux
+		;;
+	libstdc++)
+		pkg_flag=gcc
+		;;
+	xz)
+		pkg_flag="Xz Utils"
+		;;
+	pkgconfig)
+		pkg_flag="pkg-config"
+		;;
+	libelf)
+		pkg_flag="Elfutils"
+		;;
+	dbus)
+		pkg_flag="D-Bus"
+		;;
+	kernel)
+		pkg_flag="Linux"
+		;;
+	*)
+		;;
+	esac
+	#没有“”,xz utils入参会被判定为两个,$1=xz,$2=utils,报错
+	uncompress_pkg "$pkg_flag";
+}
+
 case $1 in
 	-f)
 		#文件存在性检测
 		if [ -z $2 ]
 		then
-			echo "Usage: -f <file>"	
-			echo "		从文件获取软件包安装列表"
+			Usage;
 			exit
 		fi
 		#$2格式是lfs-list-chapter05-part01这种
-		CHAPTER=$(echo $2 | awk -F '-' '{printf $4}')
-		echo $CHAPTER | grep ^chapter
-		if [ $? -ne 0 ];then echo "Error: "$2" file name not right(lfs-list-chapter08-part2)!"; exit; fi
+		#CHAPTER=$(echo $2 | awk -F '-' '{printf $4}')
+		#echo $CHAPTER | grep ^chapter
+		#if [ $? -ne 0 ];then echo "Error: "$2" file name not right(lfs-list-chapter08-part2)!"; exit; fi
 
 		#lfs-list-chapter文件中包含.cmd文件对应的文件名cmd_flag,也是html网页地址的名称
 		for cmd_flag in `cat $2`
 		do
-			#忽略-list文件中'#'开头的行
-			echo $cmd_flag | grep "^#"
-			if [ $? -eq 0 ];then continue; fi
-			#fix包名，如binutils-pass1修复成binutils.源码包都一样，只是.cmd安装脚本不一样
-			cmd_flag=$(basename -s -pass1 $cmd_flag)
-			cmd_flag=$(basename -s -pass2 $cmd_flag)
-			case $cmd_flag in
-			linux-headers)
-				pkg_flag=linux
-				;;
-			libstdc++)
-				pkg_flag=gcc
-				;;
-			xz)
-				pkg_flag="Xz Utils"
-				;;
-			pkgconfig)
-				pkg_flag="pkg-config"
-				;;
-			libelf)
-				pkg_flag="Elfutils"
-				;;
-			dbus)
-				pkg_flag="D-Bus"
-				;;
-			kernel)
-				pkg_flag="Linux"
-				;;
-			*)
-				;;
-			esac
-			#没有“”,xz utils入参会被判定为两个,$1=xz,$2=utils,报错
-			uncompress_pkg "$pkg_flag";
+			trans_name $cmd_flag;
 		done
+		;;
+	-p)
+		#文件存在性检测
+		if [ -z $2 ]
+		then
+			Usage;
+			exit
+		fi
+		trans_name $2;
+		;;
+	*)
+		Usage;
+		exit
 		;;
 esac
 
