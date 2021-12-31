@@ -17,7 +17,7 @@ Usage()
 
 GITHUB_PATH=$(readlink -f . | awk -F 'haoos-lfs' '{print $1}')
 HAOOS_PATH=$GITHUB_PATH/haoos-lfs
-PACKAGES_PATH=$HAOOS_PATH/build/pkg/lfs/packages.pkg
+PACKAGES_PATH=$HAOOS_PATH/build/pkg/blfs/packages.pkg
 if [ -z $PACKAGES_PATH ];then echo "Error: No packages.pkg file!" ;exit; fi
 
 pre_install()
@@ -46,7 +46,7 @@ pre_install()
 install_pkg()
 {
 #切换到源码压缩包所在目录
-pushd ./build/src/lfs
+pushd ./build/src/blfs
 #解压包.先删除目录,再重新解压,避免多次编译造成影响
 #清除软件包目录,防止上次构建的残留造成影响。可以做成一个选项
 rm -rf $uncompress_name
@@ -72,15 +72,17 @@ uncompress_pkg()
 #通过$pkg_flag找到pkg url.方法是通过grep命令进行过滤
 #获取本地软件压缩包路径
 #对于python这样的有doc压缩包，匹配不精确会有两个下载链接
-url=$(grep -A 3 -i "^$1" $PACKAGES_PATH | grep Download | head -1)
-if [ -z "$url" ];then echo Error: No "$1" url found in $PACKAGES_PATH!; exit; fi
+#url=$(grep -A 3 -i "^$1" $PACKAGES_PATH | grep Download | head -1)
+#if [ -z "$url" ];then echo Error: No "$1" url found in $PACKAGES_PATH!; exit; fi
 
 #根据url获取压缩包名
-tar_pkg=$(echo $url | awk -F '/' '{print $NF}')
-#echo $tar_pkg
+#tar_pkg=$(echo $url | awk -F '/' '{print $NF}')
+tar_pkg=$(find $HAOOS_PATH/build/src/blfs -name "$1*")
+echo $tar_pkg
 #pkg_dir=$(echo $tar_pkg | awk -F '.tar.gz' '{print $1}')
 #转换压缩后的包目录名
 uncompress_name=$(echo $tar_pkg | awk -F '.tar' '{print $1}')
+echo $uncompress_name
 #解压缩后的包名hook
 case "$uncompress_name" in
 tcl8.6.11-src)
@@ -100,10 +102,15 @@ install_pkg $cmd_flag.cmd
 
 trans_name()
 {
+	#$1 is the .cmd name
+#	echo $1;
+#	CMD_FILE_PATH=$(find $HAOOS_PATH/build/src/blfs -name $1*)
+#	echo $CMD_FILE_PATH
+#	exit
 	#忽略-list文件中'#'开头的行
 	echo $1 | grep "^#"
 	if [ $? -eq 0 ];then continue; fi
-	CMD_FILE_PATH=$(find -name $1.cmd | grep lfs)
+	CMD_FILE_PATH=$(find -name $1.cmd | grep blfs)
 	CHAPTER=$(echo "$CMD_FILE_PATH" | awk -F '/' '{print $(NF-1)}')
 	#fix包名，如binutils-pass1修复成binutils.源码包都一样，只是.cmd安装脚本不一样
 	cmd_flag=$(basename -s -pass1 $1)
@@ -131,6 +138,7 @@ trans_name()
 		pkg_flag="Linux"
 		;;
 	*)
+		pkg_flag=$cmd_flag
 		;;
 	esac
 	#没有“”,xz utils入参会被判定为两个,$1=xz,$2=utils,报错

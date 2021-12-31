@@ -1,5 +1,6 @@
 #!/bin/bash
-HAOOS_PATH=$PWD
+GITHUB_PATH=$(readlink -f . | awk -F 'haoos-lfs' '{print $1}')
+HAOOS_PATH=$GITHUB_PATH/haoos-lfs
 BLFS_PATH=$HAOOS_PATH/blfs-git
 OS_BUILD_PATH=$(readlink -f .)/os-build
 XML_PATH=$OS_BUILD_PATH/xml_parse
