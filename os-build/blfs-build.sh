@@ -131,10 +131,7 @@ case $1 in
 		#wget下载软件包url
 		case $2 in
 		all)
-			#获取安装包
-			get_packages
-			#获取patch
-			get_patches
+			$HAOOS_PATH/os-build/get_blfs_pkgs.sh
 			exit;
 			;;
 		packages)

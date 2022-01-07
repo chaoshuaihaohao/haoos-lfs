@@ -13,8 +13,8 @@ do
 	for url in $urls
 	do
 		echo $url
-#		wget -c "$url" -P $HAOOS_PATH/build/src/blfs
-		axel -n 10 -o $HAOOS_PATH/build/src/blfs $url
+		wget -c "$url" -P $HAOOS_PATH/build/src/blfs
+#		axel -n 10 -o $HAOOS_PATH/build/src/blfs $url
 	done
 	#wget下载
 done

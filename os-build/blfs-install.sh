@@ -79,6 +79,7 @@ uncompress_pkg()
 #tar_pkg=$(echo $url | awk -F '/' '{print $NF}')
 tar_pkg=$(find $HAOOS_PATH/build/src/blfs -name "$1*")
 echo $tar_pkg
+exit
 #pkg_dir=$(echo $tar_pkg | awk -F '.tar.gz' '{print $1}')
 #转换压缩后的包目录名
 uncompress_name=$(echo $tar_pkg | awk -F '.tar' '{print $1}')
