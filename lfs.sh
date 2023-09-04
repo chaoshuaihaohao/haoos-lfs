@@ -75,6 +75,7 @@ fi
 source ./parse-lfs-book.sh
 
 #generate blfs sources build command xml
+#source ./parse-lfs-book.sh
 
 
 #download lfs sources
@@ -82,8 +83,10 @@ source ./download-lfs-source.sh
 
 
 #download blfs sources
+#source ./download-lfs-source.sh
 
-
+#generate build Makefile
+source ./build_Makefile.sh
 
 #build sources, pass 1
 #>su lfs
