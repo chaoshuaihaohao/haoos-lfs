@@ -17,6 +17,7 @@
   fi
 
 
+  if [ $GETPKG == "y" ];then
   echo -n "Parse URLs file and download sources... "
 __label:
 missing_files=0
@@ -48,4 +49,4 @@ if [ $missing_files -eq 0 ]; then
     echo "All packets have downloaded."
 fi
   echo "OK"
-
+fi

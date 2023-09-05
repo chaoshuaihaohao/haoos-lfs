@@ -88,6 +88,9 @@ source ./download-lfs-source.sh
 #generate build Makefile
 source ./build_Makefile.sh
 
+#chapter04
+sudo make -f ./build_Makefile LFS=$BUILD_DIR
+
 #build sources, pass 1
 #>su lfs
 
