@@ -1,4 +1,4 @@
-all: menuconfig
+all: check dep-install menuconfig
 	./lfs.sh
 
 menuconfig:
@@ -7,10 +7,12 @@ menuconfig:
 		       python3 ./libs/menu/menuconfig.py Config.in
 
 check:
-	./scripts/version-check-2_1.sh
+	@./scripts/version-check-2_1.sh
+	@touch $@
 dep-install: check
 	#安装依赖软件包
-	./scripts/dep_install.sh
+	@./scripts/dep_install.sh
+	@touch $@
 lfs-env-build: dep-install
 	#挂载lfs分区和swap分区
 	./scripts/mount_lfs_swap-2_2.sh

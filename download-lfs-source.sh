@@ -50,3 +50,5 @@ if [ $missing_files -eq 0 ]; then
 fi
   echo "OK"
 fi
+
+sudo chown -R lfs:lfs $BUILDDIR/sources

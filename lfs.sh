@@ -45,6 +45,7 @@ SAVE_CH5=${SAVE_CH5:=n}
 if [ ! -d "$BUILDDIR" ];then
 	sudo mkdir -p "$BUILDDIR"
 fi
+	sudo chown hao:hao -R "$BUILDDIR"
 
 #download-lfs-book: 
 echo "Getting the LFS book sources..."
@@ -77,6 +78,12 @@ source ./parse-lfs-book.sh
 #generate blfs sources build command xml
 #source ./parse-lfs-book.sh
 
+sed -i "s/^make$/make || true/" "$JHALFSDIR/$COMMANDS/chapter05/502-gcc-pass1"
+#change build cpu numbers
+if [ ! -z ${CPU_NUM} ];then
+	sed -i "s/^make$/make -j${CPU_NUM}/" `grep -rl "^make$" "$JHALFSDIR/$COMMANDS"`
+fi
+
 
 #download lfs sources
 source ./download-lfs-source.sh
@@ -89,7 +96,7 @@ source ./download-lfs-source.sh
 source ./build_Makefile.sh
 
 #chapter04
-sudo make -f ./build_Makefile LFS=$BUILD_DIR
+#sudo make -C $JHALFSDIR
 
 #build sources, pass 1
 #>su lfs

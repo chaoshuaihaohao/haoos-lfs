@@ -570,6 +570,15 @@ depends on !BOOK_BLFS
             #-- Do not use the progress bar routine. On slower machines
             #   this function consumes precious CPU cycles.
 
+    config    CPU_NUM
+        int    "Number of cpu on build machine"
+        range    1 64
+        default    1
+        int
+        help
+            #-- Set this to make how many CPU to build the system.
+            #   TODO: auto get cpu and change to build cpu core.
+
 #--- End Build Settings
 endmenu
 
