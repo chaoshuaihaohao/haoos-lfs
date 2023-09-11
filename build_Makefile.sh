@@ -109,19 +109,11 @@ EOF
 EOF
 ) >> $build_Makefile
 		;;
-	501*)
+	5*|6*)
 		LUSER_TGT="$LUSER_TGT $name"
 (cat << EOF
-	export LFS=\$(MOUNT_PT) && bash $script > /dev/null && \\
-	touch $name
-
-EOF
-) >> $build_Makefile
-		;;
-	4*|5*|6*)
-		LUSER_TGT="$LUSER_TGT $name"
-(cat << EOF
-	export LFS=\$(MOUNT_PT) && bash $script > /dev/null && \\
+	@source ~/.bashrc && \\
+	bash $script > /dev/null && \\
 	touch $name
 
 EOF
