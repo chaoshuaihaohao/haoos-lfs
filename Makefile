@@ -1,4 +1,9 @@
-all: check dep-install menuconfig
+all:
+	@sudo rm cmd.txt cmd -rf
+	@./parse-blfs-book.sh
+	@cat cmd.txt
+
+run: check dep-install menuconfig
 	./lfs.sh
 
 menuconfig:
