@@ -2,9 +2,14 @@ all:
 	@sudo rm cmd.txt cmd -rf
 	@./parse-blfs-book.sh
 	@cat cmd.txt
+	@./build_blfs_Makefile.sh
 
-run: check dep-install menuconfig
+lfs: check dep-install menuconfig
 	./lfs.sh
+
+blfs-menu:
+	@CONFIG_="" KCONFIG_CONFIG=blfs-configuration	\
+		       python3 ./libs/menu/menuconfig.py cmd.txt
 
 menuconfig:
 	@cp -a configuration configuration.old 2>/dev/null || true

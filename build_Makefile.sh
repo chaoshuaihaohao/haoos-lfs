@@ -55,35 +55,36 @@ EOF
 (
     cat << EOF
 
-all: make_SETUP make_LUSER make_CHROOT
+all: make_SETUP make_LUSER make_SUDO make_CHROOT
 
 #host build
 make_SETUP:
 	make -C $JHALFSDIR SETUP
 
 #lfs build
-make_LUSER:
+make_LUSER: make_SETUP
 	\$(SU_LUSER) "make -C $JHALFSDIR LUSER"
 
-make_SUDO:
-	sudo "make -C $JHALFSDIR SUDO"
+make_SUDO: make_LUSER
+	sudo make -C $JHALFSDIR SUDO
 
 
 #chroot build
-make_CHROOT:
+make_CHROOT: make_SUDO
 	@( sudo \$(CHROOT1) -c "cd \$(SCRIPT_ROOT) && make CHROOT")
 
 EOF
 ) >> $build_Makefile
 
 PRE=""
-SETUP_TGT=""
-LUSER_TGT=""
-SUDO_TGT=""
-CHROOT_TGT=""
+SETUP_TGT="SETUP:"
+LUSER_TGT="LUSER:"
+SUDO_TGT="SUDO:"
+CHROOT_TGT="CHROOT:"
 for script in $(find ${JHALFSDIR}/${COMMANDS}/chapter*/* -type f | sort -n)
 do
 	name=$(basename "$script")
+	chroot_name=$(echo "$script" | sed "s|$BUILDDIR||")
 	echo -e "$name: $PRE" >> $build_Makefile
 
 	case "$name" in
@@ -99,11 +100,10 @@ EOF
 	403-settingenvironment) #403-settingenvironment need to be processed by lfs user count
 		LUSER_TGT="$LUSER_TGT $name"
 (cat << EOF
-	@cd && function source() { true; } && \\
+	cd && function source() { true; } && \\
 	export -f source && \\
-        bash $script > /dev/null && \\
+        $script > /dev/null && \\
         sed 's|/mnt/lfs|\$(MOUNT_PT)|' -i .bashrc && \\
-	cd - && \\
 	touch $name
 
 EOF
@@ -112,8 +112,8 @@ EOF
 	5*|6*)
 		LUSER_TGT="$LUSER_TGT $name"
 (cat << EOF
-	@source ~/.bashrc && \\
-	bash $script > /dev/null && \\
+	source ~/.bashrc && \\
+	$script > /dev/null && \\
 	touch $name
 
 EOF
@@ -122,7 +122,7 @@ EOF
 	701*|702*)
 		SUDO_TGT="$SUDO_TGT $name"
 (cat << EOF
-	export LFS=\$(MOUNT_PT) && bash $script > /dev/null && \\
+	export LFS=\$(MOUNT_PT) && $script > /dev/null && \\
 	touch $name
 
 EOF
@@ -131,7 +131,7 @@ EOF
 	7*|8*)
 		CHROOT_TGT="$CHROOT_TGT $name"
 (cat << EOF
-	bash $script > /dev/null && \\
+	$chroot_name > /dev/null && \\
 	touch $name
 
 EOF
@@ -145,12 +145,12 @@ EOF
 done
 
 (cat << EOF
-SETUP: $SETUP_TGT
+$SETUP_TGT
 
-LUSER: $LUSER_TGT
+$LUSER_TGT
 
-SUDO: $SUDO_TGT
+$SUDO_TGT
 
-CHROOT: $CHROOT_TGT
+$CHROOT_TGT
 EOF
 ) >> $build_Makefile
