@@ -49,6 +49,8 @@
     <xsl:variable name="filename" select="@id"/>
     <xsl:if test="$dirname and $filename">
 
+<!-- 处理multi screen/userinput子元素 -->  
+    <xsl:if test=".//screen/userinput">
 		<!-- Get the dependences -->
 	    <xsl:text>&#9;config </xsl:text>
 	    <xsl:value-of select="$order"/>
@@ -61,10 +63,8 @@
 	    <xsl:apply-templates select=".//para">  <!-- 处理para子元素 -->  
 	    </xsl:apply-templates>  
 	    <xsl:text>&#9;&#9;default y&#xA;</xsl:text>
-<exsl:document href="/mnt/build_dir/jhalfs/blfs-commands/{$dirname}/{$order}-{$filename}" method="text">
 
-<!-- 处理multi screen/userinput子元素 -->  
-    <xsl:if test=".//screen/userinput">
+<exsl:document href="/mnt/build_dir/jhalfs/blfs-commands/{$dirname}/{$order}-{$filename}" method="text">
       <xsl:call-template name="shell-header"/>  <!--  -->  
 	    <xsl:for-each select=".//para">
 	      <xsl:if test="contains(., 'Download (HTTP):')">
@@ -83,8 +83,8 @@
       <xsl:call-template name="start-scripts"/>  <!--  -->  
       <xsl:apply-templates select=".//screen/userinput"/>  <!--  -->  
       <xsl:call-template name="end-scripts"/>  <!--  -->  
-    </xsl:if>
 </exsl:document>
+    </xsl:if>
 </xsl:if>
   </xsl:template>  
 
