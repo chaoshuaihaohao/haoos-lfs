@@ -129,7 +129,7 @@ EOF
 EOF
 ) >> $build_Makefile
 		;;
-	7*|8*)
+	7*|8*|9*|10*)
 		CHROOT_TGT="$CHROOT_TGT $name"
 (cat << EOF
 	$chroot_name > /dev/null && \\

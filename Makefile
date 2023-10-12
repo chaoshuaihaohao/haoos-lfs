@@ -4,13 +4,17 @@ lfs: check dep-install menuconfig
 	./lfs.sh
 
 blfs:
-	@sudo rm -rf cmd.txt cmd blfs-configuration blfs_Makefile
+	@sudo rm -rf cmd.txt cmd blfs-configuration blfs_Makefile /mnt/build_dir/jhalfs/blfs-cmd /mnt/build_dir/jhalfs/blfs_Makefile
 	@./parse-blfs-book.sh
 	@CONFIG_="" KCONFIG_CONFIG=blfs-configuration	\
 		       python3 ./libs/menu/menuconfig.py cmd.txt
 	@echo "Generating blfs_Makefile ..."
 	@./build_blfs_Makefile.sh
 	@echo "Generate blfs_Makefile done"
+	@sudo mkdir -p /mnt/build_dir/jhalfs/blfs/
+	@sudo cp blfs_Makefile /mnt/build_dir/jhalfs/blfs/Makefile
+	@sudo mkdir -p /mnt/build_dir/sources/blfs
+	@sudo make -C /mnt/build_dir/jhalfs/blfs point TARGET=cpio
 
 menuconfig:
 	@cp -a configuration configuration.old 2>/dev/null || true

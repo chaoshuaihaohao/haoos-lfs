@@ -129,7 +129,7 @@
       <xsl:param name="path" />
       <xsl:param name="scripts" />
       <xsl:text>ROOT=/&#xA;&#xA;</xsl:text>
-      <xsl:text>SRC_DIR=${ROOT}sources&#xA;&#xA;</xsl:text>
+      <xsl:text>SRC_DIR=${ROOT}sources/blfs&#xA;&#xA;</xsl:text>
       <xsl:text>PKG_DEST=${SRC_DIR}/</xsl:text>
       <xsl:value-of select="$scripts"/>
       <xsl:text>&#xA;&#xA;</xsl:text>

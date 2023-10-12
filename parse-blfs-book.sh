@@ -59,5 +59,7 @@ sudo  xsltproc --nonet                                      \
            --output "/home/hao/github/haoos-lfs/cmd.txt"                    \
 	   /home/hao/github/haoos-lfs/blfs.xsl                                        \
            prbook.xml 
+
+find  "/mnt/build_dir/jhalfs/blfs-commands"  -type f | xargs sudo chmod a+x
 echo "Parse blfs book done."
 popd

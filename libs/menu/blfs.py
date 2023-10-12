@@ -13,9 +13,9 @@ def build_target(sym):
         for file in files:
             if re.search(r'[0-9]-\b{}\b$'.format(sym.name), file):
                 file=file.strip()
-                print(file, ":", end='');
+                print(sym.name, ":", end='');
                 global CHROOT
-                CHROOT=f"{CHROOT} {file}"
+                CHROOT=f"{CHROOT} {sym.name}"
 
 def build_dep_list(sym):
     dep_list = expr_items(sym.direct_dep)
@@ -28,17 +28,15 @@ def build_dep_list(sym):
 def find_order_name(name):
     for root, dirs, files in os.walk(path):
         for file in files:
-            if re.search(r'[0-9]-\b{}\b'.format(name), file):
-                print(" ", file, end='');
-
-
+            if re.search(r'[0-9]-\b{}\b$'.format(name), file):
+                print(" ", name, end='');
 
 def build_run_cmd(sym):
     for root, dirs, files in os.walk(path):
         for file in files:
-            if re.search(r'[0-9]-\b{}\b'.format(sym.name), file):
+            if re.search(r'[0-9]-\b{}\b$'.format(sym.name), file):
                 file_path = os.path.join(root, file)  # 获取文件的绝对路径
-                print("\t", file_path)  # 添加这一行，打印文件的绝对路径
+                print("\t", file_path.replace("/mnt/build_dir",''))  # 添加这一行，打印文件的绝对路径
 
 
 def build_CHROOT(sym):

@@ -36,7 +36,7 @@ PKG_LST        = unpacked
 LUSER          = lfs
 LGROUP         = lfs
 LHOME          = /home
-SCRIPT_ROOT    = jhalfs
+SCRIPT_ROOT    = jhalfs/blfs
 
 BASEDIR        = \$(MOUNT_PT)
 SRCSDIR        = \$(BASEDIR)/sources
@@ -58,6 +58,9 @@ EOF
     cat << EOF
 
 all: make_CHROOT
+
+point:
+	@( sudo \$(CHROOT1) -c "cd \$(SCRIPT_ROOT) && make \$(TARGET)")
 
 #chroot build
 make_CHROOT:
