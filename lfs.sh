@@ -56,15 +56,15 @@ echo "Getting the BLFS book sources..."
 git clone git://git.linuxfromscratch.org/blfs.git blfs-book || true
 
 #copy the book sources to build_dir
-if [ ! -d "$BOOK" ];then
-	sudo mkdir -p "$BOOK"
+if [ ! -d "${BOOK}" ];then
+	sudo mkdir -v -p "${BOOK}"
 fi
 if [ $BOOK_LFS_SYSD = "y" ];then
-	sudo cp -a ./lfs-book "$BOOK"/
+	sudo cp -a ./lfs-book ${BOOK}/
 fi
 
 if [ "$BOOK_BLFS"  = "y" ];then
-	sudo cp -a ./blfs-book "$BOOK"/
+	sudo cp -a ./blfs-book ${BOOK}/
 fi
 
 #parse lfs/blfs book
@@ -93,6 +93,7 @@ source ./download-lfs-source.sh
 #source ./download-blfs-source.sh
 
 #copy kernel config file to source dir
+echo "config= ${CONFIG}"
 if [ ! -z ${CONFIG} ];then
 	sudo cp ${CONFIG} $BUILDDIR/sources/
 else
@@ -104,6 +105,7 @@ fi
 source ./build_Makefile.sh
 
 #lfs install
+sudo chown lfs:lfs $JHALFSDIR
 sudo make -C $JHALFSDIR
 
 

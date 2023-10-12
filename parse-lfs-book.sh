@@ -51,5 +51,7 @@ sudo  xsltproc --nonet                                      \
   echo "${JHALFSDIR}/${COMMANDS}/"
   echo $PRO
 
+find  "${JHALFSDIR}/${COMMANDS}/"  -type f | xargs sudo chmod a+x
+
 echo "Parse lfs book done."
 popd

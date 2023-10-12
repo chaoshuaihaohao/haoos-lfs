@@ -17,7 +17,8 @@ DEP_PACKETS="\
 	gawk \
 	libisl-dev \
 	libxslt-dev \
-	gcc
+	gcc \
+	texinfo
 	"
 for i in $DEP_PACKETS
 do

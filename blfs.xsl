@@ -53,8 +53,6 @@
     <xsl:if test=".//screen/userinput">
 		<!-- Get the dependences -->
 	    <xsl:text>&#9;config </xsl:text>
-	    <xsl:value-of select="$order"/>
-	    <xsl:text>-</xsl:text>
 	    <xsl:value-of select="$filename"/>
 	    <xsl:text>&#xA;</xsl:text>
 	    <xsl:text>&#9;&#9;bool "</xsl:text>
@@ -106,7 +104,7 @@
 	    <xsl:when test="@role='required'">
 		    <xsl:if test="xref">
 			<xsl:for-each select="xref">
-			    <xsl:if test="@role!='runtime'">
+			    <xsl:if test="not(@role)">
 			      <xsl:text>&#9;&#9;depends on </xsl:text>		<!-- required=Kconfig depends on -->
 			      <xsl:value-of select="@linkend"/>
 			      <xsl:text>&#xA;</xsl:text>

@@ -104,6 +104,7 @@ EOF
 	export -f source && \\
         $script > /dev/null && \\
         sed 's|/mnt/lfs|\$(MOUNT_PT)|' -i .bashrc && \\
+        cd - && \\
 	touch $name
 
 EOF
